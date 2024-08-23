@@ -4,8 +4,12 @@ import path from "node:path";
 
 export default defineConfig({
   html: {
-    title: "PatChef",
     favicon: "./public/na-icon.svg",
+    title: "PatChef",
+    meta: {
+      description: "An interactive batch script generator",
+    },
+    template: "./index.html",
   },
   source: {
     alias: {
