@@ -1,9 +1,10 @@
 import Providers from "@/components/providers/providers";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
+import {ReactNode} from "react";
 
 export interface LayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AppLayout = ({ children }: LayoutProps) => {

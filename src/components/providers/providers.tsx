@@ -1,8 +1,9 @@
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import DndContextProvider from "./dnd-context-provider";
+import DndContextProvider from "@/components/providers/dnd-context-provider";
+import {ReactNode} from "react";
 
 interface ProvidersProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Providers = ({ children }: ProvidersProps) => {

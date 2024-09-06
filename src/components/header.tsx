@@ -1,5 +1,12 @@
-import { SquareTerminal } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
+import { Heart, SquareTerminal } from 'lucide-react';
+import { ModeToggle } from '@/components/mode-toggle';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
 const Header = () => {
   return (
@@ -10,7 +17,31 @@ const Header = () => {
           patchef
         </h1>
       </div>
-      <ModeToggle />
+      <div className="flex items-center gap-x-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href="https://www.instagram.com/jermyst"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="outline">
+                  <div className="flex items-center text-xs font-medium">
+                    Made with&nbsp;
+                    <Heart className="size-3 fill-red-400 stroke-none" />
+                    &nbsp;by MY
+                  </div>
+                </Button>
+              </a>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Di follow dulu yuk!</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <ModeToggle />
+      </div>
     </header>
   );
 };
