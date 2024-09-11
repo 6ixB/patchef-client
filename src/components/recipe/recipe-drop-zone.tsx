@@ -15,19 +15,18 @@ const RecipeDropZone = () => {
     },
   });
 
+  const isEmpty = destinationCommands.length === 0;
+
   return (
     <div
       ref={setNodeRef}
       className={cn(
-        'w-full h-full overflow-y-hidden ps-8 py-4',
-        destinationCommands.length === 0 &&
+        'w-full h-full overflow-y-hidden ps-8 bg-gray-100 dark:bg-gray-900',
+        isEmpty &&
           'rounded-sm flex flex-col items-center justify-center text-muted-foreground text-sm',
-        destinationCommands.length === 0 &&
-          isDragging &&
-          'bg-gray-100 dark:bg-gray-900',
       )}
     >
-      {destinationCommands.length === 0 &&
+      {isEmpty &&
         (!isDragging ? (
           <div className="flex flex-col items-center justify-center">
             <CookingPot className="size-4" />

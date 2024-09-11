@@ -1,9 +1,9 @@
-import type { Command } from "@/types/command";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DndContextEventDataType } from "@/types/dnd-context";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { GripVertical } from "lucide-react";
+import type { Command } from '@/types/command';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DndContextEventDataType } from '@/types/dnd-context';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
 
 export interface RecipeListItemProps {
   command: Command;
@@ -35,7 +35,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="select-none rounded-sm bg-gray-200 dark:bg-gray-900"
+        className="select-none rounded-sm bg-gray-200 dark:bg-gray-800"
       >
         <CardHeader className="pb-2">
           <CardTitle className="opacity-0">{command.name}</CardTitle>
@@ -65,10 +65,10 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         {...attributes}
         {...listeners}
         className={
-          "flex justify-center items-center p-2 rounded cursor-grab hover:bg-gray-200 dark:hover:bg-gray-800"
+          'flex justify-center items-center p-2 rounded cursor-grab hover:bg-gray-200 dark:hover:bg-gray-800'
         }
       >
-        <GripVertical size={20} className={"text-navy"} />
+        <GripVertical size={20} className={'text-navy'} />
       </div>
     </Card>
   );

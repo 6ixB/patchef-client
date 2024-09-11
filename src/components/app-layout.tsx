@@ -1,7 +1,7 @@
-import Providers from "@/components/providers/providers";
-import Header from "@/components/header";
-import Sidebar from "@/components/sidebar/sidebar";
-import {ReactNode} from "react";
+import Providers from '@/components/providers/providers';
+import Header from '@/components/header';
+import Sidebar from '@/components/sidebar/sidebar';
+import type { ReactNode } from 'react';
 
 export interface LayoutProps {
   children: ReactNode;

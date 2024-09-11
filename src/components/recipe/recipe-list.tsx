@@ -17,7 +17,7 @@ const RecipeList = () => {
     <ScrollArea
       className={cn(destinationCommands.length !== 0 && 'w-full h-full pe-8')}
     >
-      <div className="w-full h-full flex flex-col gap-y-2">
+      <div className="w-full h-full flex flex-col gap-y-2 py-4">
         <SortableContext
           id="destination-commands"
           items={destinationCommandIds}
