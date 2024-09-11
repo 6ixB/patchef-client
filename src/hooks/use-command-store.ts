@@ -97,13 +97,13 @@ export const useCommandStore = create<CommandState>()(
   immer((set) => ({
     initialSourceCommands: commands,
 
-    sourceCommands: commands.map((command) => ({...command, id: `s${command.id}`})),
+    sourceCommands: commands,
     setSourceCommands: (commands) =>
       set((state) => {
         state.sourceCommands = commands;
       }),
 
-    destinationCommands: commands.map((command) => ({...command, id: `d${command.id}`})),
+    destinationCommands: [],
     setDestinationCommands: (commands) =>
       set((state) => {
         state.destinationCommands = commands;
@@ -142,6 +142,7 @@ export const useCommandStore = create<CommandState>()(
 
         if (index !== -1) {
           state.sourceCommands[index].id = newId;
+          state.initialSourceCommands[index].id = newId;
         }
       });
     },
