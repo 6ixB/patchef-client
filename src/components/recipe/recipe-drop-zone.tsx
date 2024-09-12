@@ -21,7 +21,7 @@ const RecipeDropZone = () => {
     <div
       ref={setNodeRef}
       className={cn(
-        'w-full h-full overflow-y-hidden ps-8 bg-gray-100 dark:bg-gray-900',
+        'w-full h-full overflow-y-hidden ps-8 bg-gray-100 dark:bg-[#171823]',
         isEmpty &&
           'rounded-sm flex flex-col items-center justify-center text-muted-foreground text-sm',
       )}
