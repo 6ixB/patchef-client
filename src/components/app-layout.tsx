@@ -10,7 +10,7 @@ export interface LayoutProps {
 const AppLayout = ({ children }: LayoutProps) => {
   return (
     <Providers>
-      <div className="w-full h-dvh flex flex-col bg-background">
+      <div className="w-full h-dvh flex flex-col bg-background scroll-smooth">
         <Header />
         <div className="flex w-full h-full overflow-y-hidden">
           <Sidebar />

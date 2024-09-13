@@ -9,6 +9,7 @@ import RecipeListItemFillParamsButton from '@/components/recipe/recipe-list-item
 import RecipeListItemPreviewButton from '@/components/recipe/recipe-list-item-preview-button';
 import { useMemo } from 'react';
 import { useCommandStore } from '@/hooks/use-command-store';
+import { Badge } from '@/components/ui/badge';
 
 export interface RecipeListItemProps {
   command: Command;
@@ -65,15 +66,22 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       className="select-none rounded-sm flex items-center justify-between px-4"
     >
       <div className="flex items-center">
-        <div className="size-8 rounded border flex items-center justify-center shadow">
+        <div className="min-h-8 min-w-8 rounded border flex items-center justify-center shadow">
           {index + 1}
         </div>
         <div>
           <CardHeader className="pb-2">
             <CardTitle>{command.name}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-2">
             <p>{command.description}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="destructive">
+                Parameters and options not yet filled!
+              </Badge>
+              <Badge>Destination: /home/javiix/hello-world</Badge>
+              <Badge>Verbose: False</Badge>
+            </div>
           </CardContent>
         </div>
       </div>
