@@ -16,7 +16,7 @@ const RecipeListItemFillParamsButton = () => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild={true}>
           <Button variant="outline" size="icon">
             <Variable className="size-4" />
           </Button>

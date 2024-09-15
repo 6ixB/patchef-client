@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DndContextEventDataType } from '@/types/dnd-context';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, TriangleAlert } from 'lucide-react';
 import RecipeListItemRemoveButton from '@/components/recipe/recipe-list-item-remove-button';
 import RecipeListItemFillParamsButton from '@/components/recipe/recipe-list-item-fill-params-button';
 import RecipeListItemPreviewButton from '@/components/recipe/recipe-list-item-preview-button';
@@ -76,7 +76,11 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           <CardContent className="space-y-2">
             <p>{command.description}</p>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="destructive">
+              <Badge
+                variant="destructive"
+                className="flex items-center gap-x-1"
+              >
+                <TriangleAlert className="text-foreground fill-orange-400 dark:fill-orange-600 size-3" />
                 Parameters and options not yet filled!
               </Badge>
               <Badge>Destination: /home/javiix/hello-world</Badge>

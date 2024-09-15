@@ -25,7 +25,7 @@ const RecipeListItemRemoveButton = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger asChild={true}>
         <Button variant="outline" size="icon">
           <Trash className="size-4" />
         </Button>

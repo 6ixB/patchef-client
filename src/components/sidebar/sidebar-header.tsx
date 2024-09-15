@@ -22,7 +22,7 @@ const SidebarHeader = () => {
             setIsManaging(!isManaging);
           }}
         >
-          <DialogTrigger asChild>
+          <DialogTrigger asChild={true}>
             <Button className="flex items-center justify-center gap-x-2">
               {!isManaging ? (
                 <>

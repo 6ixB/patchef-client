@@ -12,7 +12,7 @@ const RecipeAreaControls = () => {
   return (
     <div className="flex items-center gap-x-2">
       <AlertDialog>
-        <AlertDialogTrigger asChild>
+        <AlertDialogTrigger asChild={true}>
           <Button
             disabled={isEmpty}
             variant="outline"

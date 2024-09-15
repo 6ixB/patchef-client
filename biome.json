@@ -19,7 +19,34 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "all": true,
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
+      },
+      "style": {
+        "noDefaultExport": "off",
+        "useNamingConvention": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "strictCase": false
+          }
+        }
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "tw"]
+          }
+        }
+      }
     }
+  },
+  "files": {
+    "ignore": ["./src/components/ui/**/*.tsx"]
   }
 }

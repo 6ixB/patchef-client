@@ -16,7 +16,7 @@ const RecipeListItemPreviewButton = () => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild={true}>
           <Button variant="outline" size="icon">
             <Terminal className="size-4" />
           </Button>
