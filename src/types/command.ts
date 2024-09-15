@@ -1,21 +1,36 @@
-export interface CommandParameter {
-  name: string;
-  description: string;
-}
+import { z } from "zod";
 
-export interface CommandOption {
-  name: string;
-  description: string;
-  payload: string;
-  parameterRequired: boolean;
-  parameters?: CommandParameter[] | undefined;
-}
+const CommandParameterSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+});
 
-export interface Command {
-  id: string;
-  name: string;
-  description: string;
-  payload: string;
-  options: CommandOption[];
-  parameters: CommandParameter[];
-}
+const CommandOptionSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  payload: z.string(),
+  parameterRequired: z.boolean(),
+  parameters: z.array(CommandParameterSchema).optional(),
+});
+
+const CommandSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  payload: z.string(),
+  options: z.array(CommandOptionSchema),
+  parameters: z.array(CommandParameterSchema),
+});
+
+type CommandParameter = z.infer<typeof CommandParameterSchema>;
+type CommandOption = z.infer<typeof CommandOptionSchema>;
+type Command = z.infer<typeof CommandSchema>;
+
+export type {
+  CommandParameterSchema,
+  CommandOptionSchema,
+  CommandSchema,
+  CommandParameter,
+  CommandOption,
+  Command,
+};
