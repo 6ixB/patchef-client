@@ -51,7 +51,7 @@ const CommandDataTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-x-4">
         <CommandDataTableSearch table={table} />
         <Button>
           <BadgePlusIcon className="mr-2 size-4" />

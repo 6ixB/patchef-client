@@ -12,7 +12,7 @@ const CommandDataTableSearch = <TData,>({
   const query = (table.getColumn("name")?.getFilterValue() as string) ?? "";
 
   return (
-    <form className="flex max-w-sm items-center justify-center gap-x-4">
+    <form className="flex min-w-80 items-center justify-center gap-x-4">
       <div className="relative w-full">
         <SearchIcon className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
         <Input
