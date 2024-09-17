@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVerticalIcon, TriangleAlertIcon } from "lucide-react";
+import { CommandIcon, GripVerticalIcon, TriangleAlertIcon } from "lucide-react";
 import RecipeListItemRemoveButton from "@/components/recipe/recipe-list-item-remove-button";
 import RecipeListItemFillParamsButton from "@/components/recipe/recipe-list-item-fill-params-button";
 import RecipeListItemPreviewButton from "@/components/recipe/recipe-list-item-preview-button";
@@ -47,15 +47,8 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="select-none rounded-sm bg-gray-200 dark:bg-gray-800"
-      >
-        <CardHeader className="pb-2">
-          <CardTitle className="opacity-0">{command.name}</CardTitle>
-        </CardHeader>
-        <CardContent className="opacity-0">
-          <p>{command.description}</p>
-        </CardContent>
-      </Card>
+        className="h-32 select-none rounded-sm bg-gray-200 dark:bg-gray-800"
+      />
     );
   }
 
@@ -71,7 +64,10 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         </div>
         <div>
           <CardHeader className="pb-2">
-            <CardTitle>{command.name}</CardTitle>
+            <div className="flex items-center gap-x-2">
+              <CommandIcon className="size-4" />
+              <CardTitle>{command.name}</CardTitle>
+            </div>
           </CardHeader>
           <CardContent className="space-y-2">
             <p>{command.description}</p>
