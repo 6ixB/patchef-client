@@ -1,15 +1,15 @@
-import type { Command } from '@/types/command';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DndContextEventDataType } from '@/types/dnd-context';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, TriangleAlert } from 'lucide-react';
-import RecipeListItemRemoveButton from '@/components/recipe/recipe-list-item-remove-button';
-import RecipeListItemFillParamsButton from '@/components/recipe/recipe-list-item-fill-params-button';
-import RecipeListItemPreviewButton from '@/components/recipe/recipe-list-item-preview-button';
-import { useMemo } from 'react';
-import { useCommandStore } from '@/hooks/use-command-store';
-import { Badge } from '@/components/ui/badge';
+import type { Command } from "@/types/command";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DndContextEventDataType } from "@/types/dnd-context";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { GripVerticalIcon, TriangleAlertIcon } from "lucide-react";
+import RecipeListItemRemoveButton from "@/components/recipe/recipe-list-item-remove-button";
+import RecipeListItemFillParamsButton from "@/components/recipe/recipe-list-item-fill-params-button";
+import RecipeListItemPreviewButton from "@/components/recipe/recipe-list-item-preview-button";
+import { useMemo } from "react";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { Badge } from "@/components/ui/badge";
 
 export interface RecipeListItemProps {
   command: Command;
@@ -63,10 +63,10 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
     <Card
       ref={setNodeRef}
       style={style}
-      className="select-none rounded-sm flex items-center justify-between px-4"
+      className="flex select-none items-center justify-between rounded-sm px-4"
     >
       <div className="flex items-center">
-        <div className="min-h-8 min-w-8 rounded border flex items-center justify-center shadow">
+        <div className="flex min-h-8 min-w-8 items-center justify-center rounded border shadow">
           {index + 1}
         </div>
         <div>
@@ -80,7 +80,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
                 variant="destructive"
                 className="flex items-center gap-x-1"
               >
-                <TriangleAlert className="text-foreground fill-orange-400 dark:fill-orange-600 size-3" />
+                <TriangleAlertIcon className="size-3 fill-orange-400 text-foreground dark:fill-orange-600" />
                 Parameters and options not yet filled!
               </Badge>
               <Badge>Destination: /home/javiix/hello-world</Badge>
@@ -96,9 +96,9 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         <div
           {...attributes}
           {...listeners}
-          className="flex justify-center items-center p-2.5 rounded cursor-grab hover:bg-gray-200 dark:hover:bg-gray-800"
+          className="flex cursor-grab items-center justify-center rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
         >
-          <GripVertical className="size-4" />
+          <GripVerticalIcon className="size-4" />
         </div>
       </div>
     </Card>

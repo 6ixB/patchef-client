@@ -1,10 +1,10 @@
-import { Input } from '@/components/ui/input';
-import { useCommandStore } from '@/hooks/use-command-store';
-import { Search, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Input } from "@/components/ui/input";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { SearchIcon, XIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const CommandSearch = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const { filterCommands } = useCommandStore();
 
   useEffect(() => {
@@ -12,22 +12,23 @@ const CommandSearch = () => {
   }, [filterCommands, query]);
 
   return (
-    <form className="w-full flex items-center justify-center gap-x-4">
-      <div className="w-full relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+    <form className="flex w-full items-center justify-center gap-x-4">
+      <div className="relative w-full">
+        <SearchIcon className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          name="command-search"
+          onChange={(e) => {
             setQuery(e.target.value);
           }}
           value={query}
-          placeholder="Search"
-          className="px-8 w-full"
+          placeholder="Filter commands..."
+          className="w-full px-8"
         />
         {query && (
-          <X
-            className="absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
+          <XIcon
+            className="absolute top-2.5 right-2.5 h-4 w-4 cursor-pointer text-muted-foreground"
             onClick={() => {
-              setQuery('');
+              setQuery("");
             }}
           />
         )}

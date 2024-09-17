@@ -1,7 +1,8 @@
-import type { Command } from '@/types/command';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useDraggable } from '@dnd-kit/core';
-import { DndContextEventDataType } from '@/types/dnd-context';
+import type { Command } from "@/types/command";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useDraggable } from "@dnd-kit/core";
+import { DndContextEventDataType } from "@/types/dnd-context";
+import { CommandIcon } from "lucide-react";
 
 export interface CommandListItemProps {
   command: Command;
@@ -21,10 +22,13 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className="select-none cursor-grab rounded-sm scale-100 hover:scale-95 transition-all"
+      className="scale-100 cursor-grab select-none rounded-sm transition-all hover:scale-95"
     >
       <CardHeader className="pb-2">
-        <CardTitle>{command.name}</CardTitle>
+        <div className="flex items-center gap-x-2">
+          <CommandIcon className="size-4" />
+          <CardTitle>{command.name}</CardTitle>
+        </div>
       </CardHeader>
       <CardContent>
         <p>{command.description}</p>

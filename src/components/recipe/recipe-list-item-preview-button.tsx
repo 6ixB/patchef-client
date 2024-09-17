@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { Command } from '@/types/command';
-import { Terminal } from 'lucide-react';
+} from "@/components/ui/tooltip";
+import type { Command } from "@/types/command";
+import { TerminalIcon } from "lucide-react";
 
 export interface RecipeListItemPreviewButtonProps {
   command: Command;
@@ -18,7 +18,7 @@ const RecipeListItemPreviewButton = () => {
       <Tooltip>
         <TooltipTrigger asChild={true}>
           <Button variant="outline" size="icon">
-            <Terminal className="size-4" />
+            <TerminalIcon className="size-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
