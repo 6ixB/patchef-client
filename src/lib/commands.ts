@@ -85,6 +85,7 @@ export const commands: Command[] = [
         description: "Recursively copy directories",
         payload: "/s",
         parameterRequired: false,
+        delimiter: " ",
         parameters: [],
       },
     ],
