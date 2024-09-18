@@ -193,4 +193,35 @@ export const commands: Command[] = [
     options: [],
     parameters: [],
   },
+  {
+    id: "13",
+    name: "scp",
+    description: "Securely copies files between hosts over a network",
+    payload: "scp",
+    options: [
+      {
+        name: "Port",
+        description: "Specifies the port to connect to",
+        payload: "-P",
+        parameterRequired: true,
+        delimiter: "",
+        parameters: [
+          {
+            name: "Port number",
+            description: "The port number to use for the connection",
+          },
+        ],
+      },
+    ],
+    parameters: [
+      {
+        name: "Source file path",
+        description: "The path to the source file",
+      },
+      {
+        name: "Destination",
+        description: "The destination host and file path",
+      },
+    ],
+  }
 ];
