@@ -12,6 +12,7 @@
 
 PatChef is built using a modern and versatile tech stack. Each tool in this stack plays a key role in enhancing performance, development speed, and maintainability:
 
+- **TypeScript**: A statically-typed superset of JavaScript that enhances code quality and development experience by providing type safety, reducing runtime errors, and improving maintainability.
 - **Rsbuild**: A fast and efficient bundler that compiles and bundles code to ensure optimized performance and swift build times.
 - **React**: The core library for building dynamic, component-driven user interfaces. React’s declarative approach simplifies the development of complex UIs.
 - **Zustand**: A lightweight, intuitive state management library for React. It allows for easy management of global state with minimal boilerplate.
@@ -26,7 +27,7 @@ PatChef is built using a modern and versatile tech stack. Each tool in this stac
 
 # Contribution Guidelines
 
-Please follow these instructions to maintain consistency and quality in the project. 
+Please follow these instructions to maintain consistency, quality, and strict adherence to TypeScript typing standards in the project. **All parameters, objects, and variables used must be properly typed**.
 
 ## Prerequisites
 
