@@ -204,7 +204,6 @@ export const commands: Command[] = [
         description: "Specifies the port to connect to",
         payload: "-P",
         parameterRequired: true,
-        delimiter: "",
         parameters: [
           {
             name: "Port number",
@@ -223,5 +222,39 @@ export const commands: Command[] = [
         description: "The destination host and file path",
       },
     ],
+  },
+  {
+    id: "14",
+    name: "7-Zip",
+    description: "Extracts files from an archive using 7-Zip",
+    payload: "'C:\\Program Files\\7-Zip\\7z.exe' x",
+    options: [
+      {
+        name: "Overwrite",
+        description: "Automatically overwrites existing files without prompting",
+        payload: "-y",
+        parameterRequired: false,
+        parameters: []
+      },
+      {
+        name: "Output Directory",
+        description: "Specifies the output directory for extracted files",
+        payload: "-o",
+        parameterRequired: true,
+        delimiter: "",
+        parameters: [
+          {
+            name: "Destination path",
+            description: "The path where extracted files should be placed"
+          }
+        ]
+      }
+    ],
+    parameters: [
+      {
+        name: "Source path",
+        description: "The path to the archive file to be extracted"
+      }
+    ]
   }
 ];

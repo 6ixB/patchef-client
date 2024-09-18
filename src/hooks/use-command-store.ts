@@ -139,21 +139,23 @@ export const useCommandStore = create<CommandState>()(
             const params = command.parameters.map((param) => param.name).join(" ");
             commandString += ` ${params}`;
           }
-
+        
           for (const option of command.options) {
             commandString += ` ${option.payload}`;
             
+            if (option.delimiter !== undefined) {
+              commandString += option.delimiter;
+            } else {
+              commandString += " ";
+            }
+        
             if (option.parameterRequired && option.parameters && option.parameters.length > 0) {
               const optionParams = option.parameters.map((param) => param.name).join(" ");
-              commandString += ` ${optionParams}`;
-            }
-            
-            if (option.delimiter) {
-              commandString += ` ${option.delimiter}`;
+              commandString += optionParams;
             }
           }
-
-          return commandString;
+        
+          return commandString.trim();
         });
       }),
   }))
