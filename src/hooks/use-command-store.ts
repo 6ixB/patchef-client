@@ -128,5 +128,33 @@ export const useCommandStore = create<CommandState>()(
       set((state) => {
         state.isManaging = isManaging;
       }),
+
+    commandPreviews: [],
+    setCommandPreviews: () =>
+      set((state) => {
+        state.commandPreviews = state.destinationCommands.map((command) => {
+          let commandString = command.payload;
+
+          if (command.parameters?.length > 0) {
+            const params = command.parameters.map((param) => param.name).join(" ");
+            commandString += ` ${params}`;
+          }
+
+          for (const option of command.options) {
+            commandString += ` ${option.payload}`;
+            
+            if (option.parameterRequired && option.parameters && option.parameters.length > 0) {
+              const optionParams = option.parameters.map((param) => param.name).join(" ");
+              commandString += ` ${optionParams}`;
+            }
+            
+            if (option.delimiter) {
+              commandString += ` ${option.delimiter}`;
+            }
+          }
+
+          return commandString;
+        });
+      }),
   }))
 );

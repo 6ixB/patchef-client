@@ -10,6 +10,8 @@ const RecipeAreaControls = () => {
 
   const isEmpty = destinationCommands.length === 0;
 
+  const { setCommandPreviews } = useCommandStore();
+
   return (
     <div className="flex items-center gap-x-2">
       <AlertDialog>
@@ -30,6 +32,7 @@ const RecipeAreaControls = () => {
           <Button
             disabled={isEmpty}
             className="flex items-center justify-center gap-x-2"
+            onClick={setCommandPreviews}
           >
             <SquareTerminal className="size-4" />
             Preview

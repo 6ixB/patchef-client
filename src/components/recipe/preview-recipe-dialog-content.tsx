@@ -7,14 +7,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { useCommandStore } from '@/hooks/use-command-store';
 
 const PreviewRecipeDialogContent = () => {
+  const { commandPreviews } = useCommandStore();
+
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Preview Recipe</AlertDialogTitle>
         <AlertDialogDescription>
-          This is your recipe XD
+          {commandPreviews.map((preview, index) => (
+            <span key={index}>
+              {preview}
+              <br />
+            </span>
+          ))}
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

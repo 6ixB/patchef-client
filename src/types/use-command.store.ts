@@ -88,4 +88,10 @@ export interface CommandState {
     */
   isManaging: boolean;
   setIsManaging: (isManaging: boolean) => void;
+
+  /* 
+      Usage: command previews is an array of string consisting of commands in the form of what would be in a bat file.
+    */
+  commandPreviews: string[];
+  setCommandPreviews: () => void;
 }
