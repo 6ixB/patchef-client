@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useCommandStore } from '@/hooks/use-command-store';
 import { SquareTerminal, Trash } from 'lucide-react';
 import ClearAlertDialogContent from '@/components/recipe/clear-alert-dialog-content';
+import PreviewRecipeDialogContent from './preview-recipe-dialog-content';
 
 const RecipeAreaControls = () => {
   const { destinationCommands } = useCommandStore();
@@ -24,13 +25,18 @@ const RecipeAreaControls = () => {
         </AlertDialogTrigger>
         <ClearAlertDialogContent />
       </AlertDialog>
-      <Button
-        disabled={isEmpty}
-        className="flex items-center justify-center gap-x-2"
-      >
-        <SquareTerminal className="size-4" />
-        Preview
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild={true}>
+          <Button
+            disabled={isEmpty}
+            className="flex items-center justify-center gap-x-2"
+          >
+            <SquareTerminal className="size-4" />
+            Preview
+          </Button>
+        </AlertDialogTrigger>
+        <PreviewRecipeDialogContent />
+      </AlertDialog>
     </div>
   );
 };
