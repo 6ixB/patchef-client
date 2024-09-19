@@ -19,8 +19,8 @@ const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   payload: z.string(),
-  options: z.array(CommandOptionSchema),
-  parameters: z.array(CommandParameterSchema),
+  options: z.array(CommandOptionSchema).optional(),
+  parameters: z.array(CommandParameterSchema).optional(),
 });
 
 type CommandParameter = z.infer<typeof CommandParameterSchema>;
