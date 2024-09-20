@@ -1,4 +1,5 @@
 import type { Command } from "@/types/command";
+import type { CommandPreview } from "./command-preview";
 
 export interface CommandState {
   /* 
@@ -88,4 +89,10 @@ export interface CommandState {
     */
   isManaging: boolean;
   setIsManaging: (isManaging: boolean) => void;
+
+  /* 
+      Usage: command previews is an array consisting of commands in the form of what would be in a bat file.
+    */
+  commandPreviews: CommandPreview[];
+  setCommandPreviews: () => void;
 }

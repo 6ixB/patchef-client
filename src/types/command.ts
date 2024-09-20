@@ -10,6 +10,7 @@ const CommandOptionSchema = z.object({
   description: z.string(),
   payload: z.string(),
   parameterRequired: z.boolean(),
+  delimiter: z.string().optional(),
   parameters: z.array(CommandParameterSchema).optional(),
 });
 
@@ -18,8 +19,8 @@ const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   payload: z.string(),
-  options: z.array(CommandOptionSchema),
-  parameters: z.array(CommandParameterSchema),
+  options: z.array(CommandOptionSchema).optional(),
+  parameters: z.array(CommandParameterSchema).optional(),
 });
 
 type CommandParameter = z.infer<typeof CommandParameterSchema>;

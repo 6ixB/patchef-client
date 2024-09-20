@@ -2,6 +2,9 @@ import { commands } from "@/lib/commands";
 import type { CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { v4 as generateUuidV4 } from 'uuid';
+import type { CommandPreview } from "@/types/command-preview";
+import { generateCommandString } from "@/lib/utils";
 
 /* 
   Usage: create a store for the command state.
@@ -127,6 +130,21 @@ export const useCommandStore = create<CommandState>()(
     setIsManaging: (isManaging) =>
       set((state) => {
         state.isManaging = isManaging;
+      }),
+
+    commandPreviews: [],
+    setCommandPreviews: () =>
+      set((state) => {
+        state.commandPreviews = state.destinationCommands.map((command) => {
+          const commandString = generateCommandString(command);
+          
+          const commandPreview: CommandPreview = {
+            uuid: generateUuidV4(),
+            preview: commandString.trim(),
+          };
+
+          return commandPreview;
+        });
       }),
   }))
 );
