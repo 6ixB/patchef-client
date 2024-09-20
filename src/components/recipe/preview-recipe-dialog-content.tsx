@@ -17,9 +17,9 @@ const PreviewRecipeDialogContent = () => {
       <AlertDialogHeader>
         <AlertDialogTitle>Preview Recipe</AlertDialogTitle>
         <AlertDialogDescription>
-          {commandPreviews.map((preview, index) => (
-            <span key={index}>
-              {preview}
+          {commandPreviews.map((commandPreview, _) => (
+            <span key={commandPreview.uuid}>
+              {commandPreview.preview}
               <br />
             </span>
           ))}

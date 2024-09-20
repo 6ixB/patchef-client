@@ -2,6 +2,9 @@ import { commands } from "@/lib/commands";
 import type { CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { v4 as generateUuidV4 } from 'uuid';
+import type { CommandPreview } from "@/types/command-preview";
+import { generateCommandString } from "@/lib/utils";
 
 /* 
   Usage: create a store for the command state.
@@ -133,29 +136,14 @@ export const useCommandStore = create<CommandState>()(
     setCommandPreviews: () =>
       set((state) => {
         state.commandPreviews = state.destinationCommands.map((command) => {
-          let commandString = command.payload;
+          const commandString = generateCommandString(command);
+          
+          const commandPreview: CommandPreview = {
+            uuid: generateUuidV4(),
+            preview: commandString.trim(),
+          };
 
-          if (command.parameters?.length > 0) {
-            const params = command.parameters.map((param) => param.name).join(" ");
-            commandString += ` ${params}`;
-          }
-        
-          for (const option of command.options) {
-            commandString += ` ${option.payload}`;
-            
-            if (option.delimiter !== undefined) {
-              commandString += option.delimiter;
-            } else {
-              commandString += " ";
-            }
-        
-            if (option.parameterRequired && option.parameters && option.parameters.length > 0) {
-              const optionParams = option.parameters.map((param) => param.name).join(" ");
-              commandString += optionParams;
-            }
-          }
-        
-          return commandString.trim();
+          return commandPreview;
         });
       }),
   }))
