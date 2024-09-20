@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { Command } from '@/types/command';
-import { Variable } from 'lucide-react';
+} from "@/components/ui/tooltip";
+import type { Command } from "@/types/command";
+import { VariableIcon } from "lucide-react";
 
 export interface RecipeListItemFillParamsButtonProps {
   command: Command;
@@ -18,7 +18,7 @@ const RecipeListItemFillParamsButton = () => {
       <Tooltip>
         <TooltipTrigger asChild={true}>
           <Button variant="outline" size="icon">
-            <Variable className="size-4" />
+            <VariableIcon className="size-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>

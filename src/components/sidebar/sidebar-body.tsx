@@ -1,8 +1,8 @@
-import CommandList from "@/components/commands/command-list";
+import CommandList from '@/components/commands/command-list';
 
 const SidebarBody = () => {
   return (
-    <div className="w-full h-full overflow-y-hidden">
+    <div className="h-full w-full overflow-y-hidden">
       <CommandList />
     </div>
   );

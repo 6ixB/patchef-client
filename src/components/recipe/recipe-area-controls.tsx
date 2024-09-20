@@ -1,7 +1,7 @@
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useCommandStore } from '@/hooks/use-command-store';
-import { SquareTerminal, Trash } from 'lucide-react';
+import { SquareTerminalIcon, TrashIcon } from 'lucide-react';
 import ClearAlertDialogContent from '@/components/recipe/clear-alert-dialog-content';
 import PreviewRecipeDialogContent from './preview-recipe-dialog-content';
 
@@ -21,7 +21,7 @@ const RecipeAreaControls = () => {
             variant="outline"
             className="flex items-center justify-center gap-x-2"
           >
-            <Trash className="size-4" />
+            <TrashIcon className="size-4" />
             Clear
           </Button>
         </AlertDialogTrigger>
@@ -34,7 +34,7 @@ const RecipeAreaControls = () => {
             className="flex items-center justify-center gap-x-2"
             onClick={setCommandPreviews}
           >
-            <SquareTerminal className="size-4" />
+            <SquareTerminalIcon className="size-4" />
             Preview
           </Button>
         </AlertDialogTrigger>

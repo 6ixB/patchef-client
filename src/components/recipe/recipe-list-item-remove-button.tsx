@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+import { TrashIcon } from 'lucide-react';
 import { useCommandStore } from '@/hooks/use-command-store';
 import type { Command } from '@/types/command';
 
@@ -27,7 +27,7 @@ const RecipeListItemRemoveButton = ({
     <AlertDialog>
       <AlertDialogTrigger asChild={true}>
         <Button variant="outline" size="icon">
-          <Trash className="size-4" />
+          <TrashIcon className="size-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
