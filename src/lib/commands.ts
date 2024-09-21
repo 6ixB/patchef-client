@@ -85,6 +85,7 @@ export const commands: Command[] = [
         description: "Recursively copy directories",
         payload: "/s",
         parameterRequired: false,
+        delimiter: " ",
         parameters: [],
       },
     ],
@@ -192,4 +193,68 @@ export const commands: Command[] = [
     options: [],
     parameters: [],
   },
+  {
+    id: "13",
+    name: "scp",
+    description: "Securely copies files between hosts over a network",
+    payload: "scp",
+    options: [
+      {
+        name: "Port",
+        description: "Specifies the port to connect to",
+        payload: "-P",
+        parameterRequired: true,
+        parameters: [
+          {
+            name: "Port number",
+            description: "The port number to use for the connection",
+          },
+        ],
+      },
+    ],
+    parameters: [
+      {
+        name: "Source file path",
+        description: "The path to the source file",
+      },
+      {
+        name: "Destination",
+        description: "The destination host and file path",
+      },
+    ],
+  },
+  {
+    id: "14",
+    name: "7-Zip",
+    description: "Extracts files from an archive using 7-Zip",
+    payload: "'C:\\Program Files\\7-Zip\\7z.exe' x",
+    options: [
+      {
+        name: "Overwrite",
+        description: "Automatically overwrites existing files without prompting",
+        payload: "-y",
+        parameterRequired: false,
+        parameters: []
+      },
+      {
+        name: "Output Directory",
+        description: "Specifies the output directory for extracted files",
+        payload: "-o",
+        parameterRequired: true,
+        delimiter: "",
+        parameters: [
+          {
+            name: "Destination path",
+            description: "The path where extracted files should be placed"
+          }
+        ]
+      }
+    ],
+    parameters: [
+      {
+        name: "Source path",
+        description: "The path to the archive file to be extracted"
+      }
+    ]
+  }
 ];

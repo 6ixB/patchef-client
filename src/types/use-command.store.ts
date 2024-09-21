@@ -5,6 +5,7 @@ export enum ManageState {
   Edit = "EDIT",
   Create = "CREATE",
 }
+import type { CommandPreview } from "./command-preview";
 
 export interface CommandState {
   /* 
@@ -100,4 +101,10 @@ export interface CommandState {
 
   draftCommand: Command | null;
   setDraftCommand: (command: Command | null) => void;
+
+  /* 
+      Usage: command previews is an array consisting of commands in the form of what would be in a bat file.
+    */
+  commandPreviews: CommandPreview[];
+  setCommandPreviews: () => void;
 }
