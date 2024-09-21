@@ -1,7 +1,7 @@
-import Providers from '@/components/providers/providers';
-import Header from '@/components/header';
-import Sidebar from '@/components/sidebar/sidebar';
-import type { ReactNode } from 'react';
+import Providers from "@/components/providers/providers";
+import Header from "@/components/header";
+import Sidebar from "@/components/sidebar/sidebar";
+import type { ReactNode } from "react";
 
 export interface LayoutProps {
   children: ReactNode;
@@ -10,11 +10,11 @@ export interface LayoutProps {
 const AppLayout = ({ children }: LayoutProps) => {
   return (
     <Providers>
-      <div className='flex h-dvh w-full flex-col scroll-smooth bg-background'>
+      <div className="flex h-dvh w-full flex-col scroll-smooth bg-background">
         <Header />
-        <div className='flex h-full w-full overflow-y-hidden'>
+        <div className="flex h-full w-full overflow-y-hidden">
           <Sidebar />
-          {children}
+          <div className="flex h-full w-full">{children}</div>
         </div>
       </div>
     </Providers>

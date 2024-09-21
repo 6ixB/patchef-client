@@ -32,7 +32,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
   } = useSortable({
     id: command.id,
     data: {
-      type: DndContextEventDataType.DESTINATION_COMMAND,
+      type: DndContextEventDataType.DestinationCommand,
       command,
     },
   });
@@ -47,7 +47,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="h-32 select-none rounded-sm bg-gray-200 dark:bg-gray-800"
+        className="h-28 select-none rounded-sm bg-gray-200 dark:bg-gray-800"
       />
     );
   }
@@ -63,13 +63,13 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           {index + 1}
         </div>
         <div>
-          <CardHeader className="pb-2">
+          <CardHeader className="pt-4 pb-2">
             <div className="flex items-center gap-x-2">
               <CommandIcon className="size-4" />
               <CardTitle>{command.name}</CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2 pb-4">
             <p>{command.description}</p>
             <div className="flex flex-wrap items-center gap-2">
               <Badge

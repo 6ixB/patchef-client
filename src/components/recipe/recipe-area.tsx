@@ -3,7 +3,7 @@ import RecipeDropZone from '@/components/recipe/recipe-drop-zone';
 
 const RecipeArea = () => {
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex h-full w-full flex-col">
       <RecipeAreaHeader />
       <RecipeDropZone />
     </div>

@@ -18,19 +18,19 @@ const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   payload: z.string(),
-  options: z.array(CommandOptionSchema),
-  parameters: z.array(CommandParameterSchema),
+  options: z.array(CommandOptionSchema).optional(),
+  parameters: z.array(CommandParameterSchema).optional(),
 });
 
 type CommandParameter = z.infer<typeof CommandParameterSchema>;
 type CommandOption = z.infer<typeof CommandOptionSchema>;
 type Command = z.infer<typeof CommandSchema>;
 
-export type {
+export {
   CommandParameterSchema,
   CommandOptionSchema,
   CommandSchema,
-  CommandParameter,
-  CommandOption,
-  Command,
+  type CommandParameter,
+  type CommandOption,
+  type Command,
 };

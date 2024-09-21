@@ -6,15 +6,15 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import { createPortal } from 'react-dom';
-import CommandListItem from '@/components/commands/command-list-item';
-import RecipeListItem from '@/components/recipe/recipe-list-item';
-import { useCommandStore } from '@/hooks/use-command-store';
-import { DndContextEventDataType } from '@/types/dnd-context';
-import { v4 as generateUuidV4 } from 'uuid';
-import { useImmer } from 'use-immer';
-import { type ReactNode, useMemo } from 'react';
+} from "@dnd-kit/core";
+import { createPortal } from "react-dom";
+import CommandListItem from "@/components/commands/command-list-item";
+import RecipeListItem from "@/components/recipe/recipe-list-item";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { DndContextEventDataType } from "@/types/dnd-context";
+import { v4 as generateUuidV4 } from "uuid";
+import { useImmer } from "use-immer";
+import { type ReactNode, useMemo } from "react";
 
 export interface DndContextProviderProps {
   children: ReactNode;
@@ -35,7 +35,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
       activationConstraint: {
         distance: 32,
       },
-    }),
+    })
   );
 
   const {
@@ -55,7 +55,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
   const alreadyDropped = useMemo(() => {
     if (destinationCommands && activeSourceCommand) {
       return !!destinationCommands.find(
-        (command) => command.id === activeSourceCommand?.id,
+        (command) => command.id === activeSourceCommand?.id
       );
     }
     return false;
@@ -102,14 +102,16 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
     */
     const activeNode = event.active.data.current;
 
-    if (!activeNode) return;
+    if (!activeNode) {
+      return;
+    }
 
     const activeNodeType = activeNode.type;
 
     /* 
       Dragging a source command towards the recipe area's dropzone (destination commands).
     */
-    if (activeNodeType === DndContextEventDataType.SOURCE_COMMAND) {
+    if (activeNodeType === DndContextEventDataType.SourceCommand) {
       setActiveSourceCommand(activeNode.command);
       setIsDragging(true);
       return;
@@ -118,7 +120,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
     /* 
       Dragging a destination command within the recipe area's dropzone (destination commands).
     */
-    if (activeNodeType === DndContextEventDataType.DESTINATION_COMMAND) {
+    if (activeNodeType === DndContextEventDataType.DestinationCommand) {
       setActiveDestinationCommand(activeNode.command);
       setIsDragging(true);
       return;
@@ -127,34 +129,46 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
 
   const handleDragEnd = () => {
     resetDndContextStates();
-    if (!activeSourceCommand || !idPair.initial || !idPair.final) return;
+    if (!(activeSourceCommand && idPair.initial && idPair.final)) {
+      return;
+    }
     updateSourceCommandId(idPair.initial, idPair.final);
   };
 
   const handleDragCancel = () => {
     resetDndContextStates();
-    if (!alreadyDropped || !idPair.initial || !idPair.final) return;
+    if (!(alreadyDropped && idPair.initial && idPair.final)) {
+      return;
+    }
     updateSourceCommandId(idPair.initial, idPair.final);
     removeDestinationCommand(idPair.initial);
   };
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: I believe this function is fine as is (Bocah NA pasti bisa paham - MY23-1)
   const handleDragOver = (event: DragOverEvent) => {
-    if (!activeSourceCommand && !activeDestinationCommand) return;
+    if (!(activeSourceCommand || activeDestinationCommand)) {
+      return;
+    }
 
     /* 
       Get the over node from the event, over node is the node that is currently being hovered over.
     */
     const overNode = event.over?.data.current;
 
+    if (!overNode) {
+      return;
+    }
+
     /* 
       Dragging a source command towards the sidebar source commands cancels the drag operation.
     */
     if (
-      !overNode ||
-      overNode.type === DndContextEventDataType.SOURCE_COMMAND ||
-      overNode.type === DndContextEventDataType.SIDEBAR_SOURCE_COMMANDS
+      overNode.type === DndContextEventDataType.SourceCommand ||
+      overNode.type === DndContextEventDataType.SidebarSourceCommands
     ) {
-      if (!alreadyDropped || !idPair.initial || !idPair.final) return;
+      if (!(alreadyDropped && idPair.initial && idPair.final)) {
+        return;
+      }
       updateSourceCommandId(idPair.initial, idPair.final);
       removeDestinationCommand(idPair.initial);
       return;
@@ -166,15 +180,19 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
     */
     if (
       activeDestinationCommand &&
-      overNode.type === DndContextEventDataType.DESTINATION_COMMAND
+      overNode.type === DndContextEventDataType.DestinationCommand
     ) {
       const index = destinationCommands.findIndex(
-        (command) => command.id === overNode.command.id,
+        (command) => command.id === overNode.command.id
       );
 
-      if (index === -1) return;
+      if (index === -1) {
+        return;
+      }
 
-      if (activeDestinationCommand.id === overNode.command.id) return;
+      if (activeDestinationCommand.id === overNode.command.id) {
+        return;
+      }
 
       swapDestinationCommands(activeDestinationCommand.id, overNode.command.id);
     }
@@ -184,17 +202,24 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
       that the new instance will not cause any errors of duplicates when the active source command
       is still being hovered over the destination command.
     */
-    if (!activeSourceCommand) return;
+    if (!activeSourceCommand) {
+      return;
+    }
 
     if (
-      overNode.type === DndContextEventDataType.DESTINATION_COMMAND &&
+      overNode.type === DndContextEventDataType.DestinationCommand &&
       overNode.command.id === activeSourceCommand.id
-    )
+    ) {
       return;
+    }
 
+    /*
+      If the active source command is already dropped and the over node is a destination command,
+      the active source command will be swapped with the over node command.
+    */
     if (
       alreadyDropped &&
-      overNode.type === DndContextEventDataType.DESTINATION_COMMAND
+      overNode.type === DndContextEventDataType.DestinationCommand
     ) {
       swapDestinationCommands(activeSourceCommand.id, overNode.command.id);
     }
@@ -203,7 +228,9 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
       Already dropped is a boolean that is used to prevent the active source command from being
       dropped multiple times while the active source command is still being dragged.
     */
-    if (alreadyDropped || !activeSourceCommand) return;
+    if (alreadyDropped || !activeSourceCommand) {
+      return;
+    }
 
     /* 
       Below are the conditions for dropping (creating an instance / not already dropped) a command:
@@ -216,15 +243,15 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
     */
 
     const isOverRecipeAreaDropZone =
-      overNode.type === DndContextEventDataType.RECIPE_AREA_DROPZONE;
+      overNode.type === DndContextEventDataType.RecipeAreaDropzone;
     const isOverDestinationCommand =
-      overNode.type === DndContextEventDataType.DESTINATION_COMMAND;
+      overNode.type === DndContextEventDataType.DestinationCommand;
 
     if (isOverRecipeAreaDropZone) {
       appendDestinationCommand(activeSourceCommand);
     } else if (isOverDestinationCommand) {
       const index = destinationCommands.findIndex(
-        (command) => command.id === overNode.command.id,
+        (command) => command.id === overNode.command.id
       );
       insertDestinationCommand(index, activeSourceCommand);
     }
@@ -252,7 +279,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
             <RecipeListItem command={activeDestinationCommand} />
           )}
         </DragOverlay>,
-        document.body,
+        document.body
       )}
       {children}
     </DndContext>

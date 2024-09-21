@@ -1,5 +1,11 @@
 import type { Command } from "@/types/command";
 
+export enum ManageState {
+  View = "VIEW",
+  Edit = "EDIT",
+  Create = "CREATE",
+}
+
 export interface CommandState {
   /* 
       Usage: initial source commands are the fallback commands that are displayed in the sidebar.
@@ -88,4 +94,10 @@ export interface CommandState {
     */
   isManaging: boolean;
   setIsManaging: (isManaging: boolean) => void;
+
+  manageState: ManageState;
+  setManageState: (state: ManageState) => void;
+
+  draftCommand: Command | null;
+  setDraftCommand: (command: Command | null) => void;
 }

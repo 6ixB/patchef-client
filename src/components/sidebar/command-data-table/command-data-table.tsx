@@ -18,8 +18,10 @@ import {
 import { useState } from "react";
 import CommandDataTableSearch from "@/components/sidebar/command-data-table/command-data-table-search";
 import CommandDataTablePagination from "./command-data-table-pagination";
-import { BadgePlusIcon } from "lucide-react";
+import { WandSparklesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { ManageState } from "@/types/use-command.store";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -30,6 +32,7 @@ const CommandDataTable = <TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
+  const { setManageState } = useCommandStore();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -53,8 +56,8 @@ const CommandDataTable = <TData, TValue>({
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-x-4">
         <CommandDataTableSearch table={table} />
-        <Button>
-          <BadgePlusIcon className="mr-2 size-4" />
+        <Button onClick={() => setManageState(ManageState.Create)}>
+          <WandSparklesIcon className="mr-2 size-4" />
           Create command
         </Button>
       </div>

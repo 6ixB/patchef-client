@@ -9,9 +9,9 @@ const RecipeDropZone = () => {
   const { destinationCommands, isDragging } = useCommandStore();
 
   const { setNodeRef } = useDroppable({
-    id: DndContextNodeId.RECIPE_AREA_DROPZONE,
+    id: DndContextNodeId.RecipaAreaDropzone,
     data: {
-      type: DndContextEventDataType.RECIPE_AREA_DROPZONE,
+      type: DndContextEventDataType.RecipeAreaDropzone,
     },
   });
 

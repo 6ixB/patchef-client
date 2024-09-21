@@ -1,5 +1,5 @@
 import { commands } from "@/lib/commands";
-import type { CommandState } from "@/types/use-command.store";
+import { ManageState, type CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
@@ -127,6 +127,18 @@ export const useCommandStore = create<CommandState>()(
     setIsManaging: (isManaging) =>
       set((state) => {
         state.isManaging = isManaging;
+      }),
+
+    manageState: ManageState.View,
+    setManageState: (manageState) =>
+      set((state) => {
+        state.manageState = manageState;
+      }),
+
+    draftCommand: null,
+    setDraftCommand: (command) =>
+      set((state) => {
+        state.draftCommand = command;
       }),
   }))
 );
