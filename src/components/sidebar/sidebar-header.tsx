@@ -1,6 +1,6 @@
 import { TerminalIcon } from "lucide-react";
 import CommandSearch from "@/components/commands/command-search";
-import ManageButton from "./manage-button";
+import ManageButton from "@/components/sidebar/manage-button";
 
 const SidebarHeader = () => {
   return (

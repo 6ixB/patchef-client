@@ -1,11 +1,11 @@
 import type { Command } from "@/types/command";
+import type { CommandPreview } from "@/types/command-preview";
 
 export enum ManageState {
   View = "VIEW",
   Edit = "EDIT",
   Create = "CREATE",
 }
-import type { CommandPreview } from "./command-preview";
 
 export interface CommandState {
   /* 

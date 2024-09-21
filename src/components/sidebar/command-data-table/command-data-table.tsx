@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import CommandDataTableSearch from "@/components/sidebar/command-data-table/command-data-table-search";
-import CommandDataTablePagination from "./command-data-table-pagination";
+import CommandDataTablePagination from "@/components/sidebar/command-data-table/command-data-table-pagination";
 import { WandSparklesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
