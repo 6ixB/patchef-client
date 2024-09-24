@@ -86,8 +86,8 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         </div>
       </div>
       <div className="flex items-center gap-x-2">
-        <RecipeListItemFillParamsButton />
-        <RecipeListItemPreviewButton />
+        <RecipeListItemFillParamsButton command={command} />
+        <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
         <div
           {...attributes}

@@ -90,12 +90,6 @@ export interface CommandState {
   isDragging: boolean;
   setIsDragging: (isDragging: boolean) => void;
 
-  /* 
-      Usage: is managing is a boolean that indicates whether the user is currently managing the commands.
-    */
-  isManaging: boolean;
-  setIsManaging: (isManaging: boolean) => void;
-
   manageState: ManageState;
   setManageState: (state: ManageState) => void;
 

@@ -2,7 +2,7 @@ import { commands } from "@/lib/commands";
 import { ManageState, type CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { v4 as generateUuidV4 } from 'uuid';
+import { v4 as generateUuidV4 } from "uuid";
 import type { CommandPreview } from "@/types/command-preview";
 import { generateCommandString } from "@/lib/utils";
 
@@ -126,12 +126,6 @@ export const useCommandStore = create<CommandState>()(
         state.isDragging = isDragging;
       }),
 
-    isManaging: false,
-    setIsManaging: (isManaging) =>
-      set((state) => {
-        state.isManaging = isManaging;
-      }),
-
     manageState: ManageState.View,
     setManageState: (manageState) =>
       set((state) => {
@@ -149,9 +143,9 @@ export const useCommandStore = create<CommandState>()(
       set((state) => {
         state.commandPreviews = state.destinationCommands.map((command) => {
           const commandString = generateCommandString(command);
-          
+
           const commandPreview: CommandPreview = {
-            uuid: generateUuidV4(),
+            id: generateUuidV4(),
             preview: commandString.trim(),
           };
 

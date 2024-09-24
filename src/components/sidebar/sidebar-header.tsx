@@ -4,7 +4,7 @@ import ManageButton from "@/components/sidebar/manage-button";
 
 const SidebarHeader = () => {
   return (
-    <div className="flex w-full flex-col gap-y-4 px-8 pt-4 pb-4">
+    <div className="flex w-full flex-col gap-y-4 px-8 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
           <TerminalIcon className="size-4" />

@@ -4,16 +4,21 @@ import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import CreateCommandParametersCombobox from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import Code from "@/components/code";
+import { generateCodeMarkdown } from "@/lib/utils";
 
 const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("recursive");
   const createCommandParametersComboboxProps = {
     open,
     setOpen,
     value,
     setValue,
   };
+
+  const codePayload = `start chrome --incognito "https://www.erulynx.net"\nxcopy /eihry "C:\\source-folder" "D:\\destination-folder"\nmkdir "~\\hello-world"\ng++ -o hello-world.exe hello-world.cpp`;
+  const codeMarkdown = generateCodeMarkdown({ codePayload });
 
   return (
     <div className="flex h-full w-full max-w-2xl flex-1 flex-col justify-between gap-y-4">
@@ -31,15 +36,13 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
             <Input
               name="create-command-parameters-combobox-input"
               placeholder="Parameter value"
-              defaultValue='"C:source folder"'
+              defaultValue='"C:\source-folder"'
             />
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-y-2">
           <div className="text-sm">Command Preview</div>
-          <code className="h-full flex-1 rounded-md bg-gray-100 p-4 dark:bg-[#171823]">
-            xcopy /s "C:\source folder" "D:\destination folder"
-          </code>
+          <Code codeMarkdown={codeMarkdown} />
         </div>
       </div>
       <div className="flex items-center gap-x-4 self-end">

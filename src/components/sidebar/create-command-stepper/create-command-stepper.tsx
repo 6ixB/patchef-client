@@ -49,7 +49,7 @@ const CreateCommandStepper = () => {
   };
 
   return (
-    <div className="flex h-full w-full justify-between">
+    <div className="flex h-full w-full justify-between gap-x-10">
       <CreateCommandStepperStatus
         // TODO: Fix this type mismatch error, currently it's being casted as unknown
         stepper={stepper as unknown as Stepper<Step[]>}

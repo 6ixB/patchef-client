@@ -7,18 +7,22 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const Header = () => {
   return (
-    <header className="flex select-none items-center justify-between border-gray-200 border-b px-8 py-3 dark:border-gray-800">
-      <div className="flex items-center justify-center gap-x-2">
-        <SquareTerminalIcon className="size-6" />
-        <h1 className="font-medium text-black text-xl dark:text-white">
-          patchef
-        </h1>
+    <header className="flex select-none items-center justify-between border-gray-200 border-b px-8 py-2 dark:border-gray-800">
+      <div className="flex items-end gap-x-4">
+        <div className="flex items-center justify-center gap-x-2">
+          <SquareTerminalIcon className="size-6" />
+          <h1 className="font-medium text-black text-xl dark:text-white">
+            patchef
+          </h1>
+        </div>
+        <Badge>Build version 1.0.0-dev</Badge>
       </div>
       <div className="flex items-center gap-x-2">
-        <TooltipProvider>
+        {/* <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild={true}>
               <a
@@ -39,7 +43,7 @@ const Header = () => {
               <p>Di follow dulu yuk!</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
+        </TooltipProvider> */}
         <ModeToggle />
       </div>
     </header>

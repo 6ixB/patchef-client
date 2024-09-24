@@ -1,37 +1,34 @@
 import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { useCommandStore } from '@/hooks/use-command-store';
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { useMemo } from "react";
+import Code from "@/components/code";
+import { generateCodeMarkdown, generateScriptPayload } from "@/lib/utils";
 
 const PreviewRecipeDialogContent = () => {
   const { commandPreviews } = useCommandStore();
 
+  const scriptPayload = useMemo(() => {
+    return generateScriptPayload(commandPreviews);
+  }, [commandPreviews]);
+
+  const scriptMarkdown = generateCodeMarkdown({ codePayload: scriptPayload });
+
   return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Preview Recipe</AlertDialogTitle>
-        <AlertDialogDescription>
-          {commandPreviews.map((commandPreview, _) => (
-            <span key={commandPreview.uuid}>
-              {commandPreview.preview}
-              <br />
-            </span>
-          ))}
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>
-          Continue
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
+    <DialogContent className="w-full max-w-4xl">
+      <DialogHeader>
+        <DialogTitle>Preview Recipe</DialogTitle>
+        <DialogDescription>
+          The following is the generated script based on the commands you have
+          added.
+        </DialogDescription>
+      </DialogHeader>
+      <Code codeMarkdown={scriptMarkdown} />
+    </DialogContent>
   );
 };
 

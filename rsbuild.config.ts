@@ -1,15 +1,16 @@
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
+// biome-ignore lint/correctness/noNodejsModules: This part of the code is not executed in the browser - MY23-1
 import path from "node:path";
 
 export default defineConfig({
   html: {
-    favicon: "./public/na-icon.svg",
+    favicon: "./public/square-terminal.svg",
     title: "PatChef",
     meta: {
       description: "An interactive batch script generator",
     },
-    template: "./index.html",
+    template: "./public/index.html",
   },
   source: {
     alias: {
