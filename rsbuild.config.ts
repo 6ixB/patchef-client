@@ -5,7 +5,6 @@ import path from "node:path";
 
 export default defineConfig({
   html: {
-    favicon: "./public/square-terminal.svg",
     title: "PatChef",
     meta: {
       description: "An interactive batch script generator",
