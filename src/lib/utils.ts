@@ -1,5 +1,5 @@
 import type { Command, CommandParameter } from "@/types/command";
-import { CommandPreview } from "@/types/command-preview";
+import type { CommandPreview } from "@/types/command-preview";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -28,9 +28,11 @@ export function generateCommandString(command: Command): string {
     commandString += ` ${params}`;
   }
 
+  commandString += " ";
+
   if (command.options && command.options.length > 0) {
     for (const option of command.options) {
-      commandString += ` ${option.payload}`;
+      commandString += `${option.payload}`;
 
       const delimiter = option.delimiter !== undefined ? option.delimiter : " ";
       commandString += delimiter;
