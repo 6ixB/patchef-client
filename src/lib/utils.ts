@@ -48,6 +48,8 @@ export function generateCommandString(command: Command): string {
     }
   }
 
+  commandString = commandString.trim();
+
   return commandString;
 }
 
