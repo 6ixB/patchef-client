@@ -4,15 +4,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Command } from "@/types/command";
+import type { Command } from "@/types/command";
 
 export interface RecipeListItemFillParamsDialogContentProps {
   command: Command;
 }
 
-const RecipeListItemFillParamsDialogContent = ({
-  command,
-}: RecipeListItemFillParamsDialogContentProps) => {
+const RecipeListItemFillParamsDialogContent = () => {
   return (
     <DialogContent className="w-full max-w-4xl">
       <DialogHeader>

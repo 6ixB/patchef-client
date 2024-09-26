@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTheme } from "./providers/theme-provider";
+import { useTheme } from "@/components/providers/theme-provider";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";

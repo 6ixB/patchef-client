@@ -4,7 +4,7 @@ import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import CreateCommandParametersCombobox from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import Code from "@/components/code";
+import Code from "@/components/ui/code";
 import { generateCodeMarkdown } from "@/lib/utils";
 
 const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
