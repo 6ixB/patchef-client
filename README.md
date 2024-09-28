@@ -93,7 +93,7 @@ We follow **semantic commit messages**. Learn more about the conventions from th
 To streamline your commit process, install the following tool to commit with semantic messages:  
 [git-cz](https://github.com/streamich/git-cz)
 
-Note: Please use ```bash git-cz --disable-emoji```, 
+Note: Please use ```git-cz --disable-emoji```, 
 I have come to realize that using emojis in commits is a God-level cringe, and should be avoided at all costs.
 
 ---
