@@ -58,7 +58,7 @@ To maintain readability and consistency in the codebase, adhere to the following
 ### React Component Guidelines
 
 - Declare each component as a **const arrow function**.
-- Use **default export** for the main component.
+- Use **export** for the main component at the end of the component file.
 - Always import components with **absolute paths** relative to the project root.
   - Example: `import Button from "@/components/ui/button"`
 - For icons, always use components with the suffix `"Icon"` and import them from the **LucidIcon** library.
