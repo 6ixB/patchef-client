@@ -72,7 +72,7 @@ export function generateCodeMarkdown({
   Usage: this function is used to generate a script payload
 */
 export function generateScriptPayload(
-  commandPreviews: CommandPreview[]
+  commandPreviews: CommandPreview[],
 ): string {
   return commandPreviews
     .map((commandPreview) => commandPreview.preview)

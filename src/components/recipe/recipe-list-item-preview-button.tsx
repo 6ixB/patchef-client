@@ -9,7 +9,7 @@ import type { Command } from "@/types/command";
 import { TerminalIcon } from "lucide-react";
 import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import RecipeListItemPreviewDialogContent from "@/components/recipe/recipe-list-item-preview-dialog-content";
+import { RecipeListItemPreviewDialogContent } from "@/components/recipe/recipe-list-item-preview-dialog-content";
 
 export interface RecipeListItemPreviewButtonProps {
   command: Command;
@@ -39,4 +39,4 @@ const RecipeListItemPreviewButton = ({
   );
 };
 
-export default RecipeListItemPreviewButton;
+export { RecipeListItemPreviewButton };

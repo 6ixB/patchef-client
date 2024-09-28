@@ -18,6 +18,7 @@ import { v4 as generateUuidV4 } from "uuid";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
 import { ArrowRightIcon, XIcon } from "lucide-react";
+import type { MouseEvent } from "react";
 
 const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
@@ -32,12 +33,28 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof CommandSchema>) {
+  const onSubmit = (values: z.infer<typeof CommandSchema>) => {
+    const { id, name, description, payload } = values;
+
     setDraftCommand({
-      ...values,
+      ...draftCommand,
+      id,
+      name,
+      description,
+      payload,
     });
+
     next();
-  }
+  };
+
+  const handleCancelClick = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    e.preventDefault();
+    form.reset();
+    setDraftCommand(null);
+    setManageState(ManageState.View);
+  };
 
   return (
     <Form {...form}>
@@ -113,14 +130,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
           />
         </div>
         <div className="flex items-center gap-x-4 self-end">
-          <Button
-            variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
-              form.reset();
-              setManageState(ManageState.View);
-            }}
-          >
+          <Button variant="outline" onClick={handleCancelClick}>
             <XIcon className="mr-2 size-4" />
             Cancel
           </Button>
@@ -134,4 +144,4 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   );
 };
 
-export default CreateCommandStep1;
+export { CreateCommandStep1 };

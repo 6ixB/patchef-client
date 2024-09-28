@@ -1,5 +1,5 @@
-import AppLayout from "@/components/layouts/app-layout";
-import RecipeArea from "@/components/recipe/recipe-area";
+import { AppLayout } from "@/components/layouts/app-layout";
+import { RecipeArea } from "@/components/recipe/recipe-area";
 
 const App = () => {
   return (

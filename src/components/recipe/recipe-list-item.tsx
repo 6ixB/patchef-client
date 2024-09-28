@@ -4,9 +4,9 @@ import { DndContextEventDataType } from "@/types/dnd-context";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CommandIcon, GripVerticalIcon, TriangleAlertIcon } from "lucide-react";
-import RecipeListItemRemoveButton from "@/components/recipe/recipe-list-item-remove-button";
-import RecipeListItemFillParamsButton from "@/components/recipe/recipe-list-item-fill-params-button";
-import RecipeListItemPreviewButton from "@/components/recipe/recipe-list-item-preview-button";
+import { RecipeListItemRemoveButton } from "@/components/recipe/recipe-list-item-remove-button";
+import { RecipeListItemFillParamsButton } from "@/components/recipe/recipe-list-item-fill-params-button";
+import { RecipeListItemPreviewButton } from "@/components/recipe/recipe-list-item-preview-button";
 import { useMemo } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { Badge } from "@/components/ui/badge";
@@ -86,7 +86,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         </div>
       </div>
       <div className="flex items-center gap-x-2">
-        <RecipeListItemFillParamsButton command={command} />
+        <RecipeListItemFillParamsButton />
         <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
         <div
@@ -101,4 +101,4 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
   );
 };
 
-export default RecipeListItem;
+export { RecipeListItem };

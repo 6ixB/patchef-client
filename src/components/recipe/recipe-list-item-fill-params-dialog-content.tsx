@@ -23,4 +23,4 @@ const RecipeListItemFillParamsDialogContent = () => {
   );
 };
 
-export default RecipeListItemFillParamsDialogContent;
+export { RecipeListItemFillParamsDialogContent };

@@ -37,4 +37,4 @@ const CommandDataTableSearch = <TData,>({
   );
 };
 
-export default CommandDataTableSearch;
+export { CommandDataTableSearch };

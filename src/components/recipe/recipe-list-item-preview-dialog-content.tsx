@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import type { Command } from "@/types/command";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import Code from "@/components/ui/code";
+import { Code } from "@/components/ui/code";
 
 export interface RecipeListItemPreviewDialogContentProps {
   command: Command;
@@ -26,7 +26,8 @@ const RecipeListItemPreviewDialogContent = ({
       <DialogHeader>
         <DialogTitle>Preview command</DialogTitle>
         <DialogDescription>
-          The following is the generated command string based on your filled parameters and selected options.
+          The following is the generated command string based on your filled
+          parameters and selected options.
         </DialogDescription>
       </DialogHeader>
       <Code codeMarkdown={codeMarkdown} />
@@ -34,4 +35,4 @@ const RecipeListItemPreviewDialogContent = ({
   );
 };
 
-export default RecipeListItemPreviewDialogContent;
+export { RecipeListItemPreviewDialogContent };

@@ -1,10 +1,10 @@
 import { defineStepper, type Stepper, type Step } from "@stepperize/react";
-import CreateCommandStepperStatus from "@/components/sidebar/create-command-stepper/create-command-stepper-status";
-import CreateCommandStep1 from "@/components/sidebar/create-command-stepper/create-command-step-1";
-import CreateCommandStep2 from "@/components/sidebar/create-command-stepper/create-command-step-2";
-import CreateCommandStep3 from "@/components/sidebar/create-command-stepper/create-command-step-3";
-import CreateCommandStep4 from "@/components/sidebar/create-command-stepper/create-command-step-4";
-import CreateCommandStep5 from "@/components/sidebar/create-command-stepper/create-command-step-5";
+import { CreateCommandStepperStatus } from "@/components/sidebar/create-command-stepper/create-command-stepper-status";
+import { CreateCommandStep1 } from "@/components/sidebar/create-command-stepper/create-command-step-1";
+import { CreateCommandStep2 } from "@/components/sidebar/create-command-stepper/create-command-step-2";
+import { CreateCommandStep3 } from "@/components/sidebar/create-command-stepper/create-command-step-3";
+import { CreateCommandStep4 } from "@/components/sidebar/create-command-stepper/create-command-step-4";
+import { CreateCommandStep5 } from "@/components/sidebar/create-command-stepper/create-command-step-5";
 
 const { useStepper } = defineStepper(
   {
@@ -27,7 +27,7 @@ const { useStepper } = defineStepper(
     title: "4",
     description: "Set your command options parameters (optional)",
   },
-  { id: "step-5", title: "5", description: "Preview your command" }
+  { id: "step-5", title: "5", description: "Preview your command" },
 );
 
 export interface CreateCommandStepProps {
@@ -75,4 +75,4 @@ const CreateCommandStepper = () => {
   );
 };
 
-export default CreateCommandStepper;
+export { CreateCommandStepper };

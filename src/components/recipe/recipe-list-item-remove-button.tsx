@@ -8,11 +8,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { TrashIcon } from 'lucide-react';
-import { useCommandStore } from '@/hooks/use-command-store';
-import type { Command } from '@/types/command';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { TrashIcon } from "lucide-react";
+import { useCommandStore } from "@/hooks/use-command-store";
+import type { Command } from "@/types/command";
 
 export interface RecipeListItemRemoveButtonProps {
   command: Command;
@@ -53,4 +53,4 @@ const RecipeListItemRemoveButton = ({
   );
 };
 
-export default RecipeListItemRemoveButton;
+export { RecipeListItemRemoveButton };

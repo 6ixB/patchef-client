@@ -1,13 +1,13 @@
 import type { Command } from "@/types/command";
 import type { CommandPreview } from "@/types/command-preview";
 
-export enum ManageState {
+enum ManageState {
   View = "VIEW",
   Edit = "EDIT",
   Create = "CREATE",
 }
 
-export interface CommandState {
+interface CommandState {
   /* 
       Usage: initial source commands are the fallback commands that are displayed in the sidebar.
       These commands are used when the user clears the search input.
@@ -102,3 +102,5 @@ export interface CommandState {
   commandPreviews: CommandPreview[];
   setCommandPreviews: () => void;
 }
+
+export { type CommandState, ManageState };

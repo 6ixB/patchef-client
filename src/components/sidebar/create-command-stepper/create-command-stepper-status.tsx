@@ -24,7 +24,7 @@ const CreateCommandStepperStatus = ({
                 stepper.current.id === step.id &&
                   "border-none bg-primary font-black text-primary-foreground",
                 stepper.current.id !== step.id &&
-                  "cursor-pointer hover:ring-2 hover:ring-primary"
+                  "cursor-pointer hover:ring-2 hover:ring-primary",
               )}
             >
               {step.title}
@@ -46,4 +46,4 @@ const CreateCommandStepperStatus = ({
   );
 };
 
-export default CreateCommandStepperStatus;
+export { CreateCommandStepperStatus };

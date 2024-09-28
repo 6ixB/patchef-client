@@ -18,6 +18,8 @@ export interface CommandDataTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
+const pageSizes = [5, 10, 20];
+
 const CommandDataTablePagination = <TData,>({
   table,
 }: CommandDataTablePaginationProps<TData>) => {
@@ -35,7 +37,7 @@ const CommandDataTablePagination = <TData,>({
             <SelectValue placeholder={table.getState().pagination.pageSize} />
           </SelectTrigger>
           <SelectContent side="top">
-            {[5, 10, 20].map((pageSize) => (
+            {pageSizes.map((pageSize) => (
               <SelectItem key={pageSize} value={`${pageSize}`}>
                 {pageSize}
               </SelectItem>
@@ -45,7 +47,7 @@ const CommandDataTablePagination = <TData,>({
       </div>
       <div className="flex items-center justify-end space-x-2">
         <div className="flex w-[100px] items-center justify-center font-medium text-sm">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          Page {table.getState().pagination.pageIndex + 1} of&nbsp;
           {table.getPageCount()}
         </div>
         <Button
@@ -85,4 +87,4 @@ const CommandDataTablePagination = <TData,>({
   );
 };
 
-export default CommandDataTablePagination;
+export { CommandDataTablePagination };

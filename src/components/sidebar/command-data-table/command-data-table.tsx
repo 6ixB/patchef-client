@@ -16,8 +16,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import CommandDataTableSearch from "@/components/sidebar/command-data-table/command-data-table-search";
-import CommandDataTablePagination from "@/components/sidebar/command-data-table/command-data-table-pagination";
+import { CommandDataTableSearch } from "@/components/sidebar/command-data-table/command-data-table-search";
+import { CommandDataTablePagination } from "@/components/sidebar/command-data-table/command-data-table-pagination";
 import { WandSparklesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
@@ -73,7 +73,7 @@ const CommandDataTable = <TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -92,7 +92,7 @@ const CommandDataTable = <TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -116,4 +116,4 @@ const CommandDataTable = <TData, TValue>({
   );
 };
 
-export default CommandDataTable;
+export { CommandDataTable };

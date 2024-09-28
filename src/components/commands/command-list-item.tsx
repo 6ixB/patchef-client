@@ -37,4 +37,4 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
   );
 };
 
-export default CommandListItem;
+export { CommandListItem };

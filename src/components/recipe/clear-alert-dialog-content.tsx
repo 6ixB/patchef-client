@@ -6,8 +6,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { useCommandStore } from '@/hooks/use-command-store';
+} from "@/components/ui/alert-dialog";
+import { useCommandStore } from "@/hooks/use-command-store";
 
 const ClearAlertDialogContent = () => {
   const { clearDestinationCommands } = useCommandStore();
@@ -31,4 +31,4 @@ const ClearAlertDialogContent = () => {
   );
 };
 
-export default ClearAlertDialogContent;
+export { ClearAlertDialogContent };

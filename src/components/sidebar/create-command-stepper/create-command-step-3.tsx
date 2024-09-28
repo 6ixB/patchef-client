@@ -37,9 +37,9 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof CommandOptionSchema>) {
+  const onSubmit = (values: z.infer<typeof CommandOptionSchema>) => {
     next();
-  }
+  };
 
   return (
     <Form {...form}>
@@ -142,7 +142,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Options</div>
+            <div className="text-sm">Options (Click to see contents)</div>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground">
@@ -186,4 +186,4 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
   );
 };
 
-export default CreateCommandStep3;
+export { CreateCommandStep3 };

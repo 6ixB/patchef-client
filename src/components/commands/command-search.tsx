@@ -37,4 +37,4 @@ const CommandSearch = () => {
   );
 };
 
-export default CommandSearch;
+export { CommandSearch };

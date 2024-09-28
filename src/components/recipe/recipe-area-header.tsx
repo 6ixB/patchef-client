@@ -1,4 +1,4 @@
-import RecipeAreaControls from "@/components/recipe/recipe-area-controls";
+import { RecipeAreaControls } from "@/components/recipe/recipe-area-controls";
 import { CookingPotIcon } from "lucide-react";
 
 const RecipeAreaHeader = () => {
@@ -13,4 +13,4 @@ const RecipeAreaHeader = () => {
   );
 };
 
-export default RecipeAreaHeader;
+export { RecipeAreaHeader };

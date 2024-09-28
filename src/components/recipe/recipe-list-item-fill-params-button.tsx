@@ -8,15 +8,13 @@ import {
 import type { Command } from "@/types/command";
 import { VariableIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import RecipeListItemFillParamsDialogContent from "./recipe-list-item-fill-params-dialog-content";
+import { RecipeListItemFillParamsDialogContent } from "@/components/recipe/recipe-list-item-fill-params-dialog-content";
 
 export interface RecipeListItemFillParamsButtonProps {
   command: Command;
 }
 
-const RecipeListItemFillParamsButton = ({
-  command,
-}: RecipeListItemFillParamsButtonProps) => {
+const RecipeListItemFillParamsButton = () => {
   return (
     <Dialog>
       <TooltipProvider>
@@ -33,9 +31,9 @@ const RecipeListItemFillParamsButton = ({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <RecipeListItemFillParamsDialogContent command={command}  />
+      <RecipeListItemFillParamsDialogContent />
     </Dialog>
   );
 };
 
-export default RecipeListItemFillParamsButton;
+export { RecipeListItemFillParamsButton };

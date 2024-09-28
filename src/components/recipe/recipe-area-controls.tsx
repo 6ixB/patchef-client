@@ -2,16 +2,14 @@ import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { SquareTerminalIcon, TrashIcon } from "lucide-react";
-import ClearAlertDialogContent from "@/components/recipe/clear-alert-dialog-content";
-import PreviewRecipeDialogContent from "@/components/recipe/preview-recipe-dialog-content";
-import { Dialog, DialogTrigger } from "../ui/dialog";
+import { ClearAlertDialogContent } from "@/components/recipe/clear-alert-dialog-content";
+import { PreviewRecipeDialogContent } from "@/components/recipe/preview-recipe-dialog-content";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 const RecipeAreaControls = () => {
-  const { destinationCommands } = useCommandStore();
+  const { destinationCommands, setCommandPreviews } = useCommandStore();
 
   const isEmpty = destinationCommands.length === 0;
-
-  const { setCommandPreviews } = useCommandStore();
 
   return (
     <div className="flex items-center gap-x-2">
@@ -45,4 +43,4 @@ const RecipeAreaControls = () => {
   );
 };
 
-export default RecipeAreaControls;
+export { RecipeAreaControls };

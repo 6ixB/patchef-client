@@ -231,10 +231,11 @@ export const commands: Command[] = [
     options: [
       {
         name: "Overwrite",
-        description: "Automatically overwrites existing files without prompting",
+        description:
+          "Automatically overwrites existing files without prompting",
         payload: "-y",
         parameterRequired: false,
-        parameters: []
+        parameters: [],
       },
       {
         name: "Output Directory",
@@ -245,16 +246,16 @@ export const commands: Command[] = [
         parameters: [
           {
             name: "Destination path",
-            description: "The path where extracted files should be placed"
-          }
-        ]
-      }
+            description: "The path where extracted files should be placed",
+          },
+        ],
+      },
     ],
     parameters: [
       {
         name: "Source path",
-        description: "The path to the archive file to be extracted"
-      }
-    ]
-  }
+        description: "The path to the archive file to be extracted",
+      },
+    ],
+  },
 ];

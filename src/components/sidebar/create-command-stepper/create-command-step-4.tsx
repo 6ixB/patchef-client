@@ -23,7 +23,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import CreateCommandOptionsCombobox from "@/components/sidebar/create-command-stepper/create-command-options-combobox";
+import { CreateCommandOptionsCombobox } from "@/components/sidebar/create-command-stepper/create-command-options-combobox";
 import { useState } from "react";
 
 const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
@@ -39,9 +39,9 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof CommandParameterSchema>) {
+  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
     next();
-  }
+  };
 
   return (
     <Form {...form}>
@@ -107,7 +107,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Parameters</div>
+            <div className="text-sm">Parameters (Click to see contents)</div>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground">
@@ -148,4 +148,4 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
   );
 };
 
-export default CreateCommandStep4;
+export { CreateCommandStep4 };

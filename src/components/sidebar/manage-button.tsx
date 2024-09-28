@@ -2,7 +2,7 @@ import { WrenchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import ManageDialogContent from "@/components/sidebar/manage-dialog-content";
+import { ManageDialogContent } from "@/components/sidebar/manage-dialog-content";
 import { ManageState } from "@/types/use-command.store";
 
 const ManageButton = () => {
@@ -37,4 +37,4 @@ const ManageButton = () => {
   );
 };
 
-export default ManageButton;
+export { ManageButton };

@@ -1,5 +1,5 @@
-import SidebarHeader from "@/components/sidebar/sidebar-header";
-import SidebarBody from "@/components/sidebar/sidebar-body";
+import { SidebarHeader } from "@/components/sidebar/sidebar-header";
+import { SidebarBody } from "@/components/sidebar/sidebar-body";
 
 const Sidebar = () => {
   return (
@@ -10,4 +10,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export { Sidebar };

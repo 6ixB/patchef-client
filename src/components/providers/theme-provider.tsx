@@ -26,14 +26,14 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
-export function ThemeProvider({
+const ThemeProvider = ({
   children,
   defaultTheme = "system",
   storageKey = "patchef-ui-theme",
   ...props
-}: ThemeProviderProps) {
+}: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
   );
 
   useEffect(() => {
@@ -67,9 +67,9 @@ export function ThemeProvider({
       {children}
     </ThemeProviderContext.Provider>
   );
-}
+};
 
-export const useTheme = () => {
+const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
   if (context === undefined) {
@@ -78,3 +78,5 @@ export const useTheme = () => {
 
   return context;
 };
+
+export { ThemeProvider, useTheme };

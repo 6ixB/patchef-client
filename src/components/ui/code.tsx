@@ -62,4 +62,4 @@ const Code = ({ codeMarkdown }: CodeProps) => {
   );
 };
 
-export default Code;
+export { Code };

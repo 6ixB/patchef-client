@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CommandParameterSchema } from "@/types/command";
+import { type CommandParameter, CommandParameterSchema } from "@/types/command";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -23,19 +23,93 @@ import {
   XIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { v4 as generateUuidV4 } from "uuid";
+import { type MouseEvent, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
+  const { draftCommand, setDraftCommand } = useCommandStore();
+  const [selectedParameter, setSelectedParameter] =
+    useState<CommandParameter | null>(null);
+
   const form = useForm<z.infer<typeof CommandParameterSchema>>({
     resolver: zodResolver(CommandParameterSchema),
     defaultValues: {
+      id: generateUuidV4(),
       name: "",
       description: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof CommandParameterSchema>) {
-    next();
-  }
+  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
+    if (!draftCommand) {
+      return;
+    }
+
+    const { id, name, description } = values;
+
+    setDraftCommand({
+      ...draftCommand,
+      parameters: [
+        ...(draftCommand.parameters ?? []),
+        {
+          id,
+          name,
+          description,
+        },
+      ],
+    });
+
+    form.reset({
+      id: generateUuidV4(),
+      name: "",
+      description: "",
+    });
+  };
+
+  const handleRemoveParameterClick = (
+    e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
+    id: string,
+  ) => {
+    e.stopPropagation();
+
+    if (!draftCommand) {
+      return;
+    }
+
+    setDraftCommand({
+      ...draftCommand,
+      parameters: draftCommand.parameters?.filter((item) => item.id !== id),
+    });
+
+    if (selectedParameter?.id === id) {
+      setSelectedParameter(null);
+      form.reset({
+        id: generateUuidV4(),
+        name: "",
+        description: "",
+      });
+    }
+  };
+
+  const handleParameterClick = (parameter: CommandParameter) => {
+    if (selectedParameter?.id === parameter.id) {
+      setSelectedParameter(null);
+      form.reset({
+        id: generateUuidV4(),
+        name: "",
+        description: "",
+      });
+    } else {
+      setSelectedParameter(parameter);
+      form.setValue("name", parameter.name);
+      form.setValue("description", parameter.description);
+      form.setValue("id", parameter.id);
+    }
+  };
+
+  const aParameterIsSelected = selectedParameter !== null;
 
   return (
     <Form {...form}>
@@ -60,6 +134,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
+                        readOnly={aParameterIsSelected}
                         placeholder="Connection string"
                         {...field}
                         className="w-full"
@@ -81,6 +156,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
+                        readOnly={aParameterIsSelected}
                         placeholder="Connection string with format: user@host"
                         {...field}
                         className="w-full"
@@ -91,27 +167,41 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button>
+            <Button type="submit" disabled={aParameterIsSelected}>
               <PlusCircleIcon className="mr-2 size-4" /> Add parameter
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Parameters</div>
+            <div className="text-sm">Parameters (Click to see contents)</div>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground">
-                  No parameters added
-                  <RabbitIcon className="size-4" />
-                </Card>
-                {["Username", "Host", "Port"].map((item) => (
-                  <Card
-                    key={item}
-                    className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground"
-                  >
-                    {item}
-                    <XIcon className="size-4" />
+                {draftCommand?.parameters &&
+                draftCommand?.parameters?.length !== 0 ? (
+                  draftCommand?.parameters?.map((item) => (
+                    <Card
+                      key={item.id}
+                      onClick={() => handleParameterClick(item)}
+                      className={cn(
+                        "flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
+                        selectedParameter?.id === item.id &&
+                          "border-2 border-primary",
+                      )}
+                    >
+                      {item.name}
+                      <XIcon
+                        onClick={(e) => {
+                          handleRemoveParameterClick(e, item.id);
+                        }}
+                        className="size-4"
+                      />
+                    </Card>
+                  ))
+                ) : (
+                  <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm">
+                    No parameters added
+                    <RabbitIcon className="size-4" />
                   </Card>
-                ))}
+                )}
               </div>
             </ScrollArea>
           </div>
@@ -127,7 +217,12 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
             <ArrowLeftIcon className="mr-2 size-4" />
             Previous
           </Button>
-          <Button type="submit">
+          <Button
+            type="button"
+            onClick={() => {
+              next();
+            }}
+          >
             Next
             <ArrowRightIcon className="ml-2 size-4" />
           </Button>
@@ -137,4 +232,4 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
   );
 };
 
-export default CreateCommandStep2;
+export { CreateCommandStep2 };

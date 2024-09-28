@@ -1,4 +1,4 @@
-import CommandList from '@/components/commands/command-list';
+import { CommandList } from "@/components/commands/command-list";
 
 const SidebarBody = () => {
   return (
@@ -8,4 +8,4 @@ const SidebarBody = () => {
   );
 };
 
-export default SidebarBody;
+export { SidebarBody };
