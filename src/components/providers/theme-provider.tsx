@@ -33,7 +33,7 @@ const ThemeProvider = ({
   ...props
 }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
 
   useEffect(() => {
@@ -79,4 +79,4 @@ const useTheme = () => {
   return context;
 };
 
-export { ThemeProvider, useTheme };
+export { type Theme, ThemeProvider, useTheme };
