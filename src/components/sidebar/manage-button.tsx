@@ -27,8 +27,8 @@ const ManageButton = () => {
       }}
     >
       <DialogTrigger asChild={true}>
-        <Button className="flex items-center justify-center gap-x-2">
-          <WrenchIcon className="size-4" />
+        <Button>
+          <WrenchIcon className="mr-2 size-4" />
           Manage
         </Button>
       </DialogTrigger>

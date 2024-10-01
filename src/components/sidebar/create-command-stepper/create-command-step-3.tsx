@@ -12,9 +12,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CommandOptionSchema } from "@/types/command";
+import { type CommandOption, CommandOptionSchema } from "@/types/command";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -25,21 +32,84 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { cn, generateDefaultValues } from "@/lib/utils";
+import { type MouseEvent, useState } from "react";
 
 const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
+  const { draftCommand, setDraftCommand } = useCommandStore();
+  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
+    null
+  );
+
   const form = useForm<z.infer<typeof CommandOptionSchema>>({
     resolver: zodResolver(CommandOptionSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      payload: "",
-      parameterRequired: false,
-    },
+    defaultValues: generateDefaultValues.commandOption(),
   });
 
   const onSubmit = (values: z.infer<typeof CommandOptionSchema>) => {
-    next();
+    if (!draftCommand) {
+      return;
+    }
+
+    const { id, name, description, payload, parameterRequired, delimiter } =
+      values;
+
+    setDraftCommand({
+      ...draftCommand,
+      options: [
+        ...(draftCommand.options ?? []),
+        {
+          id,
+          name,
+          description,
+          payload,
+          parameterRequired,
+          delimiter,
+        },
+      ],
+    });
+
+    form.reset(generateDefaultValues.commandOption());
   };
+
+  const handleOptionClick = (option: CommandOption) => {
+    if (selectedOption?.id === option.id) {
+      setSelectedOption(null);
+      form.reset(generateDefaultValues.commandOption());
+    } else {
+      setSelectedOption(option);
+      form.setValue("id", option.id);
+      form.setValue("name", option.name);
+      form.setValue("description", option.description);
+      form.setValue("payload", option.payload);
+      form.setValue("parameterRequired", option.parameterRequired);
+      form.setValue("delimiter", option.delimiter);
+    }
+  };
+
+  const handleRemoveOptionClick = (
+    e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
+    id: string
+  ) => {
+    e.stopPropagation();
+
+    if (!draftCommand) {
+      return;
+    }
+
+    setDraftCommand({
+      ...draftCommand,
+      options: draftCommand.options?.filter((option) => option.id !== id),
+    });
+
+    if (selectedOption?.id === id) {
+      setSelectedOption(null);
+      form.reset(generateDefaultValues.commandOption());
+    }
+  };
+
+  const isOptionSelected = selectedOption !== null;
 
   return (
     <Form {...form}>
@@ -49,7 +119,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
         className="flex w-full max-w-2xl flex-col justify-between gap-y-4"
       >
         <div className="flex w-full gap-x-8">
-          <div className="flex w-full flex-col justify-between gap-y-2">
+          <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
                 control={form.control}
@@ -64,6 +134,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
+                        readOnly={isOptionSelected}
                         placeholder="Silent mode"
                         {...field}
                         className="w-full"
@@ -85,6 +156,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
+                        readOnly={isOptionSelected}
                         placeholder="Run the command in silent mode"
                         {...field}
                         className="w-full"
@@ -107,6 +179,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder="/s"
+                        readOnly={isOptionSelected}
                         {...field}
                         className="w-full"
                       />
@@ -129,6 +202,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Switch
                         name="parameterRequired"
+                        disabled={isOptionSelected}
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
@@ -136,47 +210,106 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                   </FormItem>
                 )}
               />
+              {form.watch("parameterRequired") && (
+                <FormField
+                  control={form.control}
+                  name="delimiter"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Delimiter</FormLabel>
+                      <FormDescription>
+                        The delimiter to be used to separate the option and its
+                        parameters
+                      </FormDescription>
+                      <Select
+                        onValueChange={(value) => {
+                          form.setValue(
+                            "delimiter",
+                            value === "none" ? "" : value
+                          );
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a delimiter" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value=" ">Space</SelectItem>
+                          <SelectItem value="none">Empty</SelectItem>
+                          <SelectItem value="-">Hyphen</SelectItem>
+                          <SelectItem value="#">Hash</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
-            <Button>
+            <Button type="submit" disabled={isOptionSelected}>
               <PlusCircleIcon className="mr-2 size-4" /> Add option
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Options (Click to see contents)</div>
+            <h1 className="font-medium text-sm">
+              Options (Click to see contents)
+            </h1>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground">
-                  No options added
-                  <RabbitIcon className="size-4" />
-                </Card>
-                {["Recursive", "Verbose"].map((item) => (
-                  <Card
-                    key={item}
-                    className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground"
-                  >
-                    {item}
-                    <div className="flex items-center gap-x-2">
-                      <VariableIcon className="size-4" />
-                      <XIcon className="size-4" />
-                    </div>
+                {draftCommand?.options && draftCommand.options.length !== 0 ? (
+                  draftCommand.options.map((option) => (
+                    <Card
+                      key={option.id}
+                      onClick={() => handleOptionClick(option)}
+                      className={cn(
+                        "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
+                        selectedOption?.id === option.id &&
+                          "inner-border-2 inner-border-primary"
+                      )}
+                    >
+                      {option.name}
+                      <div className="flex items-center gap-x-2">
+                        {option.parameterRequired && (
+                          <VariableIcon className="size-4" />
+                        )}
+                        <XIcon
+                          onClick={(e) => {
+                            handleRemoveOptionClick(e, option.id);
+                          }}
+                          className="size-4"
+                        />
+                      </div>
+                    </Card>
+                  ))
+                ) : (
+                  <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
+                    No options added
+                    <RabbitIcon className="size-4" />
                   </Card>
-                ))}
+                )}
               </div>
             </ScrollArea>
           </div>
         </div>
         <div className="flex items-center gap-x-4 self-end">
           <Button
+            type="button"
             variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               prev();
             }}
           >
             <ArrowLeftIcon className="mr-2 size-4" />
             Previous
           </Button>
-          <Button type="submit">
+          <Button
+            type="button"
+            onClick={() => {
+              next();
+            }}
+          >
             Next
             <ArrowRightIcon className="ml-2 size-4" />
           </Button>

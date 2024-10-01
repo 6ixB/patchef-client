@@ -14,23 +14,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { CommandSchema } from "@/types/command";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
-import { v4 as generateUuidV4 } from "uuid";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
+import { generateDefaultValues } from "@/lib/utils";
 
 const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
 
   const form = useForm<z.infer<typeof CommandSchema>>({
     resolver: zodResolver(CommandSchema),
-    defaultValues: {
-      id: draftCommand?.id ?? generateUuidV4(),
-      name: draftCommand?.name ?? "",
-      description: draftCommand?.description ?? "",
-      payload: draftCommand?.payload ?? "",
-    },
+    defaultValues: generateDefaultValues.command(draftCommand),
   });
 
   const onSubmit = (values: z.infer<typeof CommandSchema>) => {
@@ -48,9 +43,10 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   };
 
   const handleCancelClick = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     e.preventDefault();
+    console.debug("Cancel button clicked");
     form.reset();
     setDraftCommand(null);
     setManageState(ManageState.View);

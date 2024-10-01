@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useMemo } from "react";
-import { Code } from "@/components/ui/code";
+import { Code } from "@/components/markdown/code";
 import { generateCodeMarkdown, generateScriptPayload } from "@/lib/utils";
 
 const PreviewRecipeDialogContent = () => {

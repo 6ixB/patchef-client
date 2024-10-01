@@ -2,6 +2,7 @@ import { commands } from "@/lib/commands";
 import { ManageState, type CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { produce } from "immer";
 import { v4 as generateUuidV4 } from "uuid";
 import type { CommandPreview } from "@/types/command-preview";
 import { generateCommandString } from "@/lib/utils";
@@ -47,7 +48,7 @@ export const useCommandStore = create<CommandState>()(
         }
 
         const filteredCommands = state.initialSourceCommands.filter((command) =>
-          command.name.toLowerCase().includes(query.toLowerCase()),
+          command.name.toLowerCase().includes(query.toLowerCase())
         );
 
         state.sourceCommands = filteredCommands;
@@ -56,11 +57,11 @@ export const useCommandStore = create<CommandState>()(
     updateSourceCommandId: (id, newId) => {
       set((state) => {
         const sourceIndex = state.sourceCommands.findIndex(
-          (command) => command.id === id,
+          (command) => command.id === id
         );
 
         const initalSourceIndex = state.initialSourceCommands.findIndex(
-          (command) => command.id === id,
+          (command) => command.id === id
         );
 
         if (sourceIndex !== -1 && initalSourceIndex !== -1) {
@@ -85,11 +86,11 @@ export const useCommandStore = create<CommandState>()(
     swapDestinationCommands: (sourceId, destinationId) => {
       set((state) => {
         const sourceIndex = state.destinationCommands.findIndex(
-          (command) => command.id === sourceId,
+          (command) => command.id === sourceId
         );
 
         const destinationIndex = state.destinationCommands.findIndex(
-          (command) => command.id === destinationId,
+          (command) => command.id === destinationId
         );
 
         if (sourceIndex !== -1 && destinationIndex !== -1) {
@@ -104,7 +105,7 @@ export const useCommandStore = create<CommandState>()(
     removeDestinationCommand: (id) => {
       set((state) => {
         const index = state.destinationCommands.findIndex(
-          (command) => command.id === id,
+          (command) => command.id === id
         );
 
         if (index !== -1) {
@@ -133,9 +134,13 @@ export const useCommandStore = create<CommandState>()(
       }),
 
     draftCommand: null,
-    setDraftCommand: (command) =>
+    setDraftCommand: (value) =>
       set((state) => {
-        state.draftCommand = command;
+        if (typeof value === "function") {
+          state.draftCommand = produce(state.draftCommand, value);
+        } else {
+          state.draftCommand = value;
+        }
       }),
 
     commandPreviews: [],
@@ -152,5 +157,5 @@ export const useCommandStore = create<CommandState>()(
           return commandPreview;
         });
       }),
-  })),
+  }))
 );

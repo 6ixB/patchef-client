@@ -90,11 +90,20 @@ interface CommandState {
   isDragging: boolean;
   setIsDragging: (isDragging: boolean) => void;
 
+  /* 
+      Usage: determines the rendered view of the manage command dialog content
+    */
   manageState: ManageState;
   setManageState: (state: ManageState) => void;
 
+  /* 
+      Usage: draft command is the command that is currently being edited or created.
+      This command is used to store the current state of the command being edited or created.
+    */
   draftCommand: Command | null;
-  setDraftCommand: (command: Command | null) => void;
+  setDraftCommand: (
+    value: ((draft: Command | null) => void) | Command | null
+  ) => void;
 
   /* 
       Usage: command previews is an array consisting of commands in the form of what would be in a bat file.

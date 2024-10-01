@@ -9,8 +9,10 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "1",
         name: "Directory name",
         description: "The name of the directory to create",
+        payload: "[Directory name]",
       },
     ],
   },
@@ -22,8 +24,10 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "2",
         name: "Directory path",
         description: "The directory to list the contents of",
+        payload: "[Directory path]",
       },
     ],
   },
@@ -35,8 +39,10 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "3",
         name: "Directory path",
         description: "The directory to change to",
+        payload: "[Directory path]",
       },
     ],
   },
@@ -47,6 +53,7 @@ export const commands: Command[] = [
     payload: "rm",
     options: [
       {
+        id: "4",
         name: "Recursive",
         description: "Recursively remove directories",
         payload: "-r",
@@ -56,8 +63,10 @@ export const commands: Command[] = [
     ],
     parameters: [
       {
+        id: "4",
         name: "File or directory path",
         description: "The file or directory to remove",
+        payload: "[File or directory path]",
       },
     ],
   },
@@ -69,8 +78,10 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "5",
         name: "Text",
         description: "The text to display",
+        payload: "[Text]",
       },
     ],
   },
@@ -81,6 +92,7 @@ export const commands: Command[] = [
     payload: "xcopy",
     options: [
       {
+        id: "6",
         name: "Recursive",
         description: "Recursively copy directories",
         payload: "/s",
@@ -91,12 +103,16 @@ export const commands: Command[] = [
     ],
     parameters: [
       {
+        id: "7",
         name: "Source file or directory path",
         description: "The source file or directory",
+        payload: "[Source path]",
       },
       {
+        id: "8",
         name: "Destination file or directory path",
         description: "The destination file or directory",
+        payload: "[Destination path]",
       },
     ],
   },
@@ -108,12 +124,16 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "9",
         name: "Source file or directory path",
         description: "The source file or directory",
+        payload: "[Source path]",
       },
       {
+        id: "10",
         name: "Destination file or directory path",
         description: "The destination file or directory",
+        payload: "[Destination path]",
       },
     ],
   },
@@ -125,12 +145,16 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "11",
         name: "Source file or directory path",
         description: "The source file or directory",
+        payload: "[Source path]",
       },
       {
+        id: "12",
         name: "Destination file or directory path",
         description: "The destination file or directory",
+        payload: "[Destination path]",
       },
     ],
   },
@@ -142,8 +166,10 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "13",
         name: "File path",
         description: "The file to display",
+        payload: "[File path]",
       },
     ],
   },
@@ -155,12 +181,16 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "14",
         name: "File path",
         description: "The file to change permissions for",
+        payload: "[File path]",
       },
       {
+        id: "15",
         name: "Permissions",
         description: "The new permissions for the file",
+        payload: "[Permissions]",
       },
     ],
   },
@@ -172,16 +202,22 @@ export const commands: Command[] = [
     options: [],
     parameters: [
       {
+        id: "16",
         name: "File path",
         description: "The file to change owner and group for",
+        payload: "[File path]",
       },
       {
+        id: "17",
         name: "Owner",
         description: "The new owner for the file",
+        payload: "[Owner]",
       },
       {
+        id: "18",
         name: "Group",
         description: "The new group for the file",
+        payload: "[Group]",
       },
     ],
   },
@@ -200,26 +236,33 @@ export const commands: Command[] = [
     payload: "scp",
     options: [
       {
+        id: "19",
         name: "Port",
         description: "Specifies the port to connect to",
         payload: "-P",
         parameterRequired: true,
         parameters: [
           {
+            id: "20",
             name: "Port number",
             description: "The port number to use for the connection",
+            payload: "[Port number]",
           },
         ],
       },
     ],
     parameters: [
       {
+        id: "21",
         name: "Source file path",
         description: "The path to the source file",
+        payload: "[Source path]",
       },
       {
+        id: "22",
         name: "Destination",
         description: "The destination host and file path",
+        payload: "[Destination]",
       },
     ],
   },
@@ -230,6 +273,7 @@ export const commands: Command[] = [
     payload: "'C:\\Program Files\\7-Zip\\7z.exe' x",
     options: [
       {
+        id: "23",
         name: "Overwrite",
         description:
           "Automatically overwrites existing files without prompting",
@@ -238,6 +282,7 @@ export const commands: Command[] = [
         parameters: [],
       },
       {
+        id: "24",
         name: "Output Directory",
         description: "Specifies the output directory for extracted files",
         payload: "-o",
@@ -245,16 +290,20 @@ export const commands: Command[] = [
         delimiter: "",
         parameters: [
           {
+            id: "25",
             name: "Destination path",
             description: "The path where extracted files should be placed",
+            payload: "[Destination path]",
           },
         ],
       },
     ],
     parameters: [
       {
+        id: "26",
         name: "Source path",
         description: "The path to the archive file to be extracted",
+        payload: "[Source path]",
       },
     ],
   },

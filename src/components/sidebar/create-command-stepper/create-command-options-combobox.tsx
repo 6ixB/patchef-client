@@ -14,35 +14,28 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const frameworks = [
-  {
-    value: "recursive",
-    label: "Recursive",
-  },
-  {
-    value: "output",
-    label: "Output",
-  },
-  {
-    value: "verbose",
-    label: "Verbose",
-  },
-];
+import { useCommandStore } from "@/hooks/use-command-store";
+import type { CommandOption } from "@/types/command";
 
 export interface CreateCommandOptionsComboboxProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  value: string;
-  setValue: (value: string) => void;
+  selectedOption: CommandOption | null;
+  setSelectedOption: (option: CommandOption | null) => void;
 }
 
 const CreateCommandOptionsCombobox = ({
   open,
   setOpen,
-  value,
-  setValue,
+  selectedOption,
+  setSelectedOption,
 }: CreateCommandOptionsComboboxProps) => {
+  const { draftCommand } = useCommandStore();
+
+  const optionsWithRequiredParameters = draftCommand?.options?.filter(
+    (option) => option.parameterRequired
+  );
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild={true}>
@@ -52,8 +45,10 @@ const CreateCommandOptionsCombobox = ({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
+          {selectedOption
+            ? optionsWithRequiredParameters?.find(
+                (option) => option.id === selectedOption.id
+              )?.name
             : "Select option..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -62,24 +57,28 @@ const CreateCommandOptionsCombobox = ({
         <Command>
           <CommandInput placeholder="Search option..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No option found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {optionsWithRequiredParameters?.map((option) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                  key={option.id}
+                  value={option.id}
+                  onSelect={(currentOptionId) => {
+                    setSelectedOption(
+                      currentOptionId === selectedOption?.id ? null : option
+                    );
                     setOpen(false);
                   }}
                 >
                   <CheckIcon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0",
+                      selectedOption?.id === option.id
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  {option.name}
                 </CommandItem>
               ))}
             </CommandGroup>

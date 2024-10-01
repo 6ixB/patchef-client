@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import type { Command } from "@/types/command";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import { Code } from "@/components/ui/code";
+import { Code } from "@/components/markdown/code";
 
 export interface RecipeListItemPreviewDialogContentProps {
   command: Command;

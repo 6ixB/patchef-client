@@ -13,6 +13,7 @@ const errorMessages = {
     parameter: {
       name: "Parameter name must be filled",
       description: "Parameter description must be filled",
+      payload: "Parameter payload must be filled",
     },
   },
 };
@@ -21,6 +22,10 @@ const CommandParameterSchema = z.object({
   id: z.string(),
   name: z.string().min(1, errorMessages.command.parameter.name),
   description: z.string().min(1, errorMessages.command.parameter.description),
+  payload: z
+    .string()
+    .min(1, errorMessages.command.parameter.payload)
+    .optional(),
 });
 
 const CommandOptionSchema = z.object({

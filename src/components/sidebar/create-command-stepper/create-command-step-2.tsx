@@ -24,9 +24,8 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { v4 as generateUuidV4 } from "uuid";
 import { type MouseEvent, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, generateDefaultValues } from "@/lib/utils";
 
 const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();
@@ -35,11 +34,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
   const form = useForm<z.infer<typeof CommandParameterSchema>>({
     resolver: zodResolver(CommandParameterSchema),
-    defaultValues: {
-      id: generateUuidV4(),
-      name: "",
-      description: "",
-    },
+    defaultValues: generateDefaultValues.commandParameter(),
   });
 
   const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
@@ -57,20 +52,29 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
           id,
           name,
           description,
+          payload: `[${name}]`,
         },
       ],
     });
 
-    form.reset({
-      id: generateUuidV4(),
-      name: "",
-      description: "",
-    });
+    form.reset(generateDefaultValues.commandParameter());
+  };
+
+  const handleParameterClick = (parameter: CommandParameter) => {
+    if (selectedParameter?.id === parameter.id) {
+      setSelectedParameter(null);
+      form.reset(generateDefaultValues.commandParameter());
+    } else {
+      setSelectedParameter(parameter);
+      form.setValue("id", parameter.id);
+      form.setValue("name", parameter.name);
+      form.setValue("description", parameter.description);
+    }
   };
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    id: string
   ) => {
     e.stopPropagation();
 
@@ -80,36 +84,18 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
     setDraftCommand({
       ...draftCommand,
-      parameters: draftCommand.parameters?.filter((item) => item.id !== id),
+      parameters: draftCommand.parameters?.filter(
+        (parameter) => parameter.id !== id
+      ),
     });
 
     if (selectedParameter?.id === id) {
       setSelectedParameter(null);
-      form.reset({
-        id: generateUuidV4(),
-        name: "",
-        description: "",
-      });
+      form.reset(generateDefaultValues.commandParameter());
     }
   };
 
-  const handleParameterClick = (parameter: CommandParameter) => {
-    if (selectedParameter?.id === parameter.id) {
-      setSelectedParameter(null);
-      form.reset({
-        id: generateUuidV4(),
-        name: "",
-        description: "",
-      });
-    } else {
-      setSelectedParameter(parameter);
-      form.setValue("name", parameter.name);
-      form.setValue("description", parameter.description);
-      form.setValue("id", parameter.id);
-    }
-  };
-
-  const aParameterIsSelected = selectedParameter !== null;
+  const isParameterSelected = selectedParameter !== null;
 
   return (
     <Form {...form}>
@@ -119,7 +105,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
         className="flex w-full max-w-2xl flex-col justify-between gap-y-4"
       >
         <div className="flex w-full gap-x-8">
-          <div className="flex w-full flex-col justify-between gap-y-2">
+          <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
                 control={form.control}
@@ -134,7 +120,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        readOnly={aParameterIsSelected}
+                        readOnly={isParameterSelected}
                         placeholder="Connection string"
                         {...field}
                         className="w-full"
@@ -156,7 +142,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        readOnly={aParameterIsSelected}
+                        readOnly={isParameterSelected}
                         placeholder="Connection string with format: user@host"
                         {...field}
                         className="w-full"
@@ -167,37 +153,39 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit" disabled={aParameterIsSelected}>
+            <Button type="submit" disabled={isParameterSelected}>
               <PlusCircleIcon className="mr-2 size-4" /> Add parameter
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Parameters (Click to see contents)</div>
+            <h1 className="font-medium text-sm">
+              Parameters (Click to see contents)
+            </h1>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 {draftCommand?.parameters &&
                 draftCommand?.parameters?.length !== 0 ? (
-                  draftCommand?.parameters?.map((item) => (
+                  draftCommand?.parameters?.map((parameter) => (
                     <Card
-                      key={item.id}
-                      onClick={() => handleParameterClick(item)}
+                      key={parameter.id}
+                      onClick={() => handleParameterClick(parameter)}
                       className={cn(
-                        "flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                        selectedParameter?.id === item.id &&
-                          "border-2 border-primary",
+                        "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
+                        selectedParameter?.id === parameter.id &&
+                          "inner-border-2 inner-border-primary"
                       )}
                     >
-                      {item.name}
+                      {parameter.name}
                       <XIcon
                         onClick={(e) => {
-                          handleRemoveParameterClick(e, item.id);
+                          handleRemoveParameterClick(e, parameter.id);
                         }}
                         className="size-4"
                       />
                     </Card>
                   ))
                 ) : (
-                  <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm">
+                  <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
                     No parameters added
                     <RabbitIcon className="size-4" />
                   </Card>
@@ -208,9 +196,9 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
         </div>
         <div className="flex items-center gap-x-4 self-end">
           <Button
+            type="button"
             variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               prev();
             }}
           >

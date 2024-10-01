@@ -12,7 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CommandParameterSchema } from "@/types/command";
+import {
+  type CommandOption,
+  type CommandParameter,
+  CommandParameterSchema,
+} from "@/types/command";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -24,24 +28,106 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { CreateCommandOptionsCombobox } from "@/components/sidebar/create-command-stepper/create-command-options-combobox";
-import { useState } from "react";
+import { type MouseEvent, useState } from "react";
+import { cn, generateDefaultValues } from "@/lib/utils";
+import { useCommandStore } from "@/hooks/use-command-store";
 
 const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
+  const { draftCommand, setDraftCommand } = useCommandStore();
+  const [selectedParameter, setSelectedParameter] =
+    useState<CommandParameter | null>(null);
+
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const createCommandOptionsComboboxProps = { open, setOpen, value, setValue };
+  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
+    null
+  );
+  const createCommandOptionsComboboxProps = {
+    open,
+    setOpen,
+    selectedOption,
+    setSelectedOption,
+  };
 
   const form = useForm<z.infer<typeof CommandParameterSchema>>({
     resolver: zodResolver(CommandParameterSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
+    defaultValues: generateDefaultValues.commandParameter(),
   });
 
+  /* 
+    Get the index of the selected option
+    Note: option index can be 0 so we need to check for not found and undefined
+  */
+  const optionIndex = draftCommand?.options?.findIndex(
+    (option) => option.id === selectedOption?.id
+  );
+
   const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
-    next();
+    if (!draftCommand) {
+      return;
+    }
+
+    const { id, name, description } = values;
+
+    if (optionIndex === -1 && optionIndex === undefined) {
+      return;
+    }
+
+    setDraftCommand((draft) => {
+      if (!draft?.options || optionIndex === undefined || optionIndex === -1) {
+        return;
+      }
+
+      const newParameter = { id, name, description, payload: `[${name}]` };
+
+      if (draft.options[optionIndex].parameters) {
+        draft.options[optionIndex].parameters.push(newParameter);
+      } else {
+        draft.options[optionIndex].parameters = [newParameter];
+      }
+    });
+
+    form.reset(generateDefaultValues.commandParameter());
   };
+
+  const handleParameterClick = (parameter: CommandParameter) => {
+    if (selectedParameter?.id === parameter.id) {
+      setSelectedParameter(null);
+      form.reset(generateDefaultValues.commandParameter());
+    } else {
+      setSelectedParameter(parameter);
+      form.setValue("id", parameter.id);
+      form.setValue("name", parameter.name);
+      form.setValue("description", parameter.description);
+    }
+  };
+
+  const handleRemoveParameterClick = (
+    e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
+    id: string
+  ) => {
+    e.stopPropagation();
+
+    if (!draftCommand) {
+      return;
+    }
+
+    setDraftCommand((draft) => {
+      if (!draft?.options || optionIndex === undefined || optionIndex === -1) {
+        return draft;
+      }
+
+      draft.options[optionIndex].parameters = draft.options[
+        optionIndex
+      ].parameters?.filter((parameter) => parameter.id !== id);
+    });
+
+    if (selectedParameter?.id === id) {
+      setSelectedParameter(null);
+      form.reset(generateDefaultValues.commandParameter());
+    }
+  };
+
+  const isParameterSelected = selectedParameter !== null;
 
   return (
     <Form {...form}>
@@ -54,7 +140,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
           <div className="flex w-full flex-col justify-between gap-y-2">
             <div className="flex w-full flex-col gap-y-2">
               <div className="flex w-full flex-col gap-y-4">
-                <div className="text-sm">Option</div>
+                <h1 className="font-medium text-sm">Option</h1>
                 <CreateCommandOptionsCombobox
                   {...createCommandOptionsComboboxProps}
                 />
@@ -71,6 +157,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
+                        readOnly={isParameterSelected}
                         placeholder="Connection string"
                         {...field}
                         className="w-full"
@@ -92,6 +179,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
+                        readOnly={isParameterSelected}
                         placeholder="Connection string with format: user@host"
                         {...field}
                         className="w-full"
@@ -102,43 +190,67 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button>
+            <Button type="submit" disabled={isParameterSelected}>
               <PlusCircleIcon className="mr-2 size-4" /> Add parameter
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
-            <div className="text-sm">Parameters (Click to see contents)</div>
+            <h1 className="font-medium text-sm">
+              Parameters (Click to see contents)
+            </h1>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                <Card className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground">
-                  No parameters added
-                  <RabbitIcon className="size-4" />
-                </Card>
-                {["Username", "Host", "Port"].map((item) => (
-                  <Card
-                    key={item}
-                    className="flex cursor-pointer items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground"
-                  >
-                    {item}
-                    <XIcon className="size-4" />
+                {optionIndex !== undefined &&
+                draftCommand?.options &&
+                draftCommand?.options[optionIndex]?.parameters?.length !== 0 ? (
+                  draftCommand?.options[optionIndex]?.parameters?.map(
+                    (parameter) => (
+                      <Card
+                        key={parameter.id}
+                        onClick={() => handleParameterClick(parameter)}
+                        className={cn(
+                          "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
+                          selectedParameter?.id === parameter.id &&
+                            "inner-border-2 inner-border-primary"
+                        )}
+                      >
+                        {parameter.name}
+                        <XIcon
+                          onClick={(e) => {
+                            handleRemoveParameterClick(e, parameter.id);
+                          }}
+                          className="size-4"
+                        />
+                      </Card>
+                    )
+                  )
+                ) : (
+                  <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
+                    No parameters added
+                    <RabbitIcon className="size-4" />
                   </Card>
-                ))}
+                )}
               </div>
             </ScrollArea>
           </div>
         </div>
         <div className="flex items-center gap-x-4 self-end">
           <Button
+            type="button"
             variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               prev();
             }}
           >
             <ArrowLeftIcon className="mr-2 size-4" />
             Previous
           </Button>
-          <Button type="submit">
+          <Button
+            type="button"
+            onClick={() => {
+              next();
+            }}
+          >
             Next
             <ArrowRightIcon className="ml-2 size-4" />
           </Button>

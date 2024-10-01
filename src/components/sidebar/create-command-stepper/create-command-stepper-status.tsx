@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useCommandStore } from "@/hooks/use-command-store";
 import { cn } from "@/lib/utils";
 import type { Step, Stepper } from "@stepperize/react";
+import { toast } from "sonner";
 
 export interface CreateCommandStepperStatusProps {
   stepper: Stepper<Step[]>;
@@ -10,6 +12,18 @@ export interface CreateCommandStepperStatusProps {
 const CreateCommandStepperStatus = ({
   stepper,
 }: CreateCommandStepperStatusProps) => {
+  const { draftCommand } = useCommandStore();
+
+  const handleStepClick = (step: Step) => {
+    // TODO: Add validation for required fields
+    if (!draftCommand) {
+      toast.error("Please fill out the required fields first.");
+      return;
+    }
+
+    stepper.goTo(step.id);
+  };
+
   return (
     <Card className="flex flex-col justify-center gap-y-2 rounded-md p-8">
       {stepper.all.map((step, index) => (
@@ -18,13 +32,13 @@ const CreateCommandStepperStatus = ({
             {/* TODO: Add onKeyUp to complement onClick event */}
             {/* biome-ignore lint/a11y/useKeyWithClickEvents: I have no idea what to put here to be honest - MY23-1  */}
             <div
-              onClick={() => stepper.goTo(step.id)}
+              onClick={() => handleStepClick(step)}
               className={cn(
                 "flex size-8 min-h-8 min-w-8 flex-col items-center justify-center rounded-full border text-xs",
                 stepper.current.id === step.id &&
                   "border-none bg-primary font-black text-primary-foreground",
                 stepper.current.id !== step.id &&
-                  "cursor-pointer hover:ring-2 hover:ring-primary",
+                  "cursor-pointer hover:ring-2 hover:ring-primary"
               )}
             >
               {step.title}
