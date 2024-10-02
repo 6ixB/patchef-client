@@ -56,7 +56,7 @@ const CommandListItemInfoDialog = ({
             <p className="text-sm">{command.description}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2">
+        <div className="flex w-full max-w-full flex-col gap-y-2">
           <p className="text-muted-foreground text-sm">Command Preview</p>
           <Code codeMarkdown={commandCodeMarkdown} />
         </div>

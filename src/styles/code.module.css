@@ -26,8 +26,7 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   width: 2.25rem;
 }
 
-span[data-line] {
-  display: flex;
-  flex-wrap: wrap;
-  padding-right: 2.75rem;
+span[data-line] > span {
+  white-space: break-spaces;
+  word-break: break-word;
 }
