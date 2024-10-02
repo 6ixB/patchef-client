@@ -24,6 +24,7 @@ const ModeToggle = () => {
       <DropdownMenuContent align="end">
         {["Light", "Dark", "System"].map((mode) => (
           <DropdownMenuItem
+            key={mode.toLowerCase()}
             onClick={() => setTheme(mode.toLowerCase() as Theme)}
             className="flex items-center justify-between"
           >

@@ -256,7 +256,7 @@ export const commands: Command[] = [
         id: "21",
         name: "Source file path",
         description: "The path to the source file",
-        payload: "[Source path]",
+        payload: "[Source file path]",
       },
       {
         id: "22",

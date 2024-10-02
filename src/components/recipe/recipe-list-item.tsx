@@ -10,6 +10,7 @@ import { RecipeListItemPreviewButton } from "@/components/recipe/recipe-list-ite
 import { useMemo } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export interface RecipeListItemProps {
   command: Command;
@@ -47,7 +48,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="h-28 select-none rounded-sm bg-gray-200 dark:bg-gray-800"
+        className="h-20 select-none rounded-sm bg-gray-200 dark:bg-gray-800"
       />
     );
   }
@@ -59,7 +60,8 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       className="flex select-none items-center justify-between rounded-sm px-4"
     >
       <div className="flex items-center">
-        <div className="flex min-h-8 min-w-8 items-center justify-center rounded border shadow">
+        {/* Represents the Line Number */}
+        <div className="flex h-8 w-8 items-center justify-center rounded border shadow">
           {index + 1}
         </div>
         <div>
@@ -70,7 +72,6 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
             </div>
           </CardHeader>
           <CardContent className="space-y-2 pb-4">
-            <p>{command.description}</p>
             <div className="flex flex-wrap items-center gap-2">
               <Badge
                 variant="destructive"
@@ -89,13 +90,14 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         <RecipeListItemFillParamsButton />
         <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
-        <div
+        <Button
           {...attributes}
           {...listeners}
-          className="flex cursor-grab items-center justify-center rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
+          variant="ghost"
+          className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
         >
           <GripVerticalIcon className="size-4" />
-        </div>
+        </Button>
       </div>
     </Card>
   );
