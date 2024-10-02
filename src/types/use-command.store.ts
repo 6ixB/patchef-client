@@ -55,6 +55,12 @@ interface CommandState {
   updateSourceCommandId: (id: string, newId: string) => void;
 
   /* 
+      Usage: remove source command is a function that removes a command from the source commands.
+      This function is used to remove a command from the sidebar.
+  */
+  removeSourceCommand: (id: string) => void;
+
+  /* 
       Usage: append destination command is a function that appends a command to the destination commands.
       This function is used to add a command to the recipe area's dropzone.
     */

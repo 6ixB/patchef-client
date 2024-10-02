@@ -1,7 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Command } from "@/types/command";
 import { Button } from "@/components/ui/button";
-import { BoltIcon, CommandIcon, TrashIcon } from "lucide-react";
+import { BoltIcon, CommandIcon } from "lucide-react";
+import { RemoveSourceCommandButton } from "@/components/sidebar/command-data-table/remove-source-command-button";
 
 const columns: ColumnDef<Command>[] = [
   {
@@ -24,15 +25,15 @@ const columns: ColumnDef<Command>[] = [
   },
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
+      const command = row.original;
+
       return (
         <div className="flex w-full justify-end gap-x-2">
           <Button variant="outline" size="icon">
             <BoltIcon className="size-4" />
           </Button>
-          <Button variant="outline" size="icon">
-            <TrashIcon className="size-4" />
-          </Button>
+          <RemoveSourceCommandButton command={command} />
         </div>
       );
     },

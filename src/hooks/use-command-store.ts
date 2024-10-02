@@ -71,6 +71,18 @@ export const useCommandStore = create<CommandState>()(
       });
     },
 
+    removeSourceCommand: (id) => {
+      set((state) => {
+        const index = state.sourceCommands.findIndex(
+          (command) => command.id === id
+        );
+
+        if (index !== -1) {
+          state.sourceCommands.splice(index, 1);
+        }
+      });
+    },
+
     appendDestinationCommand: (command) => {
       set((state) => {
         state.destinationCommands.push(command);
