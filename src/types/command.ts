@@ -36,6 +36,7 @@ const CommandOptionSchema = z.object({
   parameterRequired: z.boolean(),
   delimiter: z.string().optional(),
   parameters: z.array(CommandParameterSchema).optional(),
+  enabled: z.boolean(),
 });
 
 const CommandSchema = z.object({

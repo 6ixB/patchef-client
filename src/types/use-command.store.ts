@@ -13,6 +13,7 @@ interface CommandState {
       These commands are used when the user clears the search input.
     */
   initialSourceCommands: Command[];
+  setInitialSourceCommands: (commands: Command[]) => void;
 
   /* 
       Usage: source commands are the commands that are displayed in the sidebar.

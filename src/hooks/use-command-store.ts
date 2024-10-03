@@ -16,6 +16,10 @@ import { generateCommandString } from "@/lib/utils";
 export const useCommandStore = create<CommandState>()(
   immer((set) => ({
     initialSourceCommands: commands,
+    setInitialSourceCommands: (commands) =>
+      set((state) => {
+        state.initialSourceCommands = commands;
+      }),
 
     sourceCommands: commands,
     setSourceCommands: (commands) =>

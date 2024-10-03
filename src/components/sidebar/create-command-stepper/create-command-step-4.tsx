@@ -77,7 +77,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
         return;
       }
 
-      const newParameter = { id, name, description, payload: `[${name}]` };
+      const newParameter = { id, name, description, payload: `[${name}]` }; // Placeholder payload as default value
 
       if (draft.options[optionIndex].parameters) {
         draft.options[optionIndex].parameters.push(newParameter);

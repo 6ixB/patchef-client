@@ -74,7 +74,7 @@ const CommandListItemInfoDialog = ({
               This command needs the following parameters to work
             </p>
             <div className="mt-2 flex flex-col gap-y-2">
-              {command.parameters?.length !== 0 ? (
+              {command.parameters && command.parameters.length !== 0 ? (
                 command.parameters?.map((parameter) => (
                   <div
                     key={parameter.id}
@@ -108,7 +108,7 @@ const CommandListItemInfoDialog = ({
               This command has the following options
             </p>
             <div className="mt-2 flex flex-col gap-y-2">
-              {command.options?.length !== 0 ? (
+              {command.options && command.options.length !== 0 ? (
                 command.options?.map((option) => (
                   <div
                     key={option.id}
@@ -130,7 +130,7 @@ const CommandListItemInfoDialog = ({
                           {option.parameters?.map((parameter) => (
                             <div
                               key={parameter.id}
-                              className="rounded border bg-muted p-4"
+                              className="rounded border bg-gray-50 p-4 dark:bg-muted"
                             >
                               <div className="flex flex-col gap-y-2">
                                 <div className="flex items-center justify-between">

@@ -22,7 +22,7 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
   return (
     <Card
       ref={setNodeRef}
-      className="flex select-none items-center justify-between rounded-sm ps-4 pe-2 pt-4 pb-4 transition-all"
+      className="flex items-center justify-between rounded-sm ps-4 pe-2 pt-4 pb-4"
     >
       <div className="flex items-center gap-x-2">
         <CommandIcon className="size-4" />

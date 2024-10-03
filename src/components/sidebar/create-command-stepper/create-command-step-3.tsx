@@ -52,8 +52,15 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
       return;
     }
 
-    const { id, name, description, payload, parameterRequired, delimiter } =
-      values;
+    const {
+      id,
+      name,
+      description,
+      payload,
+      parameterRequired,
+      delimiter,
+      enabled,
+    } = values;
 
     setDraftCommand({
       ...draftCommand,
@@ -66,6 +73,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
           payload,
           parameterRequired,
           delimiter,
+          enabled,
         },
       ],
     });
@@ -98,10 +106,22 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
       return;
     }
 
-    setDraftCommand({
-      ...draftCommand,
-      options: draftCommand.options?.filter((option) => option.id !== id),
-    });
+    const filteredOptions = draftCommand.options?.filter(
+      (option) => option.id !== id
+    );
+
+    // If there are no options left, remove the options key from the draft command
+    if (filteredOptions?.length === 0) {
+      setDraftCommand({
+        ...draftCommand,
+        options: undefined,
+      });
+    } else {
+      setDraftCommand({
+        ...draftCommand,
+        options: filteredOptions,
+      });
+    }
 
     if (selectedOption?.id === id) {
       setSelectedOption(null);

@@ -52,7 +52,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
           id,
           name,
           description,
-          payload: `[${name}]`,
+          payload: `[${name}]`, // Placeholder payload as default value
         },
       ],
     });
@@ -82,12 +82,22 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
       return;
     }
 
-    setDraftCommand({
-      ...draftCommand,
-      parameters: draftCommand.parameters?.filter(
-        (parameter) => parameter.id !== id
-      ),
-    });
+    const filteredParameters = draftCommand.parameters?.filter(
+      (parameter) => parameter.id !== id
+    );
+
+    // If there are no parameters left, remove the parameters key from the draft command
+    if (filteredParameters?.length === 0) {
+      setDraftCommand({
+        ...draftCommand,
+        parameters: undefined,
+      });
+    } else {
+      setDraftCommand({
+        ...draftCommand,
+        parameters: filteredParameters,
+      });
+    }
 
     if (selectedParameter?.id === id) {
       setSelectedParameter(null);

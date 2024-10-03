@@ -59,6 +59,7 @@ export const commands: Command[] = [
         payload: "-r",
         parameterRequired: false,
         parameters: [],
+        enabled: false,
       },
     ],
     parameters: [
@@ -99,6 +100,7 @@ export const commands: Command[] = [
         parameterRequired: false,
         delimiter: " ",
         parameters: [],
+        enabled: false,
       },
     ],
     parameters: [
@@ -249,6 +251,7 @@ export const commands: Command[] = [
             payload: "[Port number]",
           },
         ],
+        enabled: false,
       },
     ],
     parameters: [
@@ -280,6 +283,7 @@ export const commands: Command[] = [
         payload: "-y",
         parameterRequired: false,
         parameters: [],
+        enabled: false,
       },
       {
         id: "24",
@@ -296,6 +300,7 @@ export const commands: Command[] = [
             payload: "[Destination path]",
           },
         ],
+        enabled: false,
       },
     ],
     parameters: [

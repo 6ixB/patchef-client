@@ -21,6 +21,8 @@ function formatParameters(parameters: CommandParameter[]): string {
 /* 
   Usage: this function is used to generate a command string
 */
+
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is fine as is - MY23-1
 function generateCommandString(command: Command): string {
   let commandString = command.payload;
 
@@ -33,6 +35,10 @@ function generateCommandString(command: Command): string {
 
   if (command.options && command.options.length > 0) {
     for (const option of command.options) {
+      if (!option.enabled) {
+        continue;
+      }
+
       commandString += `${option.payload}`;
 
       const delimiter = option.delimiter !== undefined ? option.delimiter : " ";
@@ -96,6 +102,7 @@ const generateDefaultValues = {
     payload: "",
     parameterRequired: false,
     delimiter: " ", // Default delimiter is space
+    enabled: false,
   }),
 };
 
