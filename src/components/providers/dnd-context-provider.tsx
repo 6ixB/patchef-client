@@ -3,6 +3,9 @@ import {
   type DragStartEvent,
   DndContext,
   DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { createPortal } from "react-dom";
 import { CommandListItem } from "@/components/commands/command-list-item";
@@ -23,6 +26,18 @@ export interface IdPair {
 }
 
 const DndContextProvider = ({ children }: DndContextProviderProps) => {
+  /* 
+    This sets up how far the pointer should move before the dragging starts. This is to prevent
+    accidental drags when the user is trying to click on a command to edit it.
+  */
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
   const {
     destinationCommands,
     activeSourceCommand,
@@ -249,6 +264,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
 
   return (
     <DndContext
+      sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
