@@ -11,6 +11,7 @@ export default defineConfig({
   },
   source: {
     alias: {
+      "~": ".",
       "@": "./src",
     },
   },

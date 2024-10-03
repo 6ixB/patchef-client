@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Geist Mono";
+  src: url("~/node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2");
+  font-weight: 100 900;
+}
+
 code[data-line-numbers] {
   counter-reset: line;
 }
@@ -29,4 +35,6 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 span[data-line] > span {
   white-space: break-spaces;
   word-break: break-word;
+  font-family: "Geist Mono", monospace;
+  font-size: 14px;
 }

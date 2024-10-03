@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Geist Sans";
+  src: url("~/node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2");
+  font-weight: 100 900;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,5 +72,6 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Geist Sans", sans-serif;
   }
 }
