@@ -1,7 +1,5 @@
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
-// biome-ignore lint/correctness/noNodejsModules: This part of the code is not executed in the browser - MY23-1
-import path from "node:path";
 
 export default defineConfig({
   html: {
@@ -13,7 +11,7 @@ export default defineConfig({
   },
   source: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": "./src",
     },
   },
   server: {
