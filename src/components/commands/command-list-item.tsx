@@ -4,6 +4,12 @@ import { useDraggable } from "@dnd-kit/core";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import { CommandIcon, GripVerticalIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CommandListItemInfoDialog } from "@/components/commands/command-list-item-info-dialog";
 
 export interface CommandListItemProps {
@@ -30,14 +36,23 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
       </div>
       <div className="flex items-center">
         <CommandListItemInfoDialog command={command} />
-        <Button
-          {...attributes}
-          {...listeners}
-          variant="ghost"
-          className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
-        >
-          <GripVerticalIcon className="size-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild={true}>
+              <Button
+                {...attributes}
+                {...listeners}
+                variant="ghost"
+                className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
+              >
+                <GripVerticalIcon className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Hold and drag this command to the recipe area!</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </Card>
   );

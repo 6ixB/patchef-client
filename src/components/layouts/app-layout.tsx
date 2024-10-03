@@ -4,11 +4,11 @@ import { Sidebar } from "@/components/sidebar/sidebar";
 import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 
-export interface LayoutProps {
+export interface AppLayoutProps {
   children: ReactNode;
 }
 
-const AppLayout = ({ children }: LayoutProps) => {
+const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <Providers>
       <div className="flex h-dvh w-full flex-col scroll-smooth bg-background">

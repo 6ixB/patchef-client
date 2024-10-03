@@ -23,7 +23,7 @@ const RecipeDropZone = () => {
       className={cn(
         "h-full w-full overflow-y-hidden bg-gray-100 ps-8 dark:bg-[#171823]",
         isEmpty &&
-          "flex flex-col items-center justify-center rounded-sm text-muted-foreground text-sm",
+          "flex flex-col items-center justify-center rounded-sm text-muted-foreground text-sm"
       )}
     >
       {isEmpty &&

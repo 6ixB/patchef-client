@@ -11,6 +11,12 @@ import { useMemo } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface RecipeListItemProps {
   command: Command;
@@ -90,14 +96,23 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         <RecipeListItemFillParamsButton />
         <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
-        <Button
-          {...attributes}
-          {...listeners}
-          variant="ghost"
-          className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
-        >
-          <GripVerticalIcon className="size-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild={true}>
+              <Button
+                {...attributes}
+                {...listeners}
+                variant="ghost"
+                className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
+              >
+                <GripVerticalIcon className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Hold and drag to rearrange the command in the recipe!</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </Card>
   );
