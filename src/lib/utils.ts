@@ -109,8 +109,8 @@ const generateDefaultValues = {
 /* 
   Usage: this function is used to check if all required option parameters are filled
 */
-function checkAllRequiredOptionParametersAreFilled(command: Command) {
-  if (!command.options) {
+function checkAllRequiredOptionParametersAreFilled(command: Command | null) {
+  if (!command?.options) {
     return false;
   }
 
@@ -122,6 +122,8 @@ function checkAllRequiredOptionParametersAreFilled(command: Command) {
       return false;
     }
   }
+
+  console.info("All required option parameters are filled");
 
   return true;
 }

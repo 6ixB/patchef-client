@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { cn } from "@/lib/utils";
+import { checkAllRequiredOptionParametersAreFilled, cn } from "@/lib/utils";
 import type { Step, Stepper } from "@stepperize/react";
 import { toast } from "sonner";
 
@@ -15,10 +15,24 @@ const CreateCommandStepperStatus = ({
   const { draftCommand } = useCommandStore();
 
   const handleStepClick = (step: Step) => {
-    // TODO: Add validation for required fields
+    // Check if the draft command is empty
     if (!draftCommand) {
       toast.error("Please fill out the required fields first.");
       return;
+    }
+
+    // Check if the current step is less than the clicked step
+    if (stepper.current.id.localeCompare(step.id) < 0) {
+      // Check if the current step is step-4 and all required option parameters are filled
+      if (
+        stepper.current.id === "step-4" &&
+        !checkAllRequiredOptionParametersAreFilled(draftCommand)
+      ) {
+        toast.error(
+          "Please fill out the required fields for the current step first."
+        );
+        return;
+      }
     }
 
     stepper.goTo(step.id);
