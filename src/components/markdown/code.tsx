@@ -25,6 +25,8 @@ const Code = ({ codeMarkdown }: CodeProps) => {
           .matches
           ? "dark"
           : "light";
+      } else {
+        selectedTheme = theme;
       }
 
       const html = await unified()
