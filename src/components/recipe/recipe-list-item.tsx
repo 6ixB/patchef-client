@@ -109,7 +109,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Hold and drag to rearrange the command in the recipe!</p>
+              <p>Hold and drag this command!</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

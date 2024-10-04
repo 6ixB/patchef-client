@@ -49,7 +49,7 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Hold and drag this command to the recipe area!</p>
+              <p>Hold and drag this command!</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
