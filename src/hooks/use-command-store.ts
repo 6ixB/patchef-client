@@ -28,9 +28,13 @@ export const useCommandStore = create<CommandState>()(
       }),
 
     destinationCommands: [],
-    setDestinationCommands: (commands) =>
+    setDestinationCommands: (value) =>
       set((state) => {
-        state.destinationCommands = commands;
+        if (typeof value === "function") {
+          state.destinationCommands = produce(state.destinationCommands, value);
+        } else {
+          state.destinationCommands = value;
+        }
       }),
 
     activeSourceCommand: null,

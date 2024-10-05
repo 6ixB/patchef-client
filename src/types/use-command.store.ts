@@ -27,7 +27,9 @@ interface CommandState {
       These commands are the ones that will be executed in the final batch script.
     */
   destinationCommands: Command[];
-  setDestinationCommands: (commands: Command[]) => void;
+  setDestinationCommands: (
+    value: ((draft: Command[]) => void) | Command[]
+  ) => void;
 
   /* 
       Usage: active source command is the command that is currently being dragged.

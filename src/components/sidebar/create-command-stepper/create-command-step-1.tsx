@@ -46,7 +46,6 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     e.preventDefault();
-    console.debug("Cancel button clicked");
     form.reset();
     setDraftCommand(null);
     setManageState(ManageState.View);

@@ -12,9 +12,13 @@ import { RecipeListItemFillParamsDialogContent } from "@/components/recipe/recip
 
 export interface RecipeListItemFillParamsButtonProps {
   command: Command;
+  commandIndex: number;
 }
 
-const RecipeListItemFillParamsButton = () => {
+const RecipeListItemFillParamsButton = ({
+  command,
+  commandIndex,
+}: RecipeListItemFillParamsButtonProps) => {
   return (
     <Dialog>
       <TooltipProvider>
@@ -31,7 +35,10 @@ const RecipeListItemFillParamsButton = () => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <RecipeListItemFillParamsDialogContent />
+      <RecipeListItemFillParamsDialogContent
+        command={command}
+        commandIndex={commandIndex}
+      />
     </Dialog>
   );
 };

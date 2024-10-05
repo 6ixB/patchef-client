@@ -1,4 +1,4 @@
-import type { Command, CommandParameter } from "@/types/command";
+import type { Command, CommandOption, CommandParameter } from "@/types/command";
 import type { CommandPreview } from "@/types/command-preview";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -33,6 +33,7 @@ function generateCommandString(command: Command): string {
 
   commandString += " ";
 
+  // TODO: Fix options directly after another option with multiple parameters not having a space between them
   if (command.options && command.options.length > 0) {
     for (const option of command.options) {
       if (!option.enabled) {
@@ -107,11 +108,52 @@ const generateDefaultValues = {
 };
 
 /* 
-  Usage: this function is used to check if all required option parameters are filled
+  Usage: this function is used to check if all required parameters are filled
 */
-function checkAllRequiredOptionParametersAreFilled(command: Command | null) {
+function checkAllRequiredParametersAreFilled(command: Command) {
+  if (!command.parameters) {
+    return;
+  }
+
+  for (const parameter of command.parameters) {
+    if (!parameter.payload || parameter.payload === `[${parameter.name}]`) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/* 
+  Usage: this function is used to check if all enabled option parameters are filled
+*/
+function checkAllEnabledOptionsParametersAreFilled(command: Command) {
+  if (!command.options || command.options.length === 0) {
+    return true;
+  }
+
+  for (const option of command.options) {
+    if (!(option.enabled && option.parameters)) {
+      continue;
+    }
+
+    for (const parameter of option.parameters) {
+      if (!parameter.payload || parameter.payload === `[${parameter.name}]`) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+/* 
+  Usage: this function is used to check if all required option parameters are filled
+  when CREATING a new command
+*/
+function checkAllFillableOptionParametersAreFilled(command: Command | null) {
   if (!command?.options) {
-    return false;
+    return true;
   }
 
   for (const option of command.options) {
@@ -123,9 +165,38 @@ function checkAllRequiredOptionParametersAreFilled(command: Command | null) {
     }
   }
 
-  console.info("All required option parameters are filled");
+  return true;
+}
+
+/* 
+  Usage: this function is used to check if all required option parameters are filled
+  when USING a command
+*/
+function checkAllRequiredOptionParametersAreFilled(
+  option: CommandOption | undefined
+) {
+  if (!option?.parameters) {
+    return true;
+  }
+
+  for (const parameter of option.parameters) {
+    if (!parameter.payload || parameter.payload === `[${parameter.name}]`) {
+      return false;
+    }
+  }
 
   return true;
+}
+
+/* 
+  Usage: this function is used to format option parameters
+*/
+function formatOptionParameters(parameters: CommandParameter[] | undefined) {
+  if (!parameters) {
+    return "";
+  }
+
+  return parameters.map((param) => param.payload).join(", ");
 }
 
 /* 
@@ -157,7 +228,11 @@ export {
   formatParameters,
   generateCommandString,
   generateDefaultValues,
+  checkAllRequiredParametersAreFilled,
+  checkAllEnabledOptionsParametersAreFilled,
+  checkAllFillableOptionParametersAreFilled,
   checkAllRequiredOptionParametersAreFilled,
+  formatOptionParameters,
   generateCodeMarkdown,
   generateScriptPayload,
   copyDraftCommand,

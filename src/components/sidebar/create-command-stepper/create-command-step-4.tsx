@@ -30,7 +30,7 @@ import { Card } from "@/components/ui/card";
 import { CreateCommandOptionsCombobox } from "@/components/sidebar/create-command-stepper/create-command-options-combobox";
 import { type MouseEvent, useState } from "react";
 import {
-  checkAllRequiredOptionParametersAreFilled,
+  checkAllFillableOptionParametersAreFilled,
   cn,
   generateDefaultValues,
 } from "@/lib/utils";
@@ -254,7 +254,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
             type="button"
             onClick={() => {
               // Check if all required option parameters are filled
-              if (!checkAllRequiredOptionParametersAreFilled(draftCommand)) {
+              if (!checkAllFillableOptionParametersAreFilled(draftCommand)) {
                 toast.error(
                   "Please fill out all required parameters for each option."
                 );

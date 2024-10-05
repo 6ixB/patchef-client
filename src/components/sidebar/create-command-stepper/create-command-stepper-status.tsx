@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { checkAllRequiredOptionParametersAreFilled, cn } from "@/lib/utils";
+import { checkAllFillableOptionParametersAreFilled, cn } from "@/lib/utils";
 import type { Step, Stepper } from "@stepperize/react";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ const CreateCommandStepperStatus = ({
       // Check if the current step is step-4 and all required option parameters are filled
       if (
         stepper.current.id === "step-4" &&
-        !checkAllRequiredOptionParametersAreFilled(draftCommand)
+        !checkAllFillableOptionParametersAreFilled(draftCommand)
       ) {
         toast.error(
           "Please fill out the required fields for the current step first."

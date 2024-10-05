@@ -40,7 +40,7 @@ const Code = ({ codeMarkdown }: CodeProps) => {
               : "github-light-default",
           transformers: [
             transformerCopyButton({
-              visibility: "hover",
+              visibility: "always",
               feedbackDuration: 3_000,
             }),
           ],

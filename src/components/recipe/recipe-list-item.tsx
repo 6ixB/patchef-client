@@ -17,6 +17,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  checkAllEnabledOptionsParametersAreFilled,
+  checkAllRequiredOptionParametersAreFilled,
+  checkAllRequiredParametersAreFilled,
+  formatOptionParameters,
+} from "@/lib/utils";
 
 export interface RecipeListItemProps {
   command: Command;
@@ -59,6 +65,16 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
     );
   }
 
+  const isParametersAreFilled = checkAllRequiredParametersAreFilled(command);
+  const isEnabledOptionParametersAreFilled =
+    checkAllEnabledOptionsParametersAreFilled(command);
+
+  const isNotParametersFilled =
+    (command.parameters &&
+      command.parameters.length !== 0 &&
+      !isParametersAreFilled) ||
+    !isEnabledOptionParametersAreFilled;
+
   return (
     <Card
       ref={setNodeRef}
@@ -67,7 +83,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
     >
       <div className="flex items-center">
         {/* Represents the Line Number */}
-        <div className="flex h-8 w-8 items-center justify-center rounded border shadow">
+        <div className="flex h-8 w-8 items-center justify-center rounded border text-xs shadow">
           {index + 1}
         </div>
         <div>
@@ -79,21 +95,50 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           </CardHeader>
           <CardContent className="space-y-2 pb-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge
-                variant="destructive"
-                className="flex items-center gap-x-1"
-              >
-                <TriangleAlertIcon className="size-3 fill-orange-400 text-foreground dark:fill-orange-600" />
-                Parameters and options not yet filled!
-              </Badge>
-              <Badge>Destination: /home/javiix/hello-world</Badge>
-              <Badge>Verbose: False</Badge>
+              {isNotParametersFilled && (
+                <Badge
+                  variant="destructive"
+                  className="flex items-center gap-x-1"
+                >
+                  <TriangleAlertIcon className="size-3 fill-orange-400 text-foreground dark:fill-orange-600" />
+                  Parameters not yet filled!
+                </Badge>
+              )}
+              {command.parameters &&
+                command.parameters.length !== 0 &&
+                command.parameters?.map(
+                  (parameter) =>
+                    parameter.payload &&
+                    parameter.payload !== `[${parameter.name}]` && (
+                      <Badge key={parameter.id}>
+                        {parameter.name}: {parameter.payload}
+                      </Badge>
+                    )
+                )}
+              {command.options &&
+                command.options.length !== 0 &&
+                command.options?.map(
+                  (option) =>
+                    option.payload &&
+                    checkAllRequiredOptionParametersAreFilled(option) &&
+                    option.enabled && (
+                      <Badge key={option.id}>
+                        {option.name}:&nbsp;
+                        {option.parameterRequired
+                          ? formatOptionParameters(option.parameters)
+                          : "True"}
+                      </Badge>
+                    )
+                )}
             </div>
           </CardContent>
         </div>
       </div>
       <div className="flex items-center gap-x-2">
-        <RecipeListItemFillParamsButton />
+        <RecipeListItemFillParamsButton
+          command={command}
+          commandIndex={index}
+        />
         <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
         <TooltipProvider>

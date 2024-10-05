@@ -17,25 +17,28 @@ import {
 import { Input } from "@/components/ui/input";
 import type { Command as CommandType, CommandParameter } from "@/types/command";
 import { useState, type ChangeEvent } from "react";
+import { useCommandStore } from "@/hooks/use-command-store";
 
-export interface CreateCommandParametersComboboxProps {
-  draftCommandCopy: CommandType | null;
-  setDraftCommandCopy: (command: CommandType | null) => void;
+export interface RecipeListItemCommandParametersComboboxProps {
+  command: CommandType;
+  commandIndex: number;
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedParameter: CommandParameter | null;
   setSelectedParameter: (parameter: CommandParameter | null) => void;
 }
 
-const CreateCommandParametersCombobox = ({
-  draftCommandCopy,
-  setDraftCommandCopy,
+const RecipeListItemParametersCombobox = ({
+  command,
+  commandIndex,
   open,
   setOpen,
   selectedParameter,
   setSelectedParameter,
-}: CreateCommandParametersComboboxProps) => {
-  const initialParameterIndex = draftCommandCopy?.parameters?.findIndex(
+}: RecipeListItemCommandParametersComboboxProps) => {
+  const { setDestinationCommands } = useCommandStore();
+
+  const initialParameterIndex = command.parameters?.findIndex(
     (parameter) => parameter.id === selectedParameter?.id
   );
 
@@ -43,33 +46,35 @@ const CreateCommandParametersCombobox = ({
 
   const parameterPayload =
     parameterIndex !== undefined && parameterIndex !== -1
-      ? draftCommandCopy?.parameters?.[parameterIndex]?.payload
+      ? command.parameters?.[parameterIndex]?.payload
       : "";
 
   const handleParameterPayloadOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     if (
-      !draftCommandCopy?.parameters ||
+      !command.parameters ||
       parameterIndex === -1 ||
       parameterIndex === undefined
     ) {
       return;
     }
 
-    const modifiedCommandParameters = [...draftCommandCopy.parameters];
+    const modifiedCommandParameters = [...command.parameters];
 
     modifiedCommandParameters[parameterIndex] = {
       ...modifiedCommandParameters[parameterIndex],
       payload: value,
     };
 
-    const modifiedDraftCommand: CommandType = {
-      ...draftCommandCopy,
+    const modifiedCommand: CommandType = {
+      ...command,
       parameters: [...modifiedCommandParameters],
     };
 
-    setDraftCommandCopy(modifiedDraftCommand);
+    setDestinationCommands((draft) => {
+      draft[commandIndex] = modifiedCommand;
+    });
   };
 
   return (
@@ -83,20 +88,20 @@ const CreateCommandParametersCombobox = ({
             className="w-[16rem] justify-between"
           >
             {selectedParameter
-              ? draftCommandCopy?.parameters?.find(
+              ? command.parameters?.find(
                   (parameter) => parameter.id === selectedParameter.id
                 )?.name
               : "Select parameter..."}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[11.5rem] p-0">
+        <PopoverContent className="w-[12.5rem] p-0">
           <Command>
             <CommandInput placeholder="Search parameter..." />
             <CommandList>
               <CommandEmpty>No parameter found.</CommandEmpty>
               <CommandGroup>
-                {draftCommandCopy?.parameters?.map((parameter) => (
+                {command.parameters?.map((parameter) => (
                   <CommandItem
                     key={parameter.id}
                     value={parameter.id}
@@ -107,10 +112,9 @@ const CreateCommandParametersCombobox = ({
                           : parameter
                       );
 
-                      const newParameterIndex =
-                        draftCommandCopy?.parameters?.findIndex(
-                          (parameter) => parameter.id === currentParameterId
-                        );
+                      const newParameterIndex = command.parameters?.findIndex(
+                        (parameter) => parameter.id === currentParameterId
+                      );
 
                       setParameterIndex(newParameterIndex);
 
@@ -145,4 +149,4 @@ const CreateCommandParametersCombobox = ({
   );
 };
 
-export { CreateCommandParametersCombobox };
+export { RecipeListItemParametersCombobox };

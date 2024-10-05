@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   motion,
   useTransform,
@@ -16,24 +15,28 @@ export const AnimatedTooltip = ({
     name: string;
     designation: string;
     image: string;
+    githubProfileUrl: string;
   }[];
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
-  const x = useMotionValue(0); // going to set this value on mouse move
-  // rotate the tooltip
+  const x = useMotionValue(0); // Set this value on mouse move
+
+  //Rotate the tooltip
   const rotate = useSpring(
     useTransform(x, [-100, 100], [-45, 45]),
     springConfig
   );
-  // translate the tooltip
+
+  // Translate the tooltip
   const translateX = useSpring(
     useTransform(x, [-100, 100], [-50, 50]),
     springConfig
   );
+
   const handleMouseMove = (event: any) => {
     const halfWidth = event.target.offsetWidth / 2;
-    x.set(event.nativeEvent.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
+    x.set(event.nativeEvent.offsetX - halfWidth); // Set the x value, which is then used in transform and rotate
   };
 
   return (
@@ -76,14 +79,20 @@ export const AnimatedTooltip = ({
               </motion.div>
             )}
           </AnimatePresence>
-          <img
-            onMouseMove={handleMouseMove}
-            height={100}
-            width={100} 
-            src={item.image}
-            alt={item.name}
-            className="object-cover !m-0 !p-0 object-top rounded-full h-8 w-8 border-2 group-hover:scale-105 group-hover:z-0 border-white  relative transition duration-500"
-          />
+          <a
+            href={item.githubProfileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              onMouseMove={handleMouseMove}
+              height={100}
+              width={100}
+              src={item.image}
+              alt={item.name}
+              className="cursor-pointer object-cover !m-0 !p-0 object-top rounded-full h-8 w-8 border-2 group-hover:scale-110 group-hover:z-0 border-primary relative transition duration-500"
+            />
+          </a>
         </div>
       ))}
     </>

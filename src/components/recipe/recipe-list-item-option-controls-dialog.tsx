@@ -11,19 +11,21 @@ import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { Command } from "@/types/command";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import type { DraftFunction } from "use-immer";
 import { Input } from "@/components/ui/input";
 import type { ChangeEvent } from "react";
+import { useCommandStore } from "@/hooks/use-command-store";
 
-export interface CreateCommandOptionsPlaygroundDialogProps {
-  draftCommandCopy: Command | null;
-  setDraftCommandCopy: (draftFunction: DraftFunction<Command | null>) => void;
+export interface RecipeListItemOptionControlsDialogProps {
+  command: Command;
+  commandIndex: number;
 }
 
-const CreateCommandOptionsPlaygroundDialog = ({
-  draftCommandCopy,
-  setDraftCommandCopy,
-}: CreateCommandOptionsPlaygroundDialogProps) => {
+const RecipeListItemOptionControlsDialog = ({
+  command,
+  commandIndex,
+}: RecipeListItemOptionControlsDialogProps) => {
+  const { setDestinationCommands } = useCommandStore();
+
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
@@ -31,19 +33,21 @@ const CreateCommandOptionsPlaygroundDialog = ({
   ) => {
     const value = e.target.value;
 
-    setDraftCommandCopy((draft) => {
-      if (!draft?.options?.[optionIndex].parameters) {
+    setDestinationCommands((draft) => {
+      if (!draft?.[commandIndex].options?.[optionIndex].parameters) {
         return draft;
       }
 
-      draft.options[optionIndex].parameters[parameterIndex].payload = value;
+      draft[commandIndex].options[optionIndex].parameters[
+        parameterIndex
+      ].payload = value;
     });
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild={true}>
-        <Button variant="outline" className="w-[11.75rem]">
+        <Button variant="outline" className="w-[12.5rem]">
           <BoltIcon className="mr-2 size-4" />
           Configure options
         </Button>
@@ -60,9 +64,8 @@ const CreateCommandOptionsPlaygroundDialog = ({
             This command has the following options
           </p>
           <div className="mt-2 flex flex-col gap-y-2">
-            {draftCommandCopy?.options &&
-            draftCommandCopy.options.length !== 0 ? (
-              draftCommandCopy.options?.map((option, optionIndex) => (
+            {command?.options && command.options.length !== 0 ? (
+              command.options?.map((option, optionIndex) => (
                 <div
                   key={option.id}
                   className="flex flex-col gap-y-2 rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
@@ -77,13 +80,23 @@ const CreateCommandOptionsPlaygroundDialog = ({
                       <Switch
                         checked={option.enabled}
                         onCheckedChange={() => {
-                          setDraftCommandCopy((draft: Command | null) => {
-                            if (!draft?.options) {
+                          setDestinationCommands((draft) => {
+                            const commandIndex = draft.findIndex(
+                              (c) => c.id === command.id
+                            );
+
+                            if (
+                              commandIndex === -1 ||
+                              !draft[commandIndex].options
+                            ) {
                               return draft;
                             }
 
-                            draft.options[optionIndex].enabled =
-                              !option.enabled;
+                            const previousValue =
+                              draft[commandIndex].options[optionIndex].enabled;
+
+                            draft[commandIndex].options[optionIndex].enabled =
+                              !previousValue;
                           });
                         }}
                       />
@@ -147,4 +160,4 @@ const CreateCommandOptionsPlaygroundDialog = ({
   );
 };
 
-export { CreateCommandOptionsPlaygroundDialog };
+export { RecipeListItemOptionControlsDialog };
