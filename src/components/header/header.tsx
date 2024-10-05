@@ -1,6 +1,8 @@
 import { SquareTerminalIcon } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Badge } from "@/components/ui/badge";
+import { AnimatedTooltip } from "../ui/animated-tooltip";
+import { contributorList } from "./contributor-list";
 
 const Header = () => {
   return (
@@ -14,7 +16,10 @@ const Header = () => {
         </div>
         <Badge>Build version 1.0.0-dev</Badge>
       </div>
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center gap-x-8">
+        <div className="flex items-center gap-x-2">
+          <AnimatedTooltip items={contributorList()} />
+        </div>
         <ModeToggle />
       </div>
     </header>
