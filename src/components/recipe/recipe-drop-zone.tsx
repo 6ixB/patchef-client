@@ -22,21 +22,23 @@ const RecipeDropZone = () => {
       ref={setNodeRef}
       className={cn(
         "h-full w-full overflow-y-hidden bg-gray-100 ps-8 dark:bg-[#171823]",
-        isEmpty &&
-          "flex flex-col items-center justify-center rounded-sm text-muted-foreground text-sm"
       )}
     >
       {isEmpty &&
         (isDragging ? (
-          <div className="flex flex-col items-center justify-center">
-            <ArrowDownToLineIcon className="size-4" />
-            <p>Drop here</p>
+          <div className="flex h-full w-full flex-col items-center justify-center py-4 pe-8">
+            <div className="flex h-full w-full flex-col items-center justify-center rounded-md bg-gray-200 text-muted-foreground text-sm dark:bg-gray-800">
+              <ArrowDownToLineIcon className="size-4" />
+              <p>Drop here</p>
+            </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center">
-            <CookingPotIcon className="size-4" />
-            <p>Let us cook!</p>
-            <p>Drag and drop your commands here</p>
+          <div className="flex h-full w-full flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-muted-foreground text-sm">
+              <CookingPotIcon className="size-4" />
+              <p>Let us cook!</p>
+              <p>Drag and drop your commands here</p>
+            </div>
           </div>
         ))}
       <RecipeList />

@@ -106,13 +106,13 @@ export const commands: Command[] = [
     parameters: [
       {
         id: "7",
-        name: "Source file or directory path",
+        name: "Source path",
         description: "The source file or directory",
         payload: "[Source path]",
       },
       {
         id: "8",
-        name: "Destination file or directory path",
+        name: "Destination path",
         description: "The destination file or directory",
         payload: "[Destination path]",
       },

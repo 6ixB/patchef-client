@@ -5,6 +5,7 @@ import { SquareTerminalIcon, TrashIcon } from "lucide-react";
 import { ClearAlertDialogContent } from "@/components/recipe/clear-alert-dialog-content";
 import { PreviewRecipeDialogContent } from "@/components/recipe/preview-recipe-dialog-content";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 const RecipeAreaControls = () => {
   const { destinationCommands, setCommandPreviews } = useCommandStore();
@@ -15,7 +16,14 @@ const RecipeAreaControls = () => {
     <div className="flex items-center gap-x-2">
       <AlertDialog>
         <AlertDialogTrigger asChild={true}>
-          <Button disabled={isEmpty} variant="outline">
+          <Button
+            disabled={isEmpty}
+            variant="outline"
+            className={cn(
+              "transition-opacity duration-200",
+              isEmpty ? "!opacity-0" : "opacity-100",
+            )}
+          >
             <TrashIcon className="mr-2 size-4" />
             Clear
           </Button>
@@ -24,7 +32,14 @@ const RecipeAreaControls = () => {
       </AlertDialog>
       <Dialog>
         <DialogTrigger asChild={true}>
-          <Button disabled={isEmpty} onClick={setCommandPreviews}>
+          <Button
+            disabled={isEmpty}
+            onClick={setCommandPreviews}
+            className={cn(
+              "transition-opacity duration-200",
+              isEmpty ? "!opacity-0" : "opacity-100",
+            )}
+          >
             <SquareTerminalIcon className="mr-2 size-4" />
             Preview
           </Button>
