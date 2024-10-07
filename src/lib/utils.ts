@@ -31,25 +31,22 @@ function generateCommandString(command: Command): string {
     commandString += ` ${params}`;
   }
 
-  commandString += " ";
-
-  // TODO: Fix options directly after another option with multiple parameters not having a space between them
   if (command.options && command.options.length > 0) {
     for (const option of command.options) {
       if (!option.enabled) {
         continue;
       }
 
-      commandString += `${option.payload}`;
-
-      const delimiter = option.delimiter !== undefined ? option.delimiter : " ";
-      commandString += delimiter;
-
+      commandString += ` ${option.payload}`;
+      
       if (
         option.parameterRequired &&
         option.parameters &&
         option.parameters.length > 0
       ) {
+        const delimiter = option.delimiter !== undefined ? option.delimiter : " ";
+        commandString += delimiter;
+
         const optionParams = formatParameters(option.parameters);
         commandString += optionParams;
       }
@@ -196,7 +193,7 @@ function formatOptionParameters(parameters: CommandParameter[] | undefined) {
     return "";
   }
 
-  return parameters.map((param) => param.payload).join(", ");
+  return parameters.map((param) => `(${param.name}: ${param.payload})`).join(", ");
 }
 
 /* 
