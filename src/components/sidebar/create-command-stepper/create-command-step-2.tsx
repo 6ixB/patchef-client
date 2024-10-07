@@ -44,18 +44,40 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
     const { id, name, description } = values;
 
-    setDraftCommand({
-      ...draftCommand,
-      parameters: [
-        ...(draftCommand.parameters ?? []),
-        {
-          id,
-          name,
-          description,
-          payload: `[${name}]`, // Placeholder payload as default value
-        },
-      ],
-    });
+    if (selectedParameter) {
+      const updatedParameters = draftCommand.parameters?.map((parameter) => {
+        if (parameter.id === selectedParameter.id) {
+          return {
+            ...parameter,
+            id,
+            name,
+            description,
+          };
+        }
+
+        return parameter;
+      });
+
+      setDraftCommand({
+        ...draftCommand,
+        parameters: updatedParameters,
+      });
+
+      setSelectedParameter(null);
+    } else {
+      setDraftCommand({
+        ...draftCommand,
+        parameters: [
+          ...(draftCommand.parameters ?? []),
+          {
+            id,
+            name,
+            description,
+            payload: `[${name}]`, // Placeholder payload as default value
+          },
+        ],
+      });
+    }
 
     form.reset(generateDefaultValues.commandParameter());
   };
@@ -74,7 +96,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string
+    id: string,
   ) => {
     e.stopPropagation();
 
@@ -83,7 +105,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const filteredParameters = draftCommand.parameters?.filter(
-      (parameter) => parameter.id !== id
+      (parameter) => parameter.id !== id,
     );
 
     // If there are no parameters left, remove the parameters key from the draft command
@@ -130,7 +152,6 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        readOnly={isParameterSelected}
                         placeholder="Connection string"
                         {...field}
                         className="w-full"
@@ -152,7 +173,6 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        readOnly={isParameterSelected}
                         placeholder="Connection string with format: user@host"
                         {...field}
                         className="w-full"
@@ -163,8 +183,9 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isParameterSelected}>
-              <PlusCircleIcon className="mr-2 size-4" /> Add parameter
+            <Button type="submit">
+              <PlusCircleIcon className="mr-2 size-4" />
+              &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
@@ -182,7 +203,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                         selectedParameter?.id === parameter.id &&
-                          "inner-border-2 inner-border-primary"
+                          "inner-border-2 inner-border-primary",
                       )}
                     >
                       {parameter.name}

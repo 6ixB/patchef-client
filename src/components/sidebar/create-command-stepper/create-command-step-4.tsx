@@ -44,7 +44,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null
+    null,
   );
   const createCommandOptionsComboboxProps = {
     open,
@@ -63,7 +63,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     Note: option index can be 0 so we need to check for not found and undefined
   */
   const optionIndex = draftCommand?.options?.findIndex(
-    (option) => option.id === selectedOption?.id
+    (option) => option.id === selectedOption?.id,
   );
 
   const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
@@ -73,23 +73,58 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
     const { id, name, description } = values;
 
-    if (optionIndex === -1 && optionIndex === undefined) {
+    if (optionIndex === -1 || optionIndex === undefined) {
       return;
     }
 
-    setDraftCommand((draft) => {
-      if (!draft?.options || optionIndex === undefined || optionIndex === -1) {
-        return;
-      }
+    if (selectedParameter) {
+      const updatedParameters = draftCommand.options?.[
+        optionIndex
+      ]?.parameters?.map((parameter) => {
+        if (parameter.id === selectedParameter.id) {
+          return {
+            ...parameter,
+            id,
+            name,
+            description,
+          };
+        }
 
-      const newParameter = { id, name, description, payload: `[${name}]` }; // Placeholder payload as default value
+        return parameter;
+      });
 
-      if (draft.options[optionIndex].parameters) {
-        draft.options[optionIndex].parameters.push(newParameter);
-      } else {
-        draft.options[optionIndex].parameters = [newParameter];
-      }
-    });
+      setDraftCommand((draft) => {
+        if (
+          !draft?.options ||
+          optionIndex === undefined ||
+          optionIndex === -1
+        ) {
+          return draft;
+        }
+
+        draft.options[optionIndex].parameters = updatedParameters;
+      });
+
+      setSelectedParameter(null);
+    } else {
+      setDraftCommand((draft) => {
+        if (
+          !draft?.options ||
+          optionIndex === undefined ||
+          optionIndex === -1
+        ) {
+          return;
+        }
+
+        const newParameter = { id, name, description, payload: `[${name}]` }; // Placeholder payload as default value
+
+        if (draft.options[optionIndex].parameters) {
+          draft.options[optionIndex].parameters.push(newParameter);
+        } else {
+          draft.options[optionIndex].parameters = [newParameter];
+        }
+      });
+    }
 
     form.reset(generateDefaultValues.commandParameter());
   };
@@ -108,7 +143,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string
+    id: string,
   ) => {
     e.stopPropagation();
 
@@ -162,7 +197,6 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        readOnly={isParameterSelected}
                         placeholder="Connection string"
                         {...field}
                         className="w-full"
@@ -184,7 +218,6 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        readOnly={isParameterSelected}
                         placeholder="Connection string with format: user@host"
                         {...field}
                         className="w-full"
@@ -195,8 +228,9 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isParameterSelected}>
-              <PlusCircleIcon className="mr-2 size-4" /> Add parameter
+            <Button type="submit">
+              <PlusCircleIcon className="mr-2 size-4" />
+              &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
@@ -216,7 +250,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                         className={cn(
                           "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                           selectedParameter?.id === parameter.id &&
-                            "inner-border-2 inner-border-primary"
+                            "inner-border-2 inner-border-primary",
                         )}
                       >
                         {parameter.name}
@@ -227,7 +261,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                           className="size-4"
                         />
                       </Card>
-                    )
+                    ),
                   )
                 ) : (
                   <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
@@ -256,7 +290,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
               // Check if all required option parameters are filled
               if (!checkAllFillableOptionParametersAreFilled(draftCommand)) {
                 toast.error(
-                  "Please fill out all required parameters for each option."
+                  "Please fill out all required parameters for each option.",
                 );
                 return;
               }

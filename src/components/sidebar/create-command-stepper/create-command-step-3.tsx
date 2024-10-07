@@ -39,7 +39,7 @@ import { type MouseEvent, useState } from "react";
 const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();
   const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null
+    null,
   );
 
   const form = useForm<z.infer<typeof CommandOptionSchema>>({
@@ -62,21 +62,47 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
       enabled,
     } = values;
 
-    setDraftCommand({
-      ...draftCommand,
-      options: [
-        ...(draftCommand.options ?? []),
-        {
-          id,
-          name,
-          description,
-          payload,
-          parameterRequired,
-          delimiter,
-          enabled,
-        },
-      ],
-    });
+    if (selectedOption) {
+      const updatedOptions = draftCommand.options?.map((option) => {
+        if (option.id === selectedOption.id) {
+          return {
+            ...option,
+            id,
+            name,
+            description,
+            payload,
+            parameterRequired,
+            delimiter,
+            enabled,
+          };
+        }
+
+        return option;
+      });
+
+      setDraftCommand({
+        ...draftCommand,
+        options: updatedOptions,
+      });
+
+      setSelectedOption(null);
+    } else {
+      setDraftCommand({
+        ...draftCommand,
+        options: [
+          ...(draftCommand.options ?? []),
+          {
+            id,
+            name,
+            description,
+            payload,
+            parameterRequired,
+            delimiter,
+            enabled,
+          },
+        ],
+      });
+    }
 
     form.reset(generateDefaultValues.commandOption());
   };
@@ -98,7 +124,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveOptionClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string
+    id: string,
   ) => {
     e.stopPropagation();
 
@@ -107,7 +133,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const filteredOptions = draftCommand.options?.filter(
-      (option) => option.id !== id
+      (option) => option.id !== id,
     );
 
     // If there are no options left, remove the options key from the draft command
@@ -154,7 +180,6 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        readOnly={isOptionSelected}
                         placeholder="Silent mode"
                         {...field}
                         className="w-full"
@@ -176,7 +201,6 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        readOnly={isOptionSelected}
                         placeholder="Run the command in silent mode"
                         {...field}
                         className="w-full"
@@ -199,7 +223,6 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder="/s"
-                        readOnly={isOptionSelected}
                         {...field}
                         className="w-full"
                       />
@@ -222,7 +245,6 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Switch
                         name="parameterRequired"
-                        disabled={isOptionSelected}
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
@@ -245,7 +267,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                         onValueChange={(value) => {
                           form.setValue(
                             "delimiter",
-                            value === "none" ? "" : value
+                            value === "none" ? "" : value,
                           );
                         }}
                         defaultValue={field.value}
@@ -268,15 +290,16 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 />
               )}
             </div>
-            <Button type="submit" disabled={isOptionSelected}>
-              <PlusCircleIcon className="mr-2 size-4" /> Add option
+            <Button type="submit">
+              <PlusCircleIcon className="mr-2 size-4" />
+              &nbsp;{isOptionSelected ? "Update" : "Add"} option
             </Button>
           </div>
           <div className="flex w-[36rem] flex-col gap-y-4">
             <h1 className="font-medium text-sm">
               Options (Click to see contents)
             </h1>
-            <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
+            <ScrollArea className="h-[25.25rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 {draftCommand?.options && draftCommand.options.length !== 0 ? (
                   draftCommand.options.map((option) => (
@@ -286,7 +309,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                         selectedOption?.id === option.id &&
-                          "inner-border-2 inner-border-primary"
+                          "inner-border-2 inner-border-primary",
                       )}
                     >
                       {option.name}
