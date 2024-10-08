@@ -3,7 +3,7 @@ import { ArrowDownToLineIcon, CookingPotIcon } from "lucide-react";
 import { useDroppable } from "@dnd-kit/core";
 import { DndContextEventDataType, DndContextNodeId } from "@/types/dnd-context";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { RecipeList } from "@/components/recipe/recipe-list";
+import { RecipeList } from "@/components/recipe/item/recipe-list";
 
 const RecipeDropZone = () => {
   const { destinationCommands, isDragging } = useCommandStore();

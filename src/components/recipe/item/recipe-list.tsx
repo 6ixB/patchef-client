@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { SortableContext } from "@dnd-kit/sortable";
 import { useMemo } from "react";
-import { RecipeListItem } from "@/components/recipe/recipe-list-item";
+import { RecipeListItem } from "@/components/recipe/item/recipe-list-item";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RecipeList = () => {

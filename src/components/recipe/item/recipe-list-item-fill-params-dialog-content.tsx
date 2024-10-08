@@ -5,9 +5,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { Command, CommandParameter } from "@/types/command";
-import { RecipeListItemParametersCombobox } from "@/components/recipe/recipe-list-item-parameters-combobox";
+import { RecipeListItemParametersCombobox } from "@/components/recipe/item/recipe-list-item-parameters-combobox";
 import { useState } from "react";
-import { RecipeListItemOptionControlsDialog } from "@/components/recipe/recipe-list-item-option-controls-dialog";
+import { RecipeListItemOptionControlsDialog } from "@/components/recipe/item/recipe-list-item-option-controls-dialog";
 
 export interface RecipeListItemFillParamsDialogContentProps {
   command: Command;

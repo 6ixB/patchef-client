@@ -14,13 +14,13 @@ import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
 import { Code } from "@/components/markdown/code";
 import { Badge } from "@/components/ui/badge";
 
-export interface CommandListItemInfoDialogProps {
+export interface CommandListItemInfoButtonProps {
   command: Command;
 }
 
-const CommandListItemInfoDialog = ({
+const CommandListItemInfoButton = ({
   command,
-}: CommandListItemInfoDialogProps) => {
+}: CommandListItemInfoButtonProps) => {
   const commandString = generateCommandString(command);
   const commandCodeMarkdown = generateCodeMarkdown({
     codePayload: commandString,
@@ -32,6 +32,7 @@ const CommandListItemInfoDialog = ({
       <DialogTrigger asChild={true}>
         <Button
           variant="ghost"
+          size="icon"
           className="cursor-pointer rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
         >
           <InfoIcon className="size-4" />
@@ -168,4 +169,4 @@ const CommandListItemInfoDialog = ({
   );
 };
 
-export { CommandListItemInfoDialog };
+export { CommandListItemInfoButton };

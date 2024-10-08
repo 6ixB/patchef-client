@@ -157,12 +157,6 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
 
   const isOptionSelected = selectedOption !== null;
 
-  console.info(
-    `'${selectedOption?.delimiter}'`,
-    !!selectedOption?.delimiter === false &&
-      selectedOption?.delimiter !== undefined,
-  );
-
   return (
     <Form {...form}>
       <form

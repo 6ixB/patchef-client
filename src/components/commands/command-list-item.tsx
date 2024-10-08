@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { useDraggable } from "@dnd-kit/core";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import { CommandIcon } from "lucide-react";
-import { CommandListItemInfoDialog } from "@/components/commands/command-list-item-info-dialog";
+import { CommandListItemInfoButton } from "@/components/commands/command-list-item-info-button";
 
 export interface CommandListItemProps {
   command: Command;
@@ -29,9 +29,7 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
         <CommandIcon className="size-4" />
         <CardTitle className="text-sm">{command.name}</CardTitle>
       </div>
-      <div className="flex items-center">
-        <CommandListItemInfoDialog command={command} />
-      </div>
+      <CommandListItemInfoButton command={command} />
     </Card>
   );
 };

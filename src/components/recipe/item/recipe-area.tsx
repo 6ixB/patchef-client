@@ -1,5 +1,5 @@
-import { RecipeAreaHeader } from "@/components/recipe/recipe-area-header";
-import { RecipeDropZone } from "@/components/recipe/recipe-drop-zone";
+import { RecipeAreaHeader } from "@/components/recipe/item/recipe-area-header";
+import { RecipeDropZone } from "@/components/recipe/item/recipe-drop-zone";
 
 const RecipeArea = () => {
   return (
