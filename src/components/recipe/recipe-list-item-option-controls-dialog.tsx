@@ -29,7 +29,7 @@ const RecipeListItemOptionControlsDialog = ({
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
-    parameterIndex: number
+    parameterIndex: number,
   ) => {
     const value = e.target.value;
 
@@ -47,7 +47,7 @@ const RecipeListItemOptionControlsDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild={true}>
-        <Button variant="outline" className="w-[12.5rem]">
+        <Button variant="outline" className="w-[11.5rem]">
           <BoltIcon className="mr-2 size-4" />
           Configure options
         </Button>
@@ -82,7 +82,7 @@ const RecipeListItemOptionControlsDialog = ({
                         onCheckedChange={() => {
                           setDestinationCommands((draft) => {
                             const commandIndex = draft.findIndex(
-                              (c) => c.id === command.id
+                              (c) => c.id === command.id,
                             );
 
                             if (
@@ -129,7 +129,7 @@ const RecipeListItemOptionControlsDialog = ({
                                     handleOptionParameterPayloadChange(
                                       e,
                                       optionIndex,
-                                      parameterIndex
+                                      parameterIndex,
                                     )
                                   }
                                   className="bg-gray-100 dark:bg-[#171823]"

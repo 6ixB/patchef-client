@@ -32,7 +32,7 @@ const RecipeListItemFillParamsDialogContent = ({
   };
 
   return (
-    <DialogContent className="w-full max-w-4xl">
+    <DialogContent className="w-full max-w-2xl">
       <DialogHeader>
         <DialogTitle>Fill parameters and options</DialogTitle>
         <DialogDescription>

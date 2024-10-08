@@ -19,13 +19,19 @@ const RecipeListItemFillParamsButton = ({
   command,
   commandIndex,
 }: RecipeListItemFillParamsButtonProps) => {
+  const hasNoParametersAndOptions = !(command.parameters || command.options);
+
   return (
     <Dialog>
       <TooltipProvider>
         <Tooltip>
           <DialogTrigger asChild={true}>
             <TooltipTrigger asChild={true}>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                size="icon"
+                disabled={hasNoParametersAndOptions}
+              >
                 <VariableIcon className="size-4" />
               </Button>
             </TooltipTrigger>

@@ -3,20 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { CommandIcon, GripVerticalIcon, TriangleAlertIcon } from "lucide-react";
+import { BadgeCheckIcon, CommandIcon, TriangleAlertIcon } from "lucide-react";
 import { RecipeListItemRemoveButton } from "@/components/recipe/recipe-list-item-remove-button";
 import { RecipeListItemFillParamsButton } from "@/components/recipe/recipe-list-item-fill-params-button";
 import { RecipeListItemPreviewButton } from "@/components/recipe/recipe-list-item-preview-button";
 import { useMemo } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   checkAllEnabledOptionsParametersAreFilled,
   checkAllRequiredOptionParametersAreFilled,
@@ -77,9 +70,11 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
 
   return (
     <Card
+      {...attributes}
+      {...listeners}
       ref={setNodeRef}
       style={style}
-      className="flex select-none items-center justify-between rounded-sm px-4"
+      className="flex cursor-grab select-none items-center justify-between rounded-sm px-4"
     >
       <div className="flex items-center">
         {/* Represents the Line Number */}
@@ -95,6 +90,14 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           </CardHeader>
           <CardContent className="space-y-2 pb-4">
             <div className="flex flex-wrap items-center gap-2">
+              {!(command.parameters && command.options) && (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-x-1"
+                >
+                  This command has no parameters or options
+                </Badge>
+              )}
               {isNotParametersFilled && (
                 <Badge
                   variant="destructive"
@@ -113,7 +116,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
                       <Badge key={parameter.id}>
                         {parameter.name}: {parameter.payload}
                       </Badge>
-                    )
+                    ),
                 )}
               {command.options &&
                 command.options.length !== 0 &&
@@ -128,7 +131,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
                           ? formatOptionParameters(option.parameters)
                           : "True"}
                       </Badge>
-                    )
+                    ),
                 )}
             </div>
           </CardContent>
@@ -141,23 +144,6 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
         />
         <RecipeListItemPreviewButton command={command} />
         <RecipeListItemRemoveButton command={command} />
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild={true}>
-              <Button
-                {...attributes}
-                {...listeners}
-                variant="ghost"
-                className="cursor-grab rounded p-2.5 hover:bg-gray-200 dark:hover:bg-gray-800"
-              >
-                <GripVerticalIcon className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Hold and drag this command!</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
       </div>
     </Card>
   );

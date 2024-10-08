@@ -39,7 +39,7 @@ const RecipeListItemParametersCombobox = ({
   const { setDestinationCommands } = useCommandStore();
 
   const initialParameterIndex = command.parameters?.findIndex(
-    (parameter) => parameter.id === selectedParameter?.id
+    (parameter) => parameter.id === selectedParameter?.id,
   );
 
   const [parameterIndex, setParameterIndex] = useState(initialParameterIndex);
@@ -89,13 +89,13 @@ const RecipeListItemParametersCombobox = ({
           >
             {selectedParameter
               ? command.parameters?.find(
-                  (parameter) => parameter.id === selectedParameter.id
+                  (parameter) => parameter.id === selectedParameter.id,
                 )?.name
               : "Select parameter..."}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[12.5rem] p-0">
+        <PopoverContent className="w-[11.5rem] p-0">
           <Command>
             <CommandInput placeholder="Search parameter..." />
             <CommandList>
@@ -109,11 +109,11 @@ const RecipeListItemParametersCombobox = ({
                       setSelectedParameter(
                         currentParameterId === selectedParameter?.id
                           ? null
-                          : parameter
+                          : parameter,
                       );
 
                       const newParameterIndex = command.parameters?.findIndex(
-                        (parameter) => parameter.id === currentParameterId
+                        (parameter) => parameter.id === currentParameterId,
                       );
 
                       setParameterIndex(newParameterIndex);
@@ -126,7 +126,7 @@ const RecipeListItemParametersCombobox = ({
                         "mr-2 h-4 w-4",
                         selectedParameter?.id === parameter.id
                           ? "opacity-100"
-                          : "opacity-0"
+                          : "opacity-0",
                       )}
                     />
                     {parameter.name}
