@@ -13,14 +13,18 @@ interface CommandState {
       These commands are used when the user clears the search input.
     */
   initialSourceCommands: Command[];
-  setInitialSourceCommands: (commands: Command[]) => void;
+  setInitialSourceCommands: (
+    value: ((draft: Command[]) => void) | Command[]
+  ) => void;
 
   /* 
       Usage: source commands are the commands that are displayed in the sidebar.
       These commands are the ones that can be dragged and dropped into the destination commands.
     */
   sourceCommands: Command[];
-  setSourceCommands: (commands: Command[]) => void;
+  setSourceCommands: (
+    value: ((draft: Command[]) => void) | Command[]
+  ) => void;
 
   /* 
       Usage: destination commands are the commands that are displayed in the recipe area's dropzone.

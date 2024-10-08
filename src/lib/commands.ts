@@ -228,8 +228,6 @@ export const commands: Command[] = [
     name: "pwd",
     description: "Prints the current working directory",
     payload: "pwd",
-    options: [],
-    parameters: [],
   },
   {
     id: "13",

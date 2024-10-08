@@ -11,6 +11,7 @@ import { useCommandStore } from "@/hooks/use-command-store";
 import type { Command } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
 import { CreateCommandStepper } from "@/components/sidebar/create-command-stepper/create-command-stepper";
+import { EditCommandStepper } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
 
 const renderHeader = (state: ManageState) => {
   const getTitle = () => {
@@ -77,12 +78,11 @@ const renderContent = (state: ManageState, sourceCommands: Command[]) => {
     case ManageState.View:
       return <CommandDataTable columns={columns} data={sourceCommands} />;
 
-    case ManageState.Edit:
-      // TODO: Implement edit command stepper
-      return null;
-
     case ManageState.Create:
       return <CreateCommandStepper />;
+
+    case ManageState.Edit:
+      return <EditCommandStepper />;
 
     default:
       return <div>Content: Something went wrong!</div>;

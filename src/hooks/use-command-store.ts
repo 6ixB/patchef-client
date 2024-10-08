@@ -1,6 +1,7 @@
 import { commands } from "@/lib/commands";
 import { ManageState, type CommandState } from "@/types/use-command.store";
 import { create } from "zustand";
+import { persist } from 'zustand/middleware';
 import { immer } from "zustand/middleware/immer";
 import { produce } from "immer";
 import { v4 as generateUuidV4 } from "uuid";
@@ -14,17 +15,25 @@ import { generateCommandString } from "@/lib/utils";
   Note: immer is used to enable the use of mutable updates in the set function.
 */
 export const useCommandStore = create<CommandState>()(
-  immer((set) => ({
+  persist(immer((set) => ({
     initialSourceCommands: commands,
-    setInitialSourceCommands: (commands) =>
+    setInitialSourceCommands: (value) =>
       set((state) => {
-        state.initialSourceCommands = commands;
+        if (typeof value === "function") {
+          state.initialSourceCommands = produce(state.initialSourceCommands, value);
+        } else {
+          state.initialSourceCommands = value;
+        }
       }),
 
     sourceCommands: commands,
-    setSourceCommands: (commands) =>
+    setSourceCommands: (value) =>
       set((state) => {
-        state.sourceCommands = commands;
+        if (typeof value === "function") {
+          state.sourceCommands = produce(state.sourceCommands, value);
+        } else {
+          state.sourceCommands = value;
+        }
       }),
 
     destinationCommands: [],
@@ -177,5 +186,30 @@ export const useCommandStore = create<CommandState>()(
           return commandPreview;
         });
       }),
-  }))
+  })),
+{
+  /* 
+    This stores the currently worked recipe (destination commands) to be
+    be stored in local storage, and when it is rehydrated (reloaded), to prevent
+    having the same id with any of the source commands, a new id is generated
+    for each destination command. - MY23-1
+  */
+  name: "command-store",
+  partialize: (state) => ({destinationCommands: state.destinationCommands}),
+  onRehydrateStorage: () => {
+    return (state, error) => {
+      if (state) {
+        state.destinationCommands = state.destinationCommands.map((command) => {
+          return {...command, id: generateUuidV4()};
+        })
+      }
+
+      if (error) {
+        console.error('an error happened during hydration', error);
+      } else {
+        console.info('hydration finished');
+      }
+    }
+  }
+})
 );
