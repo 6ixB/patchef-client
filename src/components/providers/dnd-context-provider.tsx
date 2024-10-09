@@ -6,6 +6,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  MeasuringStrategy,
 } from "@dnd-kit/core";
 import { createPortal } from "react-dom";
 import { CommandListItem } from "@/components/commands/command-list-item";
@@ -26,6 +27,12 @@ export interface IdPair {
 }
 
 const DndContextProvider = ({ children }: DndContextProviderProps) => {
+  const measuringConfig = {
+    droppable: {
+      strategy: MeasuringStrategy.Always,
+    },
+  };
+
   /* 
     This sets up how far the pointer should move before the dragging starts. This is to prevent
     accidental drags when the user is trying to click on a command to edit it.
@@ -264,6 +271,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
 
   return (
     <DndContext
+      measuring={measuringConfig}
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}

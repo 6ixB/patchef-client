@@ -1,7 +1,7 @@
 import type { Command } from "@/types/command";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DndContextEventDataType } from "@/types/dnd-context";
-import { useSortable } from "@dnd-kit/sortable";
+import { useSortable, defaultAnimateLayoutChanges } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CommandIcon, TriangleAlertIcon } from "lucide-react";
 import { RecipeListItemRemoveButton } from "@/components/recipe/item/recipe-list-item-remove-button";
@@ -16,6 +16,31 @@ import {
   checkAllRequiredParametersAreFilled,
   formatOptionParameters,
 } from "@/lib/utils";
+import type { Active, UniqueIdentifier } from "@dnd-kit/core";
+import type { SortableTransition } from "@dnd-kit/sortable/dist/hooks/types";
+
+function animateLayoutChanges(args: {
+  active: Active | null;
+  containerId: UniqueIdentifier;
+  isDragging: boolean;
+  isSorting: boolean;
+  id: UniqueIdentifier;
+  index: number;
+  items: UniqueIdentifier[];
+  previousItems: UniqueIdentifier[];
+  previousContainerId: UniqueIdentifier;
+  newIndex: number;
+  transition: SortableTransition | null;
+  wasDragging: boolean;
+}) {
+  const { isSorting, wasDragging } = args;
+
+  if (isSorting || wasDragging) {
+    return defaultAnimateLayoutChanges(args);
+  }
+
+  return true;
+}
 
 export interface RecipeListItemProps {
   command: Command;
@@ -36,6 +61,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
     transition,
     isDragging,
   } = useSortable({
+    animateLayoutChanges,
     id: command.id,
     data: {
       type: DndContextEventDataType.DestinationCommand,
