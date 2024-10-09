@@ -17,7 +17,7 @@ import {
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { CommandOption } from "@/types/command";
 
-export interface EditCommandOptionsComboboxProps {
+interface EditCommandOptionsComboboxProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedOption: CommandOption | null;
@@ -89,4 +89,4 @@ const EditCommandOptionsCombobox = ({
   );
 };
 
-export { EditCommandOptionsCombobox };
+export { type EditCommandOptionsComboboxProps, EditCommandOptionsCombobox };

@@ -11,7 +11,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { RecipeListItemPreviewDialogContent } from "@/components/recipe/item/recipe-list-item-preview-dialog-content";
 
-export interface RecipeListItemPreviewButtonProps {
+interface RecipeListItemPreviewButtonProps {
   command: Command;
 }
 
@@ -39,4 +39,4 @@ const RecipeListItemPreviewButton = ({
   );
 };
 
-export { RecipeListItemPreviewButton };
+export { type RecipeListItemPreviewButtonProps, RecipeListItemPreviewButton };

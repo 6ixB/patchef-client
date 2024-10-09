@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import type { Command as CommandType, CommandParameter } from "@/types/command";
 import { useState, type ChangeEvent } from "react";
 
-export interface CreateCommandParametersComboboxProps {
+interface CreateCommandParametersComboboxProps {
   draftCommandCopy: CommandType | null;
   setDraftCommandCopy: (command: CommandType | null) => void;
   open: boolean;
@@ -36,7 +36,7 @@ const CreateCommandParametersCombobox = ({
   setSelectedParameter,
 }: CreateCommandParametersComboboxProps) => {
   const initialParameterIndex = draftCommandCopy?.parameters?.findIndex(
-    (parameter) => parameter.id === selectedParameter?.id
+    (parameter) => parameter.id === selectedParameter?.id,
   );
 
   const [parameterIndex, setParameterIndex] = useState(initialParameterIndex);
@@ -84,7 +84,7 @@ const CreateCommandParametersCombobox = ({
           >
             {selectedParameter
               ? draftCommandCopy?.parameters?.find(
-                  (parameter) => parameter.id === selectedParameter.id
+                  (parameter) => parameter.id === selectedParameter.id,
                 )?.name
               : "Select parameter..."}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -104,12 +104,12 @@ const CreateCommandParametersCombobox = ({
                       setSelectedParameter(
                         currentParameterId === selectedParameter?.id
                           ? null
-                          : parameter
+                          : parameter,
                       );
 
                       const newParameterIndex =
                         draftCommandCopy?.parameters?.findIndex(
-                          (parameter) => parameter.id === currentParameterId
+                          (parameter) => parameter.id === currentParameterId,
                         );
 
                       setParameterIndex(newParameterIndex);
@@ -122,7 +122,7 @@ const CreateCommandParametersCombobox = ({
                         "mr-2 h-4 w-4",
                         selectedParameter?.id === parameter.id
                           ? "opacity-100"
-                          : "opacity-0"
+                          : "opacity-0",
                       )}
                     />
                     {parameter.name}
@@ -145,4 +145,7 @@ const CreateCommandParametersCombobox = ({
   );
 };
 
-export { CreateCommandParametersCombobox };
+export {
+  type CreateCommandParametersComboboxProps,
+  CreateCommandParametersCombobox,
+};

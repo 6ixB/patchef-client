@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import type { Command as CommandType, CommandParameter } from "@/types/command";
 import { useState, type ChangeEvent } from "react";
 
-export interface EditCommandParametersComboboxProps {
+interface EditCommandParametersComboboxProps {
   draftCommandCopy: CommandType | null;
   setDraftCommandCopy: (command: CommandType | null) => void;
   open: boolean;
@@ -145,4 +145,7 @@ const EditCommandParametersCombobox = ({
   );
 };
 
-export { EditCommandParametersCombobox };
+export {
+  type EditCommandParametersComboboxProps,
+  EditCommandParametersCombobox,
+};

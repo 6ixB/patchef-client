@@ -9,7 +9,7 @@ import { RecipeListItemParametersCombobox } from "@/components/recipe/item/recip
 import { useState } from "react";
 import { RecipeListItemOptionControlsDialog } from "@/components/recipe/item/recipe-list-item-option-controls-dialog";
 
-export interface RecipeListItemFillParamsDialogContentProps {
+interface RecipeListItemFillParamsDialogContentProps {
   command: Command;
   commandIndex: number;
 }
@@ -54,4 +54,7 @@ const RecipeListItemFillParamsDialogContent = ({
   );
 };
 
-export { RecipeListItemFillParamsDialogContent };
+export {
+  type RecipeListItemFillParamsDialogContentProps,
+  RecipeListItemFillParamsDialogContent,
+};

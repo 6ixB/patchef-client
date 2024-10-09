@@ -15,7 +15,7 @@ import type { Command } from "@/types/command";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
-export interface RemoveSourceCommandButtonProps {
+interface RemoveSourceCommandButtonProps {
   command: Command;
 }
 
@@ -55,4 +55,4 @@ const RemoveSourceCommandButton = ({
   );
 };
 
-export { RemoveSourceCommandButton };
+export { type RemoveSourceCommandButtonProps, RemoveSourceCommandButton };

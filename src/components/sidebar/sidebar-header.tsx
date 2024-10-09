@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import type { DraggableView } from "@/components/sidebar/sidebar";
 
-export interface SidebarHeaderProps {
+interface SidebarHeaderProps {
   draggableView: DraggableView;
   setDraggableView: (draggable: DraggableView) => void;
 }
@@ -50,4 +50,4 @@ const SidebarHeader = ({ setDraggableView }: SidebarHeaderProps) => {
   );
 };
 
-export { SidebarHeader };
+export { type SidebarHeaderProps, SidebarHeader };

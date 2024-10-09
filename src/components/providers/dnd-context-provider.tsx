@@ -17,11 +17,11 @@ import { v4 as generateUuidV4 } from "uuid";
 import { useImmer } from "use-immer";
 import { type ReactNode, useMemo } from "react";
 
-export interface DndContextProviderProps {
+interface DndContextProviderProps {
   children: ReactNode;
 }
 
-export interface IdPair {
+interface IdPair {
   initial: string | null;
   final: string | null;
 }
@@ -294,4 +294,4 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
   );
 };
 
-export { DndContextProvider };
+export { type DndContextProviderProps, type IdPair, DndContextProvider };

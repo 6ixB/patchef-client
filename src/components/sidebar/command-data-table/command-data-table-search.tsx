@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import type { Table } from "@tanstack/react-table";
 import { SearchIcon, XIcon } from "lucide-react";
 
-export interface CommandDataTableSearchProps<TData> {
+interface CommandDataTableSearchProps<TData> {
   table: Table<TData>;
 }
 
@@ -37,4 +37,4 @@ const CommandDataTableSearch = <TData,>({
   );
 };
 
-export { CommandDataTableSearch };
+export { type CommandDataTableSearchProps, CommandDataTableSearch };

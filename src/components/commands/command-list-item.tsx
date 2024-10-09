@@ -5,7 +5,7 @@ import { DndContextEventDataType } from "@/types/dnd-context";
 import { CommandIcon } from "lucide-react";
 import { CommandListItemInfoButton } from "@/components/commands/command-list-item-info-button";
 
-export interface CommandListItemProps {
+interface CommandListItemProps {
   command: Command;
 }
 
@@ -34,4 +34,4 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
   );
 };
 
-export { CommandListItem };
+export { type CommandListItemProps, CommandListItem };

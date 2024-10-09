@@ -5,7 +5,7 @@ import { checkAllFillableOptionParametersAreFilled, cn } from "@/lib/utils";
 import type { Step, Stepper } from "@stepperize/react";
 import { toast } from "sonner";
 
-export interface CreateCommandStepperStatusProps {
+interface CreateCommandStepperStatusProps {
   stepper: Stepper<Step[]>;
 }
 
@@ -29,7 +29,7 @@ const CreateCommandStepperStatus = ({
         !checkAllFillableOptionParametersAreFilled(draftCommand)
       ) {
         toast.error(
-          "Please fill out the required fields for the current step first."
+          "Please fill out the required fields for the current step first.",
         );
         return;
       }
@@ -52,7 +52,7 @@ const CreateCommandStepperStatus = ({
                 stepper.current.id === step.id &&
                   "border-none bg-primary font-black text-primary-foreground",
                 stepper.current.id !== step.id &&
-                  "cursor-pointer hover:ring-2 hover:ring-primary"
+                  "cursor-pointer hover:ring-2 hover:ring-primary",
               )}
             >
               {step.title}
@@ -74,4 +74,4 @@ const CreateCommandStepperStatus = ({
   );
 };
 
-export { CreateCommandStepperStatus };
+export { type CreateCommandStepperStatusProps, CreateCommandStepperStatus };

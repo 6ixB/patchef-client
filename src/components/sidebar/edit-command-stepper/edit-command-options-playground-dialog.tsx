@@ -15,7 +15,7 @@ import type { DraftFunction } from "use-immer";
 import { Input } from "@/components/ui/input";
 import type { ChangeEvent } from "react";
 
-export interface EditCommandOptionsPlaygroundDialogProps {
+interface EditCommandOptionsPlaygroundDialogProps {
   draftCommandCopy: Command | null;
   setDraftCommandCopy: (draftFunction: DraftFunction<Command | null>) => void;
 }
@@ -147,4 +147,7 @@ const EditCommandOptionsPlaygroundDialog = ({
   );
 };
 
-export { EditCommandOptionsPlaygroundDialog };
+export {
+  type EditCommandOptionsPlaygroundDialogProps,
+  EditCommandOptionsPlaygroundDialog,
+};

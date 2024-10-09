@@ -19,7 +19,7 @@ import type { Command as CommandType, CommandParameter } from "@/types/command";
 import { useState, type ChangeEvent } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 
-export interface RecipeListItemCommandParametersComboboxProps {
+interface RecipeListItemCommandParametersComboboxProps {
   command: CommandType;
   commandIndex: number;
   open: boolean;
@@ -149,4 +149,7 @@ const RecipeListItemParametersCombobox = ({
   );
 };
 
-export { RecipeListItemParametersCombobox };
+export {
+  type RecipeListItemCommandParametersComboboxProps,
+  RecipeListItemParametersCombobox,
+};

@@ -30,7 +30,7 @@ const { useStepper } = defineStepper(
   { id: "step-5", title: "5", description: "Preview your command" },
 );
 
-export interface CreateCommandStepProps {
+interface CreateCommandStepProps {
   step: Step;
   hasPrev: boolean;
   hasNext: boolean;
@@ -75,4 +75,4 @@ const CreateCommandStepper = () => {
   );
 };
 
-export { CreateCommandStepper };
+export { type CreateCommandStepProps, CreateCommandStepper };

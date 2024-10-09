@@ -14,7 +14,7 @@ import { TrashIcon } from "lucide-react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { Command } from "@/types/command";
 
-export interface RecipeListItemRemoveButtonProps {
+interface RecipeListItemRemoveButtonProps {
   command: Command;
 }
 
@@ -53,4 +53,4 @@ const RecipeListItemRemoveButton = ({
   );
 };
 
-export { RecipeListItemRemoveButton };
+export { type RecipeListItemRemoveButtonProps, RecipeListItemRemoveButton };

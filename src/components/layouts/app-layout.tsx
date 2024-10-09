@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/sidebar/sidebar";
 import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 
-export interface AppLayoutProps {
+interface AppLayoutProps {
   children: ReactNode;
 }
 
@@ -23,4 +23,4 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   );
 };
 
-export { AppLayout };
+export { type AppLayoutProps, AppLayout };

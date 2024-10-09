@@ -15,7 +15,7 @@ import type { DraftFunction } from "use-immer";
 import { Input } from "@/components/ui/input";
 import type { ChangeEvent } from "react";
 
-export interface CreateCommandOptionsPlaygroundDialogProps {
+interface CreateCommandOptionsPlaygroundDialogProps {
   draftCommandCopy: Command | null;
   setDraftCommandCopy: (draftFunction: DraftFunction<Command | null>) => void;
 }
@@ -27,7 +27,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
-    parameterIndex: number
+    parameterIndex: number,
   ) => {
     const value = e.target.value;
 
@@ -116,7 +116,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
                                     handleOptionParameterPayloadChange(
                                       e,
                                       optionIndex,
-                                      parameterIndex
+                                      parameterIndex,
                                     )
                                   }
                                   className="bg-gray-100 dark:bg-[#171823]"
@@ -147,4 +147,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
   );
 };
 
-export { CreateCommandOptionsPlaygroundDialog };
+export {
+  type CreateCommandOptionsPlaygroundDialogProps,
+  CreateCommandOptionsPlaygroundDialog,
+};

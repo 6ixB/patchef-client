@@ -14,7 +14,7 @@ import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
 import { Code } from "@/components/markdown/code";
 import { Badge } from "@/components/ui/badge";
 
-export interface CommandListItemInfoButtonProps {
+interface CommandListItemInfoButtonProps {
   command: Command;
 }
 
@@ -169,4 +169,4 @@ const CommandListItemInfoButton = ({
   );
 };
 
-export { CommandListItemInfoButton };
+export { type CommandListItemInfoButtonProps, CommandListItemInfoButton };

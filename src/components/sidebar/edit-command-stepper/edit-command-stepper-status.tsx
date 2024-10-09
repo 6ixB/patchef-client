@@ -5,7 +5,7 @@ import { checkAllFillableOptionParametersAreFilled, cn } from "@/lib/utils";
 import type { Step, Stepper } from "@stepperize/react";
 import { toast } from "sonner";
 
-export interface EditCommandStepperStatusProps {
+interface EditCommandStepperStatusProps {
   stepper: Stepper<Step[]>;
 }
 
@@ -74,4 +74,4 @@ const EditCommandStepperStatus = ({
   );
 };
 
-export { EditCommandStepperStatus };
+export { type EditCommandStepperStatusProps, EditCommandStepperStatus };

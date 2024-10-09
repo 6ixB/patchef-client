@@ -10,7 +10,7 @@ import { VariableIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { RecipeListItemFillParamsDialogContent } from "@/components/recipe/item/recipe-list-item-fill-params-dialog-content";
 
-export interface RecipeListItemFillParamsButtonProps {
+interface RecipeListItemFillParamsButtonProps {
   command: Command;
   commandIndex: number;
 }
@@ -49,4 +49,7 @@ const RecipeListItemFillParamsButton = ({
   );
 };
 
-export { RecipeListItemFillParamsButton };
+export {
+  type RecipeListItemFillParamsButtonProps,
+  RecipeListItemFillParamsButton,
+};

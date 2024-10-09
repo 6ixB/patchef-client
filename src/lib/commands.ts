@@ -1,6 +1,6 @@
 import type { Command } from "@/types/command";
 
-export const commands: Command[] = [
+const commands: Command[] = [
   {
     id: "1",
     name: "mkdir",
@@ -311,3 +311,5 @@ export const commands: Command[] = [
     ],
   },
 ];
+
+export { commands };

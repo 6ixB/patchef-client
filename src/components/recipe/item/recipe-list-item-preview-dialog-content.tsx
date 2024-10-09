@@ -8,7 +8,7 @@ import type { Command } from "@/types/command";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
 import { Code } from "@/components/markdown/code";
 
-export interface RecipeListItemPreviewDialogContentProps {
+interface RecipeListItemPreviewDialogContentProps {
   command: Command;
 }
 
@@ -35,4 +35,7 @@ const RecipeListItemPreviewDialogContent = ({
   );
 };
 
-export { RecipeListItemPreviewDialogContent };
+export {
+  type RecipeListItemPreviewDialogContentProps,
+  RecipeListItemPreviewDialogContent,
+};

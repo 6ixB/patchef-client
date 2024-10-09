@@ -17,7 +17,7 @@ import {
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { CommandOption } from "@/types/command";
 
-export interface CreateCommandOptionsComboboxProps {
+interface CreateCommandOptionsComboboxProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedOption: CommandOption | null;
@@ -33,7 +33,7 @@ const CreateCommandOptionsCombobox = ({
   const { draftCommand } = useCommandStore();
 
   const optionsWithRequiredParameters = draftCommand?.options?.filter(
-    (option) => option.parameterRequired
+    (option) => option.parameterRequired,
   );
 
   return (
@@ -47,7 +47,7 @@ const CreateCommandOptionsCombobox = ({
         >
           {selectedOption
             ? optionsWithRequiredParameters?.find(
-                (option) => option.id === selectedOption.id
+                (option) => option.id === selectedOption.id,
               )?.name
             : "Select option..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -65,7 +65,7 @@ const CreateCommandOptionsCombobox = ({
                   value={option.id}
                   onSelect={(currentOptionId) => {
                     setSelectedOption(
-                      currentOptionId === selectedOption?.id ? null : option
+                      currentOptionId === selectedOption?.id ? null : option,
                     );
                     setOpen(false);
                   }}
@@ -75,7 +75,7 @@ const CreateCommandOptionsCombobox = ({
                       "mr-2 h-4 w-4",
                       selectedOption?.id === option.id
                         ? "opacity-100"
-                        : "opacity-0"
+                        : "opacity-0",
                     )}
                   />
                   {option.name}
@@ -89,4 +89,4 @@ const CreateCommandOptionsCombobox = ({
   );
 };
 
-export { CreateCommandOptionsCombobox };
+export { type CreateCommandOptionsComboboxProps, CreateCommandOptionsCombobox };

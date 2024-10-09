@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import type { ChangeEvent } from "react";
 import { useCommandStore } from "@/hooks/use-command-store";
 
-export interface RecipeListItemOptionControlsDialogProps {
+interface RecipeListItemOptionControlsDialogProps {
   command: Command;
   commandIndex: number;
 }
@@ -160,4 +160,7 @@ const RecipeListItemOptionControlsDialog = ({
   );
 };
 
-export { RecipeListItemOptionControlsDialog };
+export {
+  type RecipeListItemOptionControlsDialogProps,
+  RecipeListItemOptionControlsDialog,
+};

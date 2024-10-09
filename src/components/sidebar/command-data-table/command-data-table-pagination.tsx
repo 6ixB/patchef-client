@@ -14,7 +14,7 @@ import {
   ChevronsRightIcon,
 } from "lucide-react";
 
-export interface CommandDataTablePaginationProps<TData> {
+interface CommandDataTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
@@ -87,4 +87,4 @@ const CommandDataTablePagination = <TData,>({
   );
 };
 
-export { CommandDataTablePagination };
+export { type CommandDataTablePaginationProps, CommandDataTablePagination };

@@ -2,7 +2,7 @@ import { CommandList } from "@/components/commands/command-list";
 import { DraggableView } from "@/components/sidebar/sidebar";
 import { RecipeTemplateList } from "@/components/recipe/template/recipe-template-list";
 
-export interface SidebarBodyProps {
+interface SidebarBodyProps {
   draggableView: DraggableView;
   setDraggableView: (draggable: DraggableView) => void;
 }
@@ -26,4 +26,4 @@ const SidebarBody = ({ draggableView }: SidebarBodyProps) => {
   );
 };
 
-export { SidebarBody };
+export { type SidebarBodyProps, SidebarBody };

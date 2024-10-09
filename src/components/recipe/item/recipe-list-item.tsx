@@ -42,7 +42,7 @@ function animateLayoutChanges(args: {
   return true;
 }
 
-export interface RecipeListItemProps {
+interface RecipeListItemProps {
   command: Command;
 }
 
@@ -175,4 +175,4 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
   );
 };
 
-export { RecipeListItem };
+export { type RecipeListItemProps, RecipeListItem };

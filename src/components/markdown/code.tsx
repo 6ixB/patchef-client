@@ -9,7 +9,7 @@ import { transformerCopyButton } from "@rehype-pretty/transformers";
 import styles from "@/styles/code.module.css";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
-export interface CodeProps {
+interface CodeProps {
   codeMarkdown: string;
 }
 
@@ -70,4 +70,4 @@ const Code = ({ codeMarkdown }: CodeProps) => {
   );
 };
 
-export { Code };
+export { type CodeProps, Code };
