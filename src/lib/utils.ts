@@ -1,5 +1,6 @@
 import type { Command, CommandOption, CommandParameter } from "@/types/command";
 import type { CommandPreview } from "@/types/command-preview";
+import type { Recipe } from "@/types/recipe";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { v4 as generateUuidV4 } from "uuid";
@@ -7,7 +8,7 @@ import { v4 as generateUuidV4 } from "uuid";
 /* 
   Usage: this function is used to merge tailwind classes with classnames
 */
-function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
@@ -38,13 +39,14 @@ function generateCommandString(command: Command): string {
       }
 
       commandString += ` ${option.payload}`;
-      
+
       if (
         option.parameterRequired &&
         option.parameters &&
         option.parameters.length > 0
       ) {
-        const delimiter = option.delimiter !== undefined ? option.delimiter : " ";
+        const delimiter =
+          option.delimiter !== undefined ? option.delimiter : " ";
         commandString += delimiter;
 
         const optionParams = formatParameters(option.parameters);
@@ -58,7 +60,7 @@ function generateCommandString(command: Command): string {
   return commandString;
 }
 
-function copyDraftCommand(draftCommand: Command | null) {
+function copyDraftCommand(draftCommand: Command | null): Command | null {
   if (!draftCommand) {
     return null;
   }
@@ -107,9 +109,9 @@ const generateDefaultValues = {
 /* 
   Usage: this function is used to check if all required parameters are filled
 */
-function checkAllRequiredParametersAreFilled(command: Command) {
+function checkAllRequiredParametersAreFilled(command: Command): boolean {
   if (!command.parameters) {
-    return;
+    return true;
   }
 
   for (const parameter of command.parameters) {
@@ -124,7 +126,7 @@ function checkAllRequiredParametersAreFilled(command: Command) {
 /* 
   Usage: this function is used to check if all enabled option parameters are filled
 */
-function checkAllEnabledOptionsParametersAreFilled(command: Command) {
+function checkAllEnabledOptionsParametersAreFilled(command: Command): boolean {
   if (!command.options || command.options.length === 0) {
     return true;
   }
@@ -148,7 +150,9 @@ function checkAllEnabledOptionsParametersAreFilled(command: Command) {
   Usage: this function is used to check if all required option parameters are filled
   when CREATING a new command
 */
-function checkAllFillableOptionParametersAreFilled(command: Command | null) {
+function checkAllFillableOptionParametersAreFilled(
+  command: Command | null,
+): boolean {
   if (!command?.options) {
     return true;
   }
@@ -170,8 +174,8 @@ function checkAllFillableOptionParametersAreFilled(command: Command | null) {
   when USING a command
 */
 function checkAllRequiredOptionParametersAreFilled(
-  option: CommandOption | undefined
-) {
+  option: CommandOption | undefined,
+): boolean {
   if (!option?.parameters) {
     return true;
   }
@@ -188,12 +192,16 @@ function checkAllRequiredOptionParametersAreFilled(
 /* 
   Usage: this function is used to format option parameters
 */
-function formatOptionParameters(parameters: CommandParameter[] | undefined) {
+function formatOptionParameters(
+  parameters: CommandParameter[] | undefined,
+): string {
   if (!parameters) {
     return "";
   }
 
-  return parameters.map((param) => `(${param.name}: ${param.payload})`).join(", ");
+  return parameters
+    .map((param) => `(${param.name}: ${param.payload})`)
+    .join(", ");
 }
 
 /* 
@@ -205,7 +213,7 @@ function generateCodeMarkdown({
 }: {
   codePayload: string;
   showLineNumbers?: boolean;
-}) {
+}): string {
   return `\`\`\`batch ${
     showLineNumbers && "showLineNumbers"
   }\n${codePayload}\n\`\`\``;
@@ -218,6 +226,23 @@ function generateScriptPayload(commandPreviews: CommandPreview[]): string {
   return commandPreviews
     .map((commandPreview) => commandPreview.preview)
     .join("\n");
+}
+
+function createRecipe({
+  name,
+  description,
+  commands,
+}: {
+  name: string;
+  description: string;
+  commands: Command[];
+}): Recipe {
+  return {
+    id: generateUuidV4(),
+    name: name,
+    description: description,
+    commands: commands,
+  };
 }
 
 export {
@@ -233,4 +258,5 @@ export {
   generateCodeMarkdown,
   generateScriptPayload,
   copyDraftCommand,
+  createRecipe,
 };

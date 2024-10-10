@@ -1,15 +1,18 @@
 import { Input } from "@/components/ui/input";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const CommandSearch = () => {
+const DraggableViewSearch = () => {
   const [query, setQuery] = useState("");
   const { filterCommands } = useCommandStore();
+  const { filterRecipes } = useRecipeStore();
 
   useEffect(() => {
     filterCommands(query);
-  }, [filterCommands, query]);
+    filterRecipes(query);
+  }, [filterCommands, filterRecipes, query]);
 
   return (
     <form className="flex w-full items-center justify-center gap-x-4">
@@ -37,4 +40,4 @@ const CommandSearch = () => {
   );
 };
 
-export { CommandSearch };
+export { DraggableViewSearch };
