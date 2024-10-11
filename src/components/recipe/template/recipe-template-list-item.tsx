@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import type { Recipe } from "@/types/recipe";
-import { ArrowRightToLineIcon, CookingPotIcon, TrashIcon } from "lucide-react";
+import { ArrowRightToLineIcon, CookingPotIcon } from "lucide-react";
 
 interface RecipeTemplateListItemProps {
   recipe: Recipe;
@@ -15,9 +15,6 @@ const RecipeTemplateListItem = ({ recipe }: RecipeTemplateListItemProps) => {
         <CardTitle className="text-sm">{recipe.name}</CardTitle>
       </div>
       <div className="flex items-center">
-        <Button variant="ghost" size="icon">
-          <TrashIcon className="size-4" />
-        </Button>
         <Button variant="ghost" size="icon">
           <ArrowRightToLineIcon className="size-4" />
         </Button>
