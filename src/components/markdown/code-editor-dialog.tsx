@@ -91,42 +91,42 @@ pause`);
             Write your custom code to generate the payload
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col">
-          <div className="grid flex-1 grid-cols-3 gap-4">
-            <div className="col-span-2 rounded-md border">
-              <Editor
-                defaultLanguage="bat"
-                defaultValue={code}
-                onChange={handleEditorChange}
-                beforeMount={handleEditorWillMount}
-                onMount={handleEditorDidMount}
-                theme={
-                  getTheme(theme as "light" | "dark" | "system" | undefined) ===
-                  "light"
-                    ? "GitHubLightTheme"
-                    : "GitHubDarkTheme"
-                }
-                options={{
-                  fontSize: 14,
-                  fontFamily: "Geist Mono",
-                  fontLigatures: true,
-                  wordWrap: "on",
-                  minimap: {
-                    enabled: false,
-                  },
-                  bracketPairColorization: {
-                    enabled: true,
-                  },
-                  cursorBlinking: "phase",
-                  cursorStyle: "block-outline",
-                  formatOnPaste: true,
-                  mouseWheelZoom: true,
-                  cursorSmoothCaretAnimation: "on",
-                  smoothScrolling: true,
-                  scrollBeyondLastLine: false,
-                }}
-              />
-            </div>
+        <div className="grid flex-1 grid-cols-4 gap-4">
+          <div className="col-span-3 rounded-md border">
+            <Editor
+              defaultLanguage="bat"
+              defaultValue={code}
+              onChange={handleEditorChange}
+              beforeMount={handleEditorWillMount}
+              onMount={handleEditorDidMount}
+              theme={
+                getTheme(theme as "light" | "dark" | "system" | undefined) ===
+                "light"
+                  ? "GitHubLightTheme"
+                  : "GitHubDarkTheme"
+              }
+              options={{
+                fontSize: 14,
+                fontFamily: "Geist Mono",
+                fontLigatures: true,
+                wordWrap: "on",
+                minimap: {
+                  enabled: false,
+                },
+                bracketPairColorization: {
+                  enabled: true,
+                },
+                cursorBlinking: "phase",
+                cursorStyle: "block-outline",
+                formatOnPaste: true,
+                mouseWheelZoom: true,
+                cursorSmoothCaretAnimation: "on",
+                smoothScrolling: true,
+                scrollBeyondLastLine: false,
+              }}
+            />
+          </div>
+          <div className="flex flex-col">
             <ScrollArea className="h-full w-full rounded-md border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
@@ -143,12 +143,12 @@ pause`);
                 </Card>
               </div>
             </ScrollArea>
-          </div>
-          <div className="flex items-center justify-end gap-x-2">
-            <Button variant="outline" className="mt-4">
-              Cancel
-            </Button>
-            <Button className="mt-4">Save</Button>
+            <div className="flex items-center justify-end gap-x-2">
+              <Button variant="outline" className="mt-4">
+                Cancel
+              </Button>
+              <Button className="mt-4">Save</Button>
+            </div>
           </div>
         </div>
       </DialogContent>
