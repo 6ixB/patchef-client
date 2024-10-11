@@ -1,8 +1,9 @@
-import type { Command } from "@/types/command";
+import { CommandType, type Command } from "@/types/command";
 
 const commands: Command[] = [
   {
     id: "1",
+    type: CommandType.Basic,
     name: "mkdir",
     description: "Creates a new directory",
     payload: "mkdir",
@@ -18,6 +19,7 @@ const commands: Command[] = [
   },
   {
     id: "2",
+    type: CommandType.Basic,
     name: "ls",
     description: "Lists the contents of a directory",
     payload: "ls",
@@ -33,6 +35,7 @@ const commands: Command[] = [
   },
   {
     id: "3",
+    type: CommandType.Basic,
     name: "cd",
     description: "Changes the current directory",
     payload: "cd",
@@ -48,6 +51,7 @@ const commands: Command[] = [
   },
   {
     id: "4",
+    type: CommandType.Basic,
     name: "rm",
     description: "Removes a file or directory",
     payload: "rm",
@@ -73,6 +77,7 @@ const commands: Command[] = [
   },
   {
     id: "5",
+    type: CommandType.Basic,
     name: "echo",
     description: "Displays a line of text",
     payload: "echo",
@@ -88,6 +93,7 @@ const commands: Command[] = [
   },
   {
     id: "6",
+    type: CommandType.Basic,
     name: "xcopy",
     description: "Copies files and directories",
     payload: "xcopy",
@@ -120,6 +126,7 @@ const commands: Command[] = [
   },
   {
     id: "7",
+    type: CommandType.Basic,
     name: "move",
     description: "Moves files and directories",
     payload: "move",
@@ -141,6 +148,7 @@ const commands: Command[] = [
   },
   {
     id: "8",
+    type: CommandType.Basic,
     name: "rename",
     description: "Renames a file or directory",
     payload: "rename",
@@ -162,6 +170,7 @@ const commands: Command[] = [
   },
   {
     id: "9",
+    type: CommandType.Basic,
     name: "cat",
     description: "Concatenates and displays files",
     payload: "cat",
@@ -177,6 +186,7 @@ const commands: Command[] = [
   },
   {
     id: "10",
+    type: CommandType.Basic,
     name: "chmod",
     description: "Changes file permissions",
     payload: "chmod",
@@ -198,6 +208,7 @@ const commands: Command[] = [
   },
   {
     id: "11",
+    type: CommandType.Basic,
     name: "chown",
     description: "Changes file owner and group",
     payload: "chown",
@@ -225,12 +236,14 @@ const commands: Command[] = [
   },
   {
     id: "12",
+    type: CommandType.Basic,
     name: "pwd",
     description: "Prints the current working directory",
     payload: "pwd",
   },
   {
     id: "13",
+    type: CommandType.Basic,
     name: "scp",
     description: "Securely copies files between hosts over a network",
     payload: "scp",
@@ -269,6 +282,7 @@ const commands: Command[] = [
   },
   {
     id: "14",
+    type: CommandType.Basic,
     name: "7-Zip",
     description: "Extracts files from an archive using 7-Zip",
     payload: "'C:\\Program Files\\7-Zip\\7z.exe' x",

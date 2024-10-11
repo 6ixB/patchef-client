@@ -180,7 +180,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Silent mode"
+                        placeholder="Incognito mode"
                         {...field}
                         className="w-full"
                       />
@@ -201,7 +201,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Run the command in silent mode"
+                        placeholder="Run the the browser in incognito mode"
                         {...field}
                         className="w-full"
                       />
@@ -222,7 +222,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="/s"
+                        placeholder="--incognito"
                         {...field}
                         className="w-full"
                       />

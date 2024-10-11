@@ -1,6 +1,6 @@
 import { RecipeAreaControls } from "@/components/recipe/recipe-area-controls";
 import { CookingPotIcon } from "lucide-react";
-import { CreateTemplateButton } from "./create-template-button";
+import { CreateTemplateButton } from "@/components/recipe/create-template-button";
 
 const RecipeAreaHeader = () => {
   return (

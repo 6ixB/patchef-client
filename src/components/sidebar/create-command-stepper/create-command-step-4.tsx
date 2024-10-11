@@ -197,7 +197,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string"
+                        placeholder="Verbose Level"
                         {...field}
                         className="w-full"
                       />
@@ -218,7 +218,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string with format: user@host"
+                        placeholder="The verbosity level of the command"
                         {...field}
                         className="w-full"
                       />

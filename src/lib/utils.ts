@@ -1,4 +1,9 @@
-import type { Command, CommandOption, CommandParameter } from "@/types/command";
+import {
+  CommandType,
+  type Command,
+  type CommandOption,
+  type CommandParameter,
+} from "@/types/command";
 import type { CommandPreview } from "@/types/command-preview";
 import type { Recipe } from "@/types/recipe";
 import { type ClassValue, clsx } from "clsx";
@@ -84,6 +89,7 @@ function copyDraftCommand(draftCommand: Command | null): Command | null {
 const generateDefaultValues = {
   command: (draftCommand: Command | null) => ({
     id: draftCommand?.id ?? generateUuidV4(),
+    type: CommandType.Basic,
     name: draftCommand?.name ?? "",
     description: draftCommand?.description ?? "",
     payload: draftCommand?.payload ?? "",

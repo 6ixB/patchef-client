@@ -1,3 +1,4 @@
+import { CommandType } from "@/types/command";
 import type { Recipe } from "@/types/recipe";
 
 const recipes: Recipe[] = [
@@ -8,6 +9,7 @@ const recipes: Recipe[] = [
     commands: [
       {
         id: "1",
+        type: CommandType.Basic,
         name: "mkdir",
         description: "Creates a new directory",
         payload: "mkdir",

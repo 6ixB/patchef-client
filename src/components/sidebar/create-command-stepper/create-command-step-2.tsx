@@ -152,7 +152,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Connection string"
+                        placeholder="Custom URL"
                         {...field}
                         className="w-full"
                       />
@@ -173,7 +173,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string with format: user@host"
+                        placeholder="The URL to open in the browser"
                         {...field}
                         className="w-full"
                       />

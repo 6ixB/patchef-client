@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+enum CommandType {
+  Basic = "basic",
+  Advanced = "advanced",
+}
+
 const errorMessages = {
   command: {
     name: "Command name must be filled",
@@ -41,6 +46,7 @@ const CommandOptionSchema = z.object({
 
 const CommandSchema = z.object({
   id: z.string(),
+  type: z.enum([CommandType.Basic, CommandType.Advanced]),
   name: z.string().min(1, errorMessages.command.name),
   description: z.string().min(1, errorMessages.command.description),
   payload: z.string().min(1, errorMessages.command.payload),
@@ -53,6 +59,7 @@ type CommandOption = z.infer<typeof CommandOptionSchema>;
 type Command = z.infer<typeof CommandSchema>;
 
 export {
+  CommandType,
   CommandParameterSchema,
   CommandOptionSchema,
   CommandSchema,
