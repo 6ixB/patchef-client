@@ -21,6 +21,7 @@ import { useRef, useState } from "react";
 import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
 import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
 import { useTheme } from "@/components/providers/theme-provider";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
   if (theme === "system") {
@@ -45,11 +46,6 @@ pause`);
   };
 
   const handleEditorWillMount: BeforeMount = (monaco) => {
-    monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-      noSemanticValidation: true,
-      noSyntaxValidation: true,
-    });
     monaco.editor.defineTheme("GitHubLightTheme", {
       base: "vs-dark",
       inherit: true,
@@ -92,7 +88,7 @@ pause`);
           </DialogDescription>
         </DialogHeader>
         <div className="grid flex-1 grid-cols-4 gap-4">
-          <div className="col-span-3 rounded-md border">
+          <div className="col-span-3 rounded-md border bg-white dark:bg-[#24292e]">
             <Editor
               defaultLanguage="bat"
               defaultValue={code}
@@ -106,6 +102,10 @@ pause`);
                   : "GitHubDarkTheme"
               }
               options={{
+                padding: {
+                  top: 16,
+                  bottom: 16,
+                },
                 fontSize: 14,
                 fontFamily: "Geist Mono",
                 fontLigatures: true,
@@ -144,9 +144,11 @@ pause`);
               </div>
             </ScrollArea>
             <div className="flex items-center justify-end gap-x-2">
-              <Button variant="outline" className="mt-4">
-                Cancel
-              </Button>
+              <DialogClose asChild={true}>
+                <Button variant="outline" className="mt-4">
+                  Cancel
+                </Button>
+              </DialogClose>
               <Button className="mt-4">Save</Button>
             </div>
           </div>
