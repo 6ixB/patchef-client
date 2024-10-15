@@ -32,7 +32,7 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     other than the default, since source commands should not have a custom payload value yet.
   */
   const [draftCommandCopy, setDraftCommandCopy] = useImmer<Command | null>(
-    copyDraftCommand(draftCommand)
+    copyDraftCommand(draftCommand),
   );
 
   const [open, setOpen] = useState(false);

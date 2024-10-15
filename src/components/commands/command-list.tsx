@@ -12,7 +12,7 @@ const CommandList = () => {
   const { sourceCommands } = useCommandStore();
   const sourceCommandIds = useMemo(
     () => sourceCommands.map((command) => command.id),
-    [sourceCommands]
+    [sourceCommands],
   );
 
   const { setNodeRef } = useDroppable({

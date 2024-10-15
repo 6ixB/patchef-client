@@ -12,13 +12,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CommandSchema } from "@/types/command";
+import { CommandSchema, CommandType } from "@/types/command";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 import { generateDefaultValues } from "@/lib/utils";
 import type { EditCommandStepProps } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CodeEditorDialog } from "@/components/markdown/code-editor-dialog";
 
 const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
   const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
@@ -29,11 +37,12 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof CommandSchema>) => {
-    const { id, name, description, payload } = values;
+    const { id, type, name, description, payload } = values;
 
     setDraftCommand({
       ...draftCommand,
       id,
+      type,
       name,
       description,
       payload,
@@ -104,25 +113,68 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
           />
           <FormField
             control={form.control}
-            name="payload"
+            name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Payload</FormLabel>
+                <FormLabel>Type</FormLabel>
                 <FormDescription>
-                  The payload of the command that will be executed
+                  The type of command that will be executed
                 </FormDescription>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    placeholder="ssh"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
+                <Select
+                  name="create-command-type-select"
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={true}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select command type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={CommandType.Basic}>Basic</SelectItem>
+                    <SelectItem value={CommandType.Advanced}>
+                      Advanced
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {form.watch("type") === CommandType.Basic ? (
+            <FormField
+              control={form.control}
+              name="payload"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Payload</FormLabel>
+                  <FormDescription>
+                    The payload of the command that will be executed
+                  </FormDescription>
+                  <FormControl>
+                    <Input
+                      autoComplete="off"
+                      placeholder="start chrome"
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : (
+            <div className="space-y-2">
+              <h1 className="py-[0.3125rem] font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Payload
+              </h1>
+              <p className="text-[0.8rem] text-muted-foreground">
+                Open the code editor to write the payload of the command
+              </p>
+              <CodeEditorDialog />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-x-4 self-end">
           <Button variant="outline" onClick={handleCancelClick}>

@@ -1,6 +1,6 @@
 import { RecipeAreaControls } from "@/components/recipe/recipe-area-controls";
 import { CookingPotIcon } from "lucide-react";
-import { CreateTemplateButton } from "@/components/recipe/create-template-button";
+import { RecipeAreaTitle } from "@/components/recipe/recipe-area-title";
 
 const RecipeAreaHeader = () => {
   return (
@@ -9,7 +9,7 @@ const RecipeAreaHeader = () => {
         <CookingPotIcon className="size-4" />
         <h1 className="font-medium">Recipe</h1>
       </div>
-      <CreateTemplateButton />
+      <RecipeAreaTitle />
       <RecipeAreaControls />
     </div>
   );

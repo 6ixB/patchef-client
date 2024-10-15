@@ -197,11 +197,11 @@ const useCommandStore = create<CommandState>()(
     })),
     {
       /* 
-    This stores the currently worked recipe (destination commands) to be
-    be stored in local storage, and when it is rehydrated (reloaded), to prevent
-    having the same id with any of the source commands, a new id is generated
-    for each destination command. - MY23-1
-  */
+        This stores the currently worked recipe (destination commands) to be
+        be stored in local storage, and when it is rehydrated (reloaded), to prevent
+        having the same id with any of the source commands, a new id is generated
+        for each destination command. - MY23-1
+      */
       name: "command-store",
       partialize: (state) => ({
         destinationCommands: state.destinationCommands,

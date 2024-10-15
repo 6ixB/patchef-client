@@ -124,6 +124,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                   name="create-command-type-select"
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={true}
                 >
                   <FormControl>
                     <SelectTrigger>

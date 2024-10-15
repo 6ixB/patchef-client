@@ -14,7 +14,7 @@ interface CommandState {
     */
   initialSourceCommands: Command[];
   setInitialSourceCommands: (
-    value: ((draft: Command[]) => void) | Command[]
+    value: ((draft: Command[]) => void) | Command[],
   ) => void;
 
   /* 
@@ -22,9 +22,7 @@ interface CommandState {
       These commands are the ones that can be dragged and dropped into the destination commands.
     */
   sourceCommands: Command[];
-  setSourceCommands: (
-    value: ((draft: Command[]) => void) | Command[]
-  ) => void;
+  setSourceCommands: (value: ((draft: Command[]) => void) | Command[]) => void;
 
   /* 
       Usage: destination commands are the commands that are displayed in the recipe area's dropzone.
@@ -32,7 +30,7 @@ interface CommandState {
     */
   destinationCommands: Command[];
   setDestinationCommands: (
-    value: ((draft: Command[]) => void) | Command[]
+    value: ((draft: Command[]) => void) | Command[],
   ) => void;
 
   /* 
@@ -115,7 +113,7 @@ interface CommandState {
     */
   draftCommand: Command | null;
   setDraftCommand: (
-    value: ((draft: Command | null) => void) | Command | null
+    value: ((draft: Command | null) => void) | Command | null,
   ) => void;
 
   /* 

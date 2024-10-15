@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import type { Recipe } from "@/types/recipe";
-import { ArrowRightToLineIcon, CookingPotIcon } from "lucide-react";
+import { CookingPotIcon } from "lucide-react";
+import { RecipeTemplateListItemApplyButton } from "@/components/recipe/template/recipe-template-list-item-apply-button";
+import { RecipeTemplateListItemRemoveButton } from "@/components/recipe/template/recipe-template-list-item-remove-button";
 
 interface RecipeTemplateListItemProps {
   recipe: Recipe;
@@ -15,9 +16,8 @@ const RecipeTemplateListItem = ({ recipe }: RecipeTemplateListItemProps) => {
         <CardTitle className="text-sm">{recipe.name}</CardTitle>
       </div>
       <div className="flex items-center">
-        <Button variant="ghost" size="icon">
-          <ArrowRightToLineIcon className="size-4" />
-        </Button>
+        <RecipeTemplateListItemRemoveButton recipe={recipe} />
+        <RecipeTemplateListItemApplyButton recipe={recipe} />
       </div>
     </Card>
   );

@@ -89,6 +89,7 @@ pause`);
         </DialogHeader>
         <div className="grid flex-1 grid-cols-4 gap-4">
           <div className="col-span-3 rounded-md border bg-white dark:bg-[#24292e]">
+            {/* TODO: Fix code editor height only half of the total screen in intial render */}
             <Editor
               defaultLanguage="bat"
               defaultValue={code}

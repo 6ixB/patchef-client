@@ -234,21 +234,61 @@ function generateScriptPayload(commandPreviews: CommandPreview[]): string {
     .join("\n");
 }
 
+/* 
+  Usage: this function is used to create/add a new recipe
+*/
 function createRecipe({
   name,
-  description,
   commands,
 }: {
   name: string;
-  description: string;
   commands: Command[];
 }): Recipe {
   return {
     id: generateUuidV4(),
     name: name,
-    description: description,
     commands: commands,
   };
+}
+
+/*
+  Usage: this function is used to check if the active recipe has been modified
+*/
+function isActiveRecipeModified(
+  recipe: Recipe,
+  destinationCommands: Command[],
+): boolean {
+  if (recipe.commands.length !== destinationCommands.length) {
+    return true;
+  }
+
+  for (let i = 0; i < recipe.commands.length; i++) {
+    if (recipe.commands[i].name !== destinationCommands[i].name) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/* 
+  Usage: this function is used to compare the previous recipe with the destination commands
+*/
+function comparePreviousRecipeWithDestinationCommands(
+  previousRecipe: Recipe,
+  commands: Command[],
+) {
+  if (previousRecipe.commands.length !== commands.length) {
+    return false;
+  }
+
+  for (let i = 0; i < previousRecipe.commands.length; i++) {
+    if (previousRecipe.commands[i].name !== commands[i].name) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export {
@@ -265,4 +305,6 @@ export {
   generateScriptPayload,
   copyDraftCommand,
   createRecipe,
+  isActiveRecipeModified,
+  comparePreviousRecipeWithDestinationCommands,
 };
