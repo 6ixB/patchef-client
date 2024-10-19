@@ -1,5 +1,6 @@
-import { DndContextProvider } from "@/components/providers/dnd-context-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
+import { DndContextProvider } from "@/components/providers/dnd-context-provider";
 import type { ReactNode } from "react";
 
 interface ProvidersProps {
@@ -9,7 +10,9 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <ThemeProvider>
-      <DndContextProvider>{children}</DndContextProvider>
+      <QueryProvider>
+        <DndContextProvider>{children}</DndContextProvider>
+      </QueryProvider>
     </ThemeProvider>
   );
 };
