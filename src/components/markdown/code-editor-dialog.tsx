@@ -1,3 +1,6 @@
+import { useTheme } from "@/components/providers/theme-provider";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -6,22 +9,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { CodeIcon, RabbitIcon, XIcon } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
+import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
+import { cn } from "@/lib/utils";
 import Editor, {
   type BeforeMount,
   type OnMount,
   type OnChange,
   type Monaco,
 } from "@monaco-editor/react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
-import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
-import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
-import { useTheme } from "@/components/providers/theme-provider";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { CodeIcon, RabbitIcon, XIcon } from "lucide-react";
+import { useRef, useState } from "react";
 
 const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
   if (theme === "system") {

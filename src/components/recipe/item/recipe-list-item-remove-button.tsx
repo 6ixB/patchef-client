@@ -10,9 +10,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { Command } from "@/types/command";
+import { TrashIcon } from "lucide-react";
 
 interface RecipeListItemRemoveButtonProps {
   command: Command;

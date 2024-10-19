@@ -1,5 +1,3 @@
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -9,14 +7,16 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import type { Command as CommandType, CommandParameter } from "@/types/command";
-import { useState, type ChangeEvent } from "react";
+import { cn } from "@/lib/utils";
+import type { CommandParameter, Command as CommandType } from "@/types/command";
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { type ChangeEvent, useState } from "react";
 
 interface EditCommandParametersComboboxProps {
   draftCommandCopy: CommandType | null;

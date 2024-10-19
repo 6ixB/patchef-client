@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
 import { useTheme } from "@/components/providers/theme-provider";
-import { unified } from "unified";
+import styles from "@/styles/code.module.css";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
+import { useEffect, useState } from "react";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify";
-import rehypePrettyCode from "rehype-pretty-code";
-import { transformerCopyButton } from "@rehype-pretty/transformers";
-import styles from "@/styles/code.module.css";
-import PropagateLoader from "react-spinners/PropagateLoader";
+import { unified } from "unified";
 
 interface CodeProps {
   codeMarkdown: string;

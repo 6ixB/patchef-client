@@ -1,7 +1,7 @@
-import type { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { EditCommandOptionsCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-options-combobox";
+import type { EditCommandStepProps } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,12 +12,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useCommandStore } from "@/hooks/use-command-store";
+import {
+  checkAllFillableOptionParametersAreFilled,
+  cn,
+  generateDefaultValues,
+} from "@/lib/utils";
 import {
   type CommandOption,
   type CommandParameter,
   CommandParameterSchema,
 } from "@/types/command";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -25,17 +32,10 @@ import {
   RabbitIcon,
   XIcon,
 } from "lucide-react";
-import { Card } from "@/components/ui/card";
 import { type MouseEvent, useState } from "react";
-import {
-  checkAllFillableOptionParametersAreFilled,
-  cn,
-  generateDefaultValues,
-} from "@/lib/utils";
-import { useCommandStore } from "@/hooks/use-command-store";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { EditCommandStepProps } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
-import { EditCommandOptionsCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-options-combobox";
+import type { z } from "zod";
 
 const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();

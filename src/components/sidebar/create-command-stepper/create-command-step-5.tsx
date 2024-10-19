@@ -1,18 +1,18 @@
-import { useState } from "react";
-import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
-import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
-import { CreateCommandParametersCombobox } from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
-import { CreateCommandOptionsPlaygroundDialog } from "@/components/sidebar/create-command-stepper/create-command-options-playground-dialog";
 import { Code } from "@/components/markdown/code";
+import { CreateCommandOptionsPlaygroundDialog } from "@/components/sidebar/create-command-stepper/create-command-options-playground-dialog";
+import { CreateCommandParametersCombobox } from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
+import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
+import { useCommandStore } from "@/hooks/use-command-store";
 import {
   copyDraftCommand,
   generateCodeMarkdown,
   generateCommandString,
 } from "@/lib/utils";
 import type { Command, CommandParameter } from "@/types/command";
-import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
+import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useImmer } from "use-immer";
 

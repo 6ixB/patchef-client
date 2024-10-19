@@ -1,10 +1,10 @@
-import { defineStepper, type Stepper, type Step } from "@stepperize/react";
-import { EditCommandStepperStatus } from "@/components/sidebar/edit-command-stepper/edit-command-stepper-status";
+import { EditCommandStep1 } from "@/components/sidebar/edit-command-stepper/edit-command-step-1";
 import { EditCommandStep2 } from "@/components/sidebar/edit-command-stepper/edit-command-step-2";
 import { EditCommandStep3 } from "@/components/sidebar/edit-command-stepper/edit-command-step-3";
 import { EditCommandStep4 } from "@/components/sidebar/edit-command-stepper/edit-command-step-4";
 import { EditCommandStep5 } from "@/components/sidebar/edit-command-stepper/edit-command-step-5";
-import { EditCommandStep1 } from "@/components/sidebar/edit-command-stepper/edit-command-step-1";
+import { EditCommandStepperStatus } from "@/components/sidebar/edit-command-stepper/edit-command-stepper-status";
+import { type Step, type Stepper, defineStepper } from "@stepperize/react";
 
 const { useStepper } = defineStepper(
   {

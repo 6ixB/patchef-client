@@ -1,3 +1,5 @@
+import { Code } from "@/components/markdown/code";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +9,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { useMemo } from "react";
-import { Code } from "@/components/markdown/code";
 import { cn, generateCodeMarkdown, generateScriptPayload } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { SquareTerminalIcon } from "lucide-react";
+import { useMemo } from "react";
 
 const PreviewCommandsButton = () => {
   const { destinationCommands, commandPreviews, setCommandPreviews } =

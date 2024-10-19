@@ -1,7 +1,6 @@
-import type { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,8 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type CommandOption, CommandOptionSchema } from "@/types/command";
-import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
@@ -22,6 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { cn, generateDefaultValues } from "@/lib/utils";
+import { type CommandOption, CommandOptionSchema } from "@/types/command";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -30,11 +32,9 @@ import {
   VariableIcon,
   XIcon,
 } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { useCommandStore } from "@/hooks/use-command-store";
-import { cn, generateDefaultValues } from "@/lib/utils";
 import { type MouseEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
 
 const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();

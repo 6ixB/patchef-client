@@ -1,13 +1,13 @@
 import { CloseRecipeButton } from "@/components/recipe/close-recipe-button";
 import { CreateRecipeButton } from "@/components/recipe/create-recipe-button";
-import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { useRecipeStore } from "@/hooks/use-recipe-store";
 import {
   comparePreviousRecipeWithDestinationCommands,
   isActiveRecipeModified,
 } from "@/lib/utils";
-import { useEffect } from "react";
 import { useDocumentTitle } from "@uidotdev/usehooks";
+import { useEffect } from "react";
 
 const RecipeAreaTitle = () => {
   const { destinationCommands } = useCommandStore();

@@ -1,12 +1,12 @@
+import { Code } from "@/components/markdown/code";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { Command } from "@/types/command";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import { Code } from "@/components/markdown/code";
+import type { Command } from "@/types/command";
 
 interface RecipeListItemPreviewDialogContentProps {
   command: Command;

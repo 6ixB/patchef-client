@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 enum CommandType {
-  Basic = "basic",
-  Advanced = "advanced",
+  Basic = "BASIC",
+  Advanced = "ADVANCED",
 }
 
 const errorMessages = {

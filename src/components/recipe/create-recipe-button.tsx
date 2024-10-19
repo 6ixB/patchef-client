@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { cn, createRecipe } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
+import { cn, createRecipe } from "@/lib/utils";
 import { GroupIcon } from "lucide-react";
 import {
   type ChangeEvent,
@@ -8,8 +10,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Input } from "@/components/ui/input";
-import { useCommandStore } from "@/hooks/use-command-store";
 
 const CreateRecipeButton = () => {
   const { destinationCommands } = useCommandStore();

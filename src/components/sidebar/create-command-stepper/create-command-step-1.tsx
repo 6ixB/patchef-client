@@ -1,6 +1,5 @@
-import type { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { CodeEditorDialog } from "@/components/markdown/code-editor-dialog";
+import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,15 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { CommandSchema, CommandType } from "@/types/command";
-import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { generateDefaultValues } from "@/lib/utils";
+import { CommandSchema, CommandType } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
-import { generateDefaultValues } from "@/lib/utils";
-import { CodeEditorDialog } from "@/components/markdown/code-editor-dialog";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
 
 const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   const { setManageState, draftCommand, setDraftCommand } = useCommandStore();

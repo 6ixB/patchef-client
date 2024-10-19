@@ -1,10 +1,10 @@
-import type { ColumnDef } from "@tanstack/react-table";
-import type { Command } from "@/types/command";
-import { Button } from "@/components/ui/button";
-import { BoltIcon, CommandIcon } from "lucide-react";
 import { RemoveSourceCommandButton } from "@/components/sidebar/command-data-table/remove-source-command-button";
+import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
+import type { Command } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
+import type { ColumnDef } from "@tanstack/react-table";
+import { BoltIcon, CommandIcon } from "lucide-react";
 
 const columns: ColumnDef<Command>[] = [
   {

@@ -1,6 +1,6 @@
 import { RecipeAreaControls } from "@/components/recipe/recipe-area-controls";
-import { CookingPotIcon } from "lucide-react";
 import { RecipeAreaTitle } from "@/components/recipe/recipe-area-title";
+import { CookingPotIcon } from "lucide-react";
 
 const RecipeAreaHeader = () => {
   return (

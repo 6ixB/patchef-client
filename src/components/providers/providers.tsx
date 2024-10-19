@@ -1,5 +1,5 @@
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { DndContextProvider } from "@/components/providers/dnd-context-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { ReactNode } from "react";
 
 interface ProvidersProps {

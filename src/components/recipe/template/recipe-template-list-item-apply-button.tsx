@@ -1,9 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { useCommandStore } from "@/hooks/use-command-store";
-import { useRecipeStore } from "@/hooks/use-recipe-store";
-import type { Recipe } from "@/types/recipe";
-import { ArrowRightToLineIcon } from "lucide-react";
-import { useCallback, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,6 +8,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { useCommandStore } from "@/hooks/use-command-store";
+import { useRecipeStore } from "@/hooks/use-recipe-store";
+import type { Recipe } from "@/types/recipe";
+import { ArrowRightToLineIcon } from "lucide-react";
+import { useCallback, useState } from "react";
 
 interface RecipeTemplateListItemApplyButtonProps {
   recipe: Recipe;

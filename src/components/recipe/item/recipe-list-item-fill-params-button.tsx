@@ -1,4 +1,6 @@
+import { RecipeListItemFillParamsDialogContent } from "@/components/recipe/item/recipe-list-item-fill-params-dialog-content";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -7,8 +9,6 @@ import {
 } from "@/components/ui/tooltip";
 import type { Command } from "@/types/command";
 import { VariableIcon } from "lucide-react";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { RecipeListItemFillParamsDialogContent } from "@/components/recipe/item/recipe-list-item-fill-params-dialog-content";
 
 interface RecipeListItemFillParamsButtonProps {
   command: Command;

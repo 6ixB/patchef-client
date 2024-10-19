@@ -1,7 +1,7 @@
-import { SquareTerminalIcon } from "lucide-react";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Badge } from "@/components/ui/badge";
 import { ContributorList } from "@/components/header/contributor-list";
+import { Badge } from "@/components/ui/badge";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { SquareTerminalIcon } from "lucide-react";
 
 const Header = () => {
   return (

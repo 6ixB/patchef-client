@@ -1,3 +1,5 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,14 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { BoltIcon, RabbitIcon } from "lucide-react";
-import type { Command } from "@/types/command";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import type { DraftFunction } from "use-immer";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import type { Command } from "@/types/command";
+import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
+import type { DraftFunction } from "use-immer";
 
 interface EditCommandOptionsPlaygroundDialogProps {
   draftCommandCopy: Command | null;

@@ -1,8 +1,8 @@
 import {
-  CommandType,
   type Command,
   type CommandOption,
   type CommandParameter,
+  CommandType,
 } from "@/types/command";
 import type { CommandPreview } from "@/types/command-preview";
 import type { Recipe } from "@/types/recipe";

@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { Code } from "@/components/markdown/code";
+import { EditCommandOptionsPlaygroundDialog } from "@/components/sidebar/edit-command-stepper/edit-command-options-playground-dialog";
+import { EditCommandParametersCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-parameters-combobox";
+import type { EditCommandStepProps } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
 import { Button } from "@/components/ui/button";
+import { useCommandStore } from "@/hooks/use-command-store";
 import {
   copyDraftCommand,
   generateCodeMarkdown,
   generateCommandString,
 } from "@/lib/utils";
 import type { Command, CommandParameter } from "@/types/command";
-import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
+import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useImmer } from "use-immer";
-import type { EditCommandStepProps } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
-import { EditCommandParametersCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-parameters-combobox";
-import { EditCommandOptionsPlaygroundDialog } from "@/components/sidebar/edit-command-stepper/edit-command-options-playground-dialog";
 
 const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
   const {

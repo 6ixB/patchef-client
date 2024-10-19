@@ -2,7 +2,7 @@ import { recipes } from "@/lib/recipes";
 import type { RecipeState } from "@/types/use-recipe-store";
 import { produce } from "immer";
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 const useRecipeStore = create<RecipeState>()(

@@ -1,9 +1,9 @@
-import type { Command } from "@/types/command";
-import { Card, CardTitle } from "@/components/ui/card";
-import { useDraggable } from "@dnd-kit/core";
-import { DndContextEventDataType } from "@/types/dnd-context";
-import { CommandIcon } from "lucide-react";
 import { CommandListItemInfoButton } from "@/components/commands/command-list-item-info-button";
+import { Card, CardTitle } from "@/components/ui/card";
+import type { Command } from "@/types/command";
+import { DndContextEventDataType } from "@/types/dnd-context";
+import { useDraggable } from "@dnd-kit/core";
+import { CommandIcon } from "lucide-react";
 
 interface CommandListItemProps {
   command: Command;

@@ -1,12 +1,6 @@
-import {
-  type ColumnDef,
-  type ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getFilteredRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { CommandDataTablePagination } from "@/components/sidebar/command-data-table/command-data-table-pagination";
+import { CommandDataTableSearch } from "@/components/sidebar/command-data-table/command-data-table-search";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -15,13 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
-import { CommandDataTableSearch } from "@/components/sidebar/command-data-table/command-data-table-search";
-import { CommandDataTablePagination } from "@/components/sidebar/command-data-table/command-data-table-pagination";
-import { WandSparklesIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { ManageState } from "@/types/use-command.store";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { WandSparklesIcon } from "lucide-react";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

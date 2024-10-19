@@ -1,17 +1,17 @@
+import { columns } from "@/components/sidebar/command-data-table/command-columns";
+import { CommandDataTable } from "@/components/sidebar/command-data-table/command-data-table";
+import { CreateCommandStepper } from "@/components/sidebar/create-command-stepper/create-command-stepper";
+import { EditCommandStepper } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CommandDataTable } from "@/components/sidebar/command-data-table/command-data-table";
-import { columns } from "@/components/sidebar/command-data-table/command-columns";
-import { TerminalIcon, WandSparklesIcon } from "lucide-react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { Command } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
-import { CreateCommandStepper } from "@/components/sidebar/create-command-stepper/create-command-stepper";
-import { EditCommandStepper } from "@/components/sidebar/edit-command-stepper/edit-command-stepper";
+import { TerminalIcon, WandSparklesIcon } from "lucide-react";
 
 const renderHeader = (state: ManageState) => {
   const getTitle = () => {

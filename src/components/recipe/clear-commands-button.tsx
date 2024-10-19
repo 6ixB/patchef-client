@@ -1,4 +1,3 @@
-import { useCommandStore } from "@/hooks/use-command-store";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,9 +10,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
+import { cn } from "@/lib/utils";
+import { TrashIcon } from "lucide-react";
 
 const ClearCommandsButton = () => {
   const { destinationCommands, clearDestinationCommands } = useCommandStore();

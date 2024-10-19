@@ -1,5 +1,6 @@
-import { CookingPotIcon, TerminalIcon } from "lucide-react";
+import { DraggableViewSearch } from "@/components/sidebar/draggable-view-search";
 import { ManageButton } from "@/components/sidebar/manage-button";
+import type { DraggableView } from "@/components/sidebar/sidebar";
 import {
   Select,
   SelectContent,
@@ -7,8 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { DraggableView } from "@/components/sidebar/sidebar";
-import { DraggableViewSearch } from "@/components/sidebar/draggable-view-search";
+import { CookingPotIcon, TerminalIcon } from "lucide-react";
 
 interface SidebarHeaderProps {
   draggableView: DraggableView;

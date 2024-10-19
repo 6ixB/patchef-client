@@ -1,12 +1,12 @@
 import { commands } from "@/lib/commands";
-import { ManageState, type CommandState } from "@/types/use-command.store";
+import { generateCommandString } from "@/lib/utils";
+import type { CommandPreview } from "@/types/command-preview";
+import { type CommandState, ManageState } from "@/types/use-command.store";
+import { produce } from "immer";
+import { v4 as generateUuidV4 } from "uuid";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { produce } from "immer";
-import { v4 as generateUuidV4 } from "uuid";
-import type { CommandPreview } from "@/types/command-preview";
-import { generateCommandString } from "@/lib/utils";
 
 /* 
   Usage: create a store for the command state.

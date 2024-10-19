@@ -1,8 +1,8 @@
+import { RecipeTemplateListItemApplyButton } from "@/components/recipe/template/recipe-template-list-item-apply-button";
+import { RecipeTemplateListItemRemoveButton } from "@/components/recipe/template/recipe-template-list-item-remove-button";
 import { Card, CardTitle } from "@/components/ui/card";
 import type { Recipe } from "@/types/recipe";
 import { CookingPotIcon } from "lucide-react";
-import { RecipeTemplateListItemApplyButton } from "@/components/recipe/template/recipe-template-list-item-apply-button";
-import { RecipeTemplateListItemRemoveButton } from "@/components/recipe/template/recipe-template-list-item-remove-button";
 
 interface RecipeTemplateListItemProps {
   recipe: Recipe;

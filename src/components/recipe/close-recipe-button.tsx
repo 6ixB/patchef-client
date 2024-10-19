@@ -1,8 +1,8 @@
-import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { cn } from "@/lib/utils";
+import { XIcon } from "lucide-react";
 
 const CloseRecipeButton = () => {
   const { destinationCommands, setDestinationCommands } = useCommandStore();

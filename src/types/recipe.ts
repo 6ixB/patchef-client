@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { CommandSchema } from "@/types/command";
+import { z } from "zod";
 
 const RecipeSchema = z.object({
   id: z.string(),

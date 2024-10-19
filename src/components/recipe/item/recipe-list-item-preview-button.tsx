@@ -1,4 +1,6 @@
+import { RecipeListItemPreviewDialogContent } from "@/components/recipe/item/recipe-list-item-preview-dialog-content";
 import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -6,10 +8,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { Command } from "@/types/command";
-import { TerminalIcon } from "lucide-react";
-import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { RecipeListItemPreviewDialogContent } from "@/components/recipe/item/recipe-list-item-preview-dialog-content";
+import { TerminalIcon } from "lucide-react";
 
 interface RecipeListItemPreviewButtonProps {
   command: Command;

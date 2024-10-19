@@ -1,3 +1,6 @@
+import { Code } from "@/components/markdown/code";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,12 +10,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
-import type { Command } from "@/types/command";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import { Code } from "@/components/markdown/code";
-import { Badge } from "@/components/ui/badge";
+import type { Command } from "@/types/command";
+import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
 
 interface CommandListItemInfoButtonProps {
   command: Command;

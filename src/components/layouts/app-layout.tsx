@@ -1,8 +1,8 @@
-import { Providers } from "@/components/providers/providers";
 import { Header } from "@/components/header/header";
+import { Providers } from "@/components/providers/providers";
 import { Sidebar } from "@/components/sidebar/sidebar";
-import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import type { ReactNode } from "react";
 
 interface AppLayoutProps {
   children: ReactNode;

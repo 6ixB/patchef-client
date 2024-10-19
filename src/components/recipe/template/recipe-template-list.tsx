@@ -1,7 +1,7 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecipeTemplateListItem } from "@/components/recipe/template/recipe-template-list-item";
-import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { Card, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { RabbitIcon } from "lucide-react";
 
 const RecipeTemplateList = () => {

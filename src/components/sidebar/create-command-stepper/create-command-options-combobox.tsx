@@ -1,5 +1,3 @@
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -15,7 +13,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { cn } from "@/lib/utils";
 import type { CommandOption } from "@/types/command";
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 interface CreateCommandOptionsComboboxProps {
   open: boolean;

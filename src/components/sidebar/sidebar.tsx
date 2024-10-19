@@ -1,5 +1,5 @@
-import { SidebarHeader } from "@/components/sidebar/sidebar-header";
 import { SidebarBody } from "@/components/sidebar/sidebar-body";
+import { SidebarHeader } from "@/components/sidebar/sidebar-header";
 import { useState } from "react";
 
 enum DraggableView {

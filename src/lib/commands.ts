@@ -1,4 +1,4 @@
-import { CommandType, type Command } from "@/types/command";
+import { type Command, CommandType } from "@/types/command";
 
 const commands: Command[] = [
   {

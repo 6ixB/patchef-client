@@ -1,6 +1,6 @@
 import { CommandList } from "@/components/commands/command-list";
-import { DraggableView } from "@/components/sidebar/sidebar";
 import { RecipeTemplateList } from "@/components/recipe/template/recipe-template-list";
+import { DraggableView } from "@/components/sidebar/sidebar";
 
 interface SidebarBodyProps {
   draggableView: DraggableView;
