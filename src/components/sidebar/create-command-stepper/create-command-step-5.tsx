@@ -1,8 +1,10 @@
+import { createCommand } from "@/api/command.api";
 import { Code } from "@/components/markdown/code";
 import { CreateCommandOptionsPlaygroundDialog } from "@/components/sidebar/create-command-stepper/create-command-options-playground-dialog";
 import { CreateCommandParametersCombobox } from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
 import { useCommandStore } from "@/hooks/use-command-store";
 import {
   copyDraftCommand,
@@ -11,6 +13,7 @@ import {
 } from "@/lib/utils";
 import type { Command, CommandParameter } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
+import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -39,6 +42,11 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
   const [selectedParameter, setSelectedParameter] =
     useState<CommandParameter | null>(null);
 
+  const createCommandMutation = useMutation({
+    mutationKey: ["create-command", draftCommand?.id],
+    mutationFn: createCommand,
+  });
+
   const createCommandParametersComboboxProps = {
     draftCommandCopy,
     setDraftCommandCopy,
@@ -61,12 +69,14 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     setDraftCommandCopy(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!draftCommand) {
       return;
     }
 
     // TODO: Add validation for options with required parameters must be filled
+
+    await createCommandMutation.mutateAsync(draftCommand);
 
     const commandName = `${draftCommand.name}`;
 
@@ -122,8 +132,17 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
           Previous
         </Button>
         <Button onClick={handleSubmit}>
-          <BadgePlusIcon className="mr-2 size-4" />
-          Create
+          {createCommandMutation.isPending ? (
+            <>
+              <Icons.spinner className="mr-2 size-4 animate-spin" />
+              Creating...
+            </>
+          ) : (
+            <>
+              <BadgePlusIcon className="mr-2 size-4" />
+              Create
+            </>
+          )}
         </Button>
       </div>
     </div>

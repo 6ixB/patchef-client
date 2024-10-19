@@ -1,3 +1,4 @@
+import { removeCommand } from "@/api/command.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { Command } from "@/types/command";
+import { useMutation } from "@tanstack/react-query";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,6 +25,18 @@ const RemoveSourceCommandButton = ({
   command,
 }: RemoveSourceCommandButtonProps) => {
   const { removeSourceCommand } = useCommandStore();
+
+  const removeCommandMutation = useMutation({
+    mutationKey: ["remove-command", command.id],
+    mutationFn: removeCommand,
+  });
+
+  const handleSubmit = async () => {
+    await removeCommandMutation.mutateAsync(command);
+
+    removeSourceCommand(command.id);
+    toast.success(`Command removed successfully - ${command.name}`);
+  };
 
   return (
     <AlertDialog>
@@ -41,14 +55,7 @@ const RemoveSourceCommandButton = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              removeSourceCommand(command.id);
-              toast.success(`Command removed successfully - ${command.name}`);
-            }}
-          >
-            Continue
-          </AlertDialogAction>
+          <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

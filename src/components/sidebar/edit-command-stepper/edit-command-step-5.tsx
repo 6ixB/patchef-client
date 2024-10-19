@@ -1,3 +1,4 @@
+import { updateCommand } from "@/api/command.api";
 import { Code } from "@/components/markdown/code";
 import { EditCommandOptionsPlaygroundDialog } from "@/components/sidebar/edit-command-stepper/edit-command-options-playground-dialog";
 import { EditCommandParametersCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-parameters-combobox";
@@ -11,6 +12,7 @@ import {
 } from "@/lib/utils";
 import type { Command, CommandParameter } from "@/types/command";
 import { ManageState } from "@/types/use-command.store";
+import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -37,6 +39,11 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
   const [open, setOpen] = useState(false);
   const [selectedParameter, setSelectedParameter] =
     useState<CommandParameter | null>(null);
+
+  const updateCommandMutation = useMutation({
+    mutationKey: ["update-command", draftCommand?.id],
+    mutationFn: updateCommand,
+  });
 
   const editCommandParametersComboboxProps = {
     draftCommandCopy,
@@ -70,10 +77,12 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
     setDraftCommandCopy(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!draftCommand) {
       return;
     }
+
+    await updateCommandMutation.mutateAsync(draftCommand);
 
     const commandName = `${draftCommand.name}`;
 
