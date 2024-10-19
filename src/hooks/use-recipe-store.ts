@@ -5,6 +5,12 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
+/* 
+  Usage: create a store for the recipe state.
+  This store is used to manage the state of the recipes in the application.
+
+  Note: immer is used to enable the use of mutable updates in the set function.
+*/
 const useRecipeStore = create<RecipeState>()(
   devtools(
     persist(
