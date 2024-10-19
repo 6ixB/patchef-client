@@ -1,4 +1,3 @@
-import { commands } from "@/lib/commands";
 import { generateCommandString } from "@/lib/utils";
 import type { CommandPreview } from "@/types/command-preview";
 import { type CommandState, ManageState } from "@/types/use-command.store";
@@ -17,7 +16,7 @@ import { immer } from "zustand/middleware/immer";
 const useCommandStore = create<CommandState>()(
   persist(
     immer((set) => ({
-      initialSourceCommands: commands,
+      initialSourceCommands: [],
       setInitialSourceCommands: (value) =>
         set((state) => {
           if (typeof value === "function") {
@@ -30,7 +29,7 @@ const useCommandStore = create<CommandState>()(
           }
         }),
 
-      sourceCommands: commands,
+      sourceCommands: [],
       setSourceCommands: (value) =>
         set((state) => {
           if (typeof value === "function") {

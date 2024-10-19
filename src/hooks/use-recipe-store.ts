@@ -1,4 +1,3 @@
-import { recipes } from "@/lib/recipes";
 import type { RecipeState } from "@/types/use-recipe-store";
 import { produce } from "immer";
 import { create } from "zustand";
@@ -15,7 +14,7 @@ const useRecipeStore = create<RecipeState>()(
   devtools(
     persist(
       immer((set) => ({
-        initialRecipes: recipes,
+        initialRecipes: [],
         setInitialRecipes: (value) =>
           set((state) => {
             if (typeof value === "function") {
@@ -25,7 +24,7 @@ const useRecipeStore = create<RecipeState>()(
             }
           }),
 
-        recipes: recipes,
+        recipes: [],
         setRecipes: (value) =>
           set((state) => {
             if (typeof value === "function") {
