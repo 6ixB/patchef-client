@@ -171,6 +171,9 @@ importers:
       '@types/uuid':
         specifier: ^10.0.0
         version: 10.0.0
+      git-cz:
+        specifier: ^4.9.0
+        version: 4.9.0
       shiki:
         specifier: ^1.18.0
         version: 1.18.0
@@ -1378,6 +1381,10 @@ packages:
   get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
+
+  git-cz@4.9.0:
+    resolution: {integrity: sha512-cSRL8IIOXU7UFLdbziCYqg8f8InwLwqHezkiRHNSph7oZqGv0togId1kMTfKil6gzK0VaSXeVBb4oDl0fQCHiw==}
+    hasBin: true
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -3192,6 +3199,8 @@ snapshots:
       next: 14.2.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   get-nonce@1.0.1: {}
+
+  git-cz@4.9.0: {}
 
   glob-parent@5.1.2:
     dependencies:

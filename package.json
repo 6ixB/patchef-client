@@ -2,7 +2,13 @@
   "name": "patchef-client",
   "private": true,
   "version": "1.0.0",
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  },
   "scripts": {
+    "commit": "git-cz",
     "build": "rsbuild build",
     "check": "biome check --write",
     "dev": "rsbuild dev --open",
@@ -66,6 +72,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^10.0.0",
+    "git-cz": "^4.9.0",
     "shiki": "^1.18.0",
     "tailwindcss": "^3.4.10",
     "tailwindcss-inner-border": "^0.2.0",
