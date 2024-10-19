@@ -19,7 +19,7 @@ const contributors = [
   {
     id: 3,
     name: "MY23-1",
-    designation: "Contributor",
+    designation: "Psyker",
     image: "https://avatars.githubusercontent.com/u/124480418?v=4",
     githubProfileUrl: "https://github.com/6ixB",
   },
