@@ -14,7 +14,10 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn, generateDefaultValues } from "@/lib/utils";
-import { type CommandParameter, CommandParameterSchema } from "@/types/command";
+import {
+  type CreateCommandParameterDto,
+  CreateCommandParameterDtoSchema,
+} from "@/types/commands/command.dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -25,31 +28,30 @@ import {
 } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CreateCommandParameterDto | null>(null);
 
-  const form = useForm<z.infer<typeof CommandParameterSchema>>({
-    resolver: zodResolver(CommandParameterSchema),
+  const form = useForm<CreateCommandParameterDto>({
+    resolver: zodResolver(CreateCommandParameterDtoSchema),
     defaultValues: generateDefaultValues.commandParameter(),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CreateCommandParameterDto) => {
     if (!draftCommand) {
       return;
     }
 
-    const { id, name, description } = values;
+    const { name, description } = values;
 
     if (selectedParameter) {
       const updatedParameters = draftCommand.parameters?.map((parameter) => {
-        if (parameter.id === selectedParameter.id) {
+        if (parameter.name === selectedParameter.name) {
           return {
             ...parameter,
-            id,
             name,
             description,
           };
@@ -65,12 +67,27 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
       setSelectedParameter(null);
     } else {
+      let nameAlreadyExists = false;
+
+      for (const parameter of draftCommand.parameters ?? []) {
+        if (parameter.name === name) {
+          nameAlreadyExists = true;
+          break;
+        }
+      }
+
+      if (nameAlreadyExists) {
+        form.setError("name", {
+          message: "Parameter already exists",
+        });
+        return;
+      }
+
       setDraftCommand({
         ...draftCommand,
         parameters: [
           ...(draftCommand.parameters ?? []),
           {
-            id,
             name,
             description,
             payload: `[${name}]`, // Placeholder payload as default value
@@ -82,13 +99,14 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
     form.reset(generateDefaultValues.commandParameter());
   };
 
-  const handleParameterClick = (parameter: CommandParameter) => {
-    if (selectedParameter?.id === parameter.id) {
+  const handleParameterClick = (parameter: CreateCommandParameterDto) => {
+    form.clearErrors();
+
+    if (selectedParameter?.name === parameter.name) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
-      form.setValue("id", parameter.id);
       form.setValue("name", parameter.name);
       form.setValue("description", parameter.description);
     }
@@ -96,7 +114,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    name: string,
   ) => {
     e.stopPropagation();
 
@@ -105,7 +123,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const filteredParameters = draftCommand.parameters?.filter(
-      (parameter) => parameter.id !== id,
+      (parameter) => parameter.name !== name,
     );
 
     // If there are no parameters left, remove the parameters key from the draft command
@@ -121,7 +139,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
       });
     }
 
-    if (selectedParameter?.id === id) {
+    if (selectedParameter?.name === name) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     }
@@ -198,18 +216,18 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 draftCommand?.parameters?.length !== 0 ? (
                   draftCommand?.parameters?.map((parameter) => (
                     <Card
-                      key={parameter.id}
+                      key={parameter.name}
                       onClick={() => handleParameterClick(parameter)}
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                        selectedParameter?.id === parameter.id &&
+                        selectedParameter?.name === parameter.name &&
                           "inner-border-2 inner-border-primary",
                       )}
                     >
                       {parameter.name}
                       <XIcon
                         onClick={(e) => {
-                          handleRemoveParameterClick(e, parameter.id);
+                          handleRemoveParameterClick(e, parameter.name);
                         }}
                         className="size-4"
                       />

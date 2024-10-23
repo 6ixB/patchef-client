@@ -20,28 +20,30 @@ import {
 } from "@/components/ui/select";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { generateDefaultValues } from "@/lib/utils";
-import { CommandSchema, CommandType } from "@/types/command";
-import { ManageState } from "@/types/use-command.store";
+import {
+  CreateCommandDtoSchema,
+  type CreateCommandDto,
+} from "@/types/commands/command.dto";
+import { CommandType } from "@/types/commands/command.entity";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
   const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
 
-  const form = useForm<z.infer<typeof CommandSchema>>({
-    resolver: zodResolver(CommandSchema),
-    defaultValues: generateDefaultValues.command(draftCommand),
+  const form = useForm<CreateCommandDto>({
+    resolver: zodResolver(CreateCommandDtoSchema),
+    defaultValues: generateDefaultValues.draftCommand(draftCommand),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandSchema>) => {
-    const { id, type, name, description, payload } = values;
+  const onSubmit = (values: CreateCommandDto) => {
+    const { type, name, description, payload } = values;
 
     setDraftCommand({
       ...draftCommand,
-      id,
       type,
       name,
       description,

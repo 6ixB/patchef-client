@@ -7,12 +7,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { TerminalIcon } from "lucide-react";
 
 interface RecipeListItemPreviewButtonProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const RecipeListItemPreviewButton = ({

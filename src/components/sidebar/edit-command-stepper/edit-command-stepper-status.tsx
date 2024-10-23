@@ -12,11 +12,11 @@ interface EditCommandStepperStatusProps {
 const EditCommandStepperStatus = ({
   stepper,
 }: EditCommandStepperStatusProps) => {
-  const { draftCommand } = useCommandStore();
+  const { revisedCommand } = useCommandStore();
 
   const handleStepClick = (step: Step) => {
     // Check if the draft command is empty
-    if (!draftCommand) {
+    if (!revisedCommand) {
       toast.error("Please fill out the required fields first.");
       return;
     }
@@ -26,7 +26,7 @@ const EditCommandStepperStatus = ({
       // Check if the current step is step-4 and all required option parameters are filled
       if (
         stepper.current.id === "step-4" &&
-        !checkAllFillableOptionParametersAreFilled(draftCommand)
+        !checkAllFillableOptionParametersAreFilled(revisedCommand)
       ) {
         toast.error(
           "Please fill out the required fields for the current step first.",

@@ -14,14 +14,14 @@ import {
 } from "@/components/ui/popover";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn } from "@/lib/utils";
-import type { CommandOption } from "@/types/command";
+import type { CommandOptionEntity } from "@/types/commands/command.entity";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 interface EditCommandOptionsComboboxProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  selectedOption: CommandOption | null;
-  setSelectedOption: (option: CommandOption | null) => void;
+  selectedOption: CommandOptionEntity | null;
+  setSelectedOption: (option: CommandOptionEntity | null) => void;
 }
 
 const EditCommandOptionsCombobox = ({
@@ -30,9 +30,9 @@ const EditCommandOptionsCombobox = ({
   selectedOption,
   setSelectedOption,
 }: EditCommandOptionsComboboxProps) => {
-  const { draftCommand } = useCommandStore();
+  const { revisedCommand } = useCommandStore();
 
-  const optionsWithRequiredParameters = draftCommand?.options?.filter(
+  const optionsWithRequiredParameters = revisedCommand?.options?.filter(
     (option) => option.parameterRequired,
   );
 

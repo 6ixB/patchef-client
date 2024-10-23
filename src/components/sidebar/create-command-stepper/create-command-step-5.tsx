@@ -1,4 +1,4 @@
-import { createCommand } from "@/api/command.api";
+import { createCommand as createCommandApi } from "@/api/command.api";
 import { Code } from "@/components/markdown/code";
 import { CreateCommandOptionsPlaygroundDialog } from "@/components/sidebar/create-command-stepper/create-command-options-playground-dialog";
 import { CreateCommandParametersCombobox } from "@/components/sidebar/create-command-stepper/create-command-parameters-combobox";
@@ -11,8 +11,12 @@ import {
   generateCodeMarkdown,
   generateCommandString,
 } from "@/lib/utils";
-import type { Command, CommandParameter } from "@/types/command";
-import { ManageState } from "@/types/use-command.store";
+import type {
+  CreateCommandDto,
+  CreateCommandParameterDto,
+} from "@/types/commands/command.dto";
+import type { CommandEntity } from "@/types/commands/command.entity";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
@@ -34,17 +38,16 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     This is to prevent the actual command draft's parameters to be modified and have a payload value
     other than the default, since source commands should not have a custom payload value yet.
   */
-  const [draftCommandCopy, setDraftCommandCopy] = useImmer<Command | null>(
-    copyDraftCommand(draftCommand),
-  );
+  const [draftCommandCopy, setDraftCommandCopy] =
+    useImmer<CreateCommandDto | null>(copyDraftCommand(draftCommand));
 
   const [open, setOpen] = useState(false);
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CreateCommandParameterDto | null>(null);
 
   const createCommandMutation = useMutation({
-    mutationKey: ["create-command", draftCommand?.id],
-    mutationFn: createCommand,
+    mutationKey: ["create-command", draftCommand?.name],
+    mutationFn: createCommandApi,
   });
 
   const createCommandParametersComboboxProps = {
@@ -62,9 +65,9 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     codePayload &&
     generateCodeMarkdown({ codePayload, showLineNumbers: false });
 
-  const addCommand = (draftCommand: Command) => {
-    setSourceCommands([...sourceCommands, draftCommand]);
-    setInitialSourceCommands([...sourceCommands, draftCommand]);
+  const addCommand = (createdCommand: CommandEntity) => {
+    setSourceCommands([...sourceCommands, createdCommand]);
+    setInitialSourceCommands([...sourceCommands, createdCommand]);
     setDraftCommand(null);
     setDraftCommandCopy(null);
   };
@@ -76,14 +79,15 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
 
     // TODO: Add validation for options with required parameters must be filled
 
-    await createCommandMutation.mutateAsync(draftCommand);
+    const createdCommand =
+      await createCommandMutation.mutateAsync(draftCommand);
 
     const commandName = `${draftCommand.name}`;
 
     /* 
       Finally add the draft command to the source commands list.
     */
-    addCommand(draftCommand);
+    addCommand(createdCommand);
     setManageState(ManageState.View);
     toast.success(`Command created successfully! - ${commandName}`);
   };

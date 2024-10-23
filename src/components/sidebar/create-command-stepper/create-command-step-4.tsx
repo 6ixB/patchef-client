@@ -20,10 +20,10 @@ import {
   generateDefaultValues,
 } from "@/lib/utils";
 import {
-  type CommandOption,
-  type CommandParameter,
-  CommandParameterSchema,
-} from "@/types/command";
+  type CreateCommandOptionDto,
+  type CreateCommandParameterDto,
+  CreateCommandParameterDtoSchema,
+} from "@/types/commands/command.dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -35,17 +35,15 @@ import {
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
 
 const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CreateCommandParameterDto | null>(null);
 
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] =
+    useState<CreateCommandOptionDto | null>(null);
   const createCommandOptionsComboboxProps = {
     open,
     setOpen,
@@ -53,8 +51,8 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     setSelectedOption,
   };
 
-  const form = useForm<z.infer<typeof CommandParameterSchema>>({
-    resolver: zodResolver(CommandParameterSchema),
+  const form = useForm<CreateCommandParameterDto>({
+    resolver: zodResolver(CreateCommandParameterDtoSchema),
     defaultValues: generateDefaultValues.commandParameter(),
   });
 
@@ -63,15 +61,16 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     Note: option index can be 0 so we need to check for not found and undefined
   */
   const optionIndex = draftCommand?.options?.findIndex(
-    (option) => option.id === selectedOption?.id,
+    (option) => option.name === selectedOption?.name,
   );
 
-  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CreateCommandParameterDto) => {
     if (!draftCommand) {
       return;
     }
 
-    const { id, name, description } = values;
+    const { name, description } = values;
 
     if (optionIndex === -1 || optionIndex === undefined) {
       return;
@@ -81,10 +80,9 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
       const updatedParameters = draftCommand.options?.[
         optionIndex
       ]?.parameters?.map((parameter) => {
-        if (parameter.id === selectedParameter.id) {
+        if (parameter.name === selectedParameter.name) {
           return {
             ...parameter,
-            id,
             name,
             description,
           };
@@ -107,6 +105,29 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
       setSelectedParameter(null);
     } else {
+      if (
+        draftCommand.options &&
+        optionIndex !== undefined &&
+        optionIndex !== -1 &&
+        draftCommand?.options[optionIndex].parameters
+      ) {
+        let nameAlreadyExists = false;
+
+        for (const parameter of draftCommand.options[optionIndex].parameters) {
+          if (parameter.name === name) {
+            nameAlreadyExists = true;
+            break;
+          }
+        }
+
+        if (nameAlreadyExists) {
+          form.setError("name", {
+            message: "Parameter already exists",
+          });
+          return;
+        }
+      }
+
       setDraftCommand((draft) => {
         if (
           !draft?.options ||
@@ -116,7 +137,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
           return;
         }
 
-        const newParameter = { id, name, description, payload: `[${name}]` }; // Placeholder payload as default value
+        const newParameter = { name, description, payload: `[${name}]` }; // Placeholder payload as default value
 
         if (draft.options[optionIndex].parameters) {
           draft.options[optionIndex].parameters.push(newParameter);
@@ -129,13 +150,14 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     form.reset(generateDefaultValues.commandParameter());
   };
 
-  const handleParameterClick = (parameter: CommandParameter) => {
-    if (selectedParameter?.id === parameter.id) {
+  const handleParameterClick = (parameter: CreateCommandParameterDto) => {
+    form.clearErrors();
+
+    if (selectedParameter?.name === parameter.name) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
-      form.setValue("id", parameter.id);
       form.setValue("name", parameter.name);
       form.setValue("description", parameter.description);
     }
@@ -143,7 +165,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    name: string,
   ) => {
     e.stopPropagation();
 
@@ -158,10 +180,10 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
       draft.options[optionIndex].parameters = draft.options[
         optionIndex
-      ].parameters?.filter((parameter) => parameter.id !== id);
+      ].parameters?.filter((parameter) => parameter.name !== name);
     });
 
-    if (selectedParameter?.id === id) {
+    if (selectedParameter?.name === name) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     }
@@ -245,18 +267,18 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                   draftCommand?.options[optionIndex]?.parameters?.map(
                     (parameter) => (
                       <Card
-                        key={parameter.id}
+                        key={parameter.name}
                         onClick={() => handleParameterClick(parameter)}
                         className={cn(
                           "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                          selectedParameter?.id === parameter.id &&
+                          selectedParameter?.name === parameter.name &&
                             "inner-border-2 inner-border-primary",
                         )}
                       >
                         {parameter.name}
                         <XIcon
                           onClick={(e) => {
-                            handleRemoveParameterClick(e, parameter.id);
+                            handleRemoveParameterClick(e, parameter.name);
                           }}
                           className="size-4"
                         />

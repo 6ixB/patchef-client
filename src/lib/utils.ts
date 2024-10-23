@@ -1,14 +1,18 @@
 import {
-  type Command,
-  type CommandOption,
-  type CommandParameter,
+  type CommandEntity,
+  type CommandOptionEntity,
+  type CommandParameterEntity,
   CommandType,
-} from "@/types/command";
-import type { CommandPreview } from "@/types/command-preview";
-import type { Recipe } from "@/types/recipe";
+} from "@/types/commands/command.entity";
+import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
+import type { RecipeEntity } from "@/types/recipes/recipe.entity";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { v4 as generateUuidV4 } from "uuid";
+import type {
+  CreateCommandDto,
+  CreateCommandParameterDto,
+} from "@/types/commands/command.dto";
 
 /* 
   Usage: this function is used to merge tailwind classes with classnames
@@ -20,7 +24,7 @@ function cn(...inputs: ClassValue[]): string {
 /* 
   Usage: this function is used to format parameters for a command
 */
-function formatParameters(parameters: CommandParameter[]): string {
+function formatParameters(parameters: CreateCommandParameterDto[]): string {
   return parameters.map((param) => param.payload).join(" ");
 }
 
@@ -29,7 +33,7 @@ function formatParameters(parameters: CommandParameter[]): string {
 */
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is fine as is - MY23-1
-function generateCommandString(command: Command): string {
+function generateCommandString(command: CreateCommandDto): string {
   let commandString = command.payload;
 
   if (command.parameters && command.parameters.length > 0) {
@@ -65,7 +69,12 @@ function generateCommandString(command: Command): string {
   return commandString;
 }
 
-function copyDraftCommand(draftCommand: Command | null): Command | null {
+/* 
+  Usage: this function is used to copy a draft command
+*/
+function copyDraftCommand(
+  draftCommand: CreateCommandDto | null,
+): CreateCommandDto | null {
   if (!draftCommand) {
     return null;
   }
@@ -84,25 +93,60 @@ function copyDraftCommand(draftCommand: Command | null): Command | null {
 }
 
 /* 
+  Usage: this function is used to copy a revised command
+*/
+function copyRevisedCommand(
+  revisedCommand: CommandEntity | null,
+): CommandEntity | null {
+  if (!revisedCommand) {
+    return null;
+  }
+
+  const draftCommandCopy = {
+    ...revisedCommand,
+    parameters: revisedCommand.parameters
+      ? revisedCommand.parameters.map((parameter) => ({
+          ...parameter,
+          payload: `[${parameter.name}]`,
+        }))
+      : [],
+  };
+
+  return draftCommandCopy;
+}
+
+/* 
   Usage: this function is used to generate default values for a command
 */
 const generateDefaultValues = {
-  command: (draftCommand: Command | null) => ({
-    id: draftCommand?.id ?? generateUuidV4(),
+  draftCommand: (draftCommand: CreateCommandDto | null) => ({
+    id: draftCommand?.id ?? undefined,
     type: CommandType.Basic,
     name: draftCommand?.name ?? "",
     description: draftCommand?.description ?? "",
     payload: draftCommand?.payload ?? "",
   }),
 
-  commandParameter: () => ({
-    id: generateUuidV4(),
+  revisedCommand: (revisedCommand: CommandEntity | null) => ({
+    ...revisedCommand,
+  }),
+
+  commandParameter: ({
+    generateId = false,
+  }: {
+    generateId?: boolean;
+  } = {}) => ({
+    id: generateId ? generateUuidV4() : undefined,
     name: "",
     description: "",
   }),
 
-  commandOption: () => ({
-    id: generateUuidV4(),
+  commandOption: ({
+    generateId = false,
+  }: {
+    generateId?: boolean;
+  } = {}) => ({
+    id: generateId ? generateUuidV4() : undefined,
     name: "",
     description: "",
     payload: "",
@@ -115,7 +159,7 @@ const generateDefaultValues = {
 /* 
   Usage: this function is used to check if all required parameters are filled
 */
-function checkAllRequiredParametersAreFilled(command: Command): boolean {
+function checkAllRequiredParametersAreFilled(command: CommandEntity): boolean {
   if (!command.parameters) {
     return true;
   }
@@ -132,7 +176,9 @@ function checkAllRequiredParametersAreFilled(command: Command): boolean {
 /* 
   Usage: this function is used to check if all enabled option parameters are filled
 */
-function checkAllEnabledOptionsParametersAreFilled(command: Command): boolean {
+function checkAllEnabledOptionsParametersAreFilled(
+  command: CommandEntity,
+): boolean {
   if (!command.options || command.options.length === 0) {
     return true;
   }
@@ -157,7 +203,7 @@ function checkAllEnabledOptionsParametersAreFilled(command: Command): boolean {
   when CREATING a new command
 */
 function checkAllFillableOptionParametersAreFilled(
-  command: Command | null,
+  command: CreateCommandDto | null,
 ): boolean {
   if (!command?.options) {
     return true;
@@ -180,7 +226,7 @@ function checkAllFillableOptionParametersAreFilled(
   when USING a command
 */
 function checkAllRequiredOptionParametersAreFilled(
-  option: CommandOption | undefined,
+  option: CommandOptionEntity | undefined,
 ): boolean {
   if (!option?.parameters) {
     return true;
@@ -199,7 +245,7 @@ function checkAllRequiredOptionParametersAreFilled(
   Usage: this function is used to format option parameters
 */
 function formatOptionParameters(
-  parameters: CommandParameter[] | undefined,
+  parameters: CommandParameterEntity[] | undefined,
 ): string {
   if (!parameters) {
     return "";
@@ -228,35 +274,20 @@ function generateCodeMarkdown({
 /* 
   Usage: this function is used to generate a script payload
 */
-function generateScriptPayload(commandPreviews: CommandPreview[]): string {
+function generateScriptPayload(
+  commandPreviews: CommandPreviewEntity[],
+): string {
   return commandPreviews
     .map((commandPreview) => commandPreview.preview)
     .join("\n");
-}
-
-/* 
-  Usage: this function is used to create/add a new recipe
-*/
-function createRecipe({
-  name,
-  commands,
-}: {
-  name: string;
-  commands: Command[];
-}): Recipe {
-  return {
-    id: generateUuidV4(),
-    name: name,
-    commands: commands,
-  };
 }
 
 /*
   Usage: this function is used to check if the active recipe has been modified
 */
 function isActiveRecipeModified(
-  recipe: Recipe,
-  destinationCommands: Command[],
+  recipe: RecipeEntity,
+  destinationCommands: CommandEntity[],
 ): boolean {
   if (recipe.commands.length !== destinationCommands.length) {
     return true;
@@ -275,8 +306,8 @@ function isActiveRecipeModified(
   Usage: this function is used to compare the previous recipe with the destination commands
 */
 function comparePreviousRecipeWithDestinationCommands(
-  previousRecipe: Recipe,
-  commands: Command[],
+  previousRecipe: RecipeEntity,
+  commands: CommandEntity[],
 ) {
   if (previousRecipe.commands.length !== commands.length) {
     return false;
@@ -304,7 +335,7 @@ export {
   generateCodeMarkdown,
   generateScriptPayload,
   copyDraftCommand,
-  createRecipe,
+  copyRevisedCommand,
   isActiveRecipeModified,
   comparePreviousRecipeWithDestinationCommands,
 };

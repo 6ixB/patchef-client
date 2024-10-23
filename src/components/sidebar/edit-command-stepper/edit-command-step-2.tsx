@@ -14,7 +14,10 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn, generateDefaultValues } from "@/lib/utils";
-import { type CommandParameter, CommandParameterSchema } from "@/types/command";
+import {
+  type CommandParameterEntity,
+  CommandParameterEntitySchema,
+} from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -25,27 +28,27 @@ import {
 } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
-  const { draftCommand, setDraftCommand } = useCommandStore();
+  const { revisedCommand, setRevisedCommand } = useCommandStore();
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CommandParameterEntity | null>(null);
 
-  const form = useForm<z.infer<typeof CommandParameterSchema>>({
-    resolver: zodResolver(CommandParameterSchema),
-    defaultValues: generateDefaultValues.commandParameter(),
+  const form = useForm<CommandParameterEntity>({
+    resolver: zodResolver(CommandParameterEntitySchema),
+    defaultValues: generateDefaultValues.commandParameter({ generateId: true }),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
-    if (!draftCommand) {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CommandParameterEntity) => {
+    if (!revisedCommand) {
       return;
     }
 
     const { id, name, description } = values;
 
     if (selectedParameter) {
-      const updatedParameters = draftCommand.parameters?.map((parameter) => {
+      const updatedParameters = revisedCommand.parameters?.map((parameter) => {
         if (parameter.id === selectedParameter.id) {
           return {
             ...parameter,
@@ -58,17 +61,33 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
         return parameter;
       });
 
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         parameters: updatedParameters,
       });
 
       setSelectedParameter(null);
     } else {
-      setDraftCommand({
-        ...draftCommand,
+      let nameAlreadyExists = false;
+
+      for (const parameter of revisedCommand.parameters ?? []) {
+        if (parameter.name === name) {
+          nameAlreadyExists = true;
+          break;
+        }
+      }
+
+      if (nameAlreadyExists) {
+        form.setError("name", {
+          message: "Parameter already exists",
+        });
+        return;
+      }
+
+      setRevisedCommand({
+        ...revisedCommand,
         parameters: [
-          ...(draftCommand.parameters ?? []),
+          ...(revisedCommand.parameters ?? []),
           {
             id,
             name,
@@ -79,13 +98,13 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
       });
     }
 
-    form.reset(generateDefaultValues.commandParameter());
+    form.reset(generateDefaultValues.commandParameter({ generateId: true }));
   };
 
-  const handleParameterClick = (parameter: CommandParameter) => {
+  const handleParameterClick = (parameter: CommandParameterEntity) => {
     if (selectedParameter?.id === parameter.id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter());
+      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
     } else {
       setSelectedParameter(parameter);
       form.setValue("id", parameter.id);
@@ -100,30 +119,30 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
   ) => {
     e.stopPropagation();
 
-    if (!draftCommand) {
+    if (!revisedCommand) {
       return;
     }
 
-    const filteredParameters = draftCommand.parameters?.filter(
+    const filteredParameters = revisedCommand.parameters?.filter(
       (parameter) => parameter.id !== id,
     );
 
     // If there are no parameters left, remove the parameters key from the draft command
     if (filteredParameters?.length === 0) {
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         parameters: undefined,
       });
     } else {
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         parameters: filteredParameters,
       });
     }
 
     if (selectedParameter?.id === id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter());
+      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
     }
   };
 
@@ -152,7 +171,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Connection string"
+                        placeholder="Custom URL"
                         {...field}
                         className="w-full"
                       />
@@ -173,7 +192,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string with format: user@host"
+                        placeholder="The URL to open in the browser"
                         {...field}
                         className="w-full"
                       />
@@ -194,9 +213,9 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
             </h1>
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                {draftCommand?.parameters &&
-                draftCommand?.parameters?.length !== 0 ? (
-                  draftCommand?.parameters?.map((parameter) => (
+                {revisedCommand?.parameters &&
+                revisedCommand?.parameters?.length !== 0 ? (
+                  revisedCommand?.parameters?.map((parameter) => (
                     <Card
                       key={parameter.id}
                       onClick={() => handleParameterClick(parameter)}

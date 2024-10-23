@@ -151,7 +151,7 @@ const DndContextProvider = ({ children }: DndContextProviderProps) => {
     removeDestinationCommand(idPair.initial);
   };
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: I believe this function is fine as is - MY23-1)
+  // TODO: Reduce the complexity of this function
   const handleDragOver = (event: DragOverEvent) => {
     if (!(activeSourceCommand || activeDestinationCommand)) {
       return;

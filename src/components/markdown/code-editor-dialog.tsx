@@ -66,8 +66,6 @@ pause`);
     setCode(value ?? "");
   };
 
-  console.info(code);
-
   return (
     <Dialog>
       <DialogTrigger asChild={true}>

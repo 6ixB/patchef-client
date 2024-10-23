@@ -11,12 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 
 interface RecipeListItemOptionControlsDialogProps {
-  command: Command;
+  command: CommandEntity;
   commandIndex: number;
 }
 

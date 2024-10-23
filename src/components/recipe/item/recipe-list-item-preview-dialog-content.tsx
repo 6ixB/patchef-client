@@ -6,10 +6,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 
 interface RecipeListItemPreviewDialogContentProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const RecipeListItemPreviewDialogContent = ({

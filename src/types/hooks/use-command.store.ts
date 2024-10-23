@@ -1,5 +1,6 @@
-import type { Command } from "@/types/command";
-import type { CommandPreview } from "@/types/command-preview";
+import type { CommandEntity } from "@/types/commands/command.entity";
+import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
+import type { CreateCommandDto } from "@/types/commands/command.dto";
 
 enum ManageState {
   View = "VIEW",
@@ -12,40 +13,42 @@ interface CommandState {
       Usage: initial source commands are the fallback commands that are displayed in the sidebar.
       These commands are used when the user clears the search input.
     */
-  initialSourceCommands: Command[];
+  initialSourceCommands: CommandEntity[];
   setInitialSourceCommands: (
-    value: ((draft: Command[]) => void) | Command[],
+    value: ((draft: CommandEntity[]) => void) | CommandEntity[],
   ) => void;
 
   /* 
       Usage: source commands are the commands that are displayed in the sidebar.
       These commands are the ones that can be dragged and dropped into the destination commands.
     */
-  sourceCommands: Command[];
-  setSourceCommands: (value: ((draft: Command[]) => void) | Command[]) => void;
+  sourceCommands: CommandEntity[];
+  setSourceCommands: (
+    value: ((draft: CommandEntity[]) => void) | CommandEntity[],
+  ) => void;
 
   /* 
       Usage: destination commands are the commands that are displayed in the recipe area's dropzone.
       These commands are the ones that will be executed in the final batch script.
     */
-  destinationCommands: Command[];
+  destinationCommands: CommandEntity[];
   setDestinationCommands: (
-    value: ((draft: Command[]) => void) | Command[],
+    value: ((draft: CommandEntity[]) => void) | CommandEntity[],
   ) => void;
 
   /* 
       Usage: active source command is the command that is currently being dragged.
       This command is displayed in the drag overlay.
     */
-  activeSourceCommand: Command | null;
-  setActiveSourceCommand: (command: Command | null) => void;
+  activeSourceCommand: CommandEntity | null;
+  setActiveSourceCommand: (command: CommandEntity | null) => void;
 
   /* 
       Usage: active destination command is the command that is currently being dragged.
       This command is displayed in the drag overlay.
     */
-  activeDestinationCommand: Command | null;
-  setActiveDestinationCommand: (command: Command | null) => void;
+  activeDestinationCommand: CommandEntity | null;
+  setActiveDestinationCommand: (command: CommandEntity | null) => void;
 
   /* 
       Usage: filter commands is a function that filters the source commands based on the query.
@@ -63,19 +66,19 @@ interface CommandState {
       Usage: remove source command is a function that removes a command from the source commands.
       This function is used to remove a command from the sidebar.
   */
-  removeSourceCommand: (id: string) => void;
+  removeSourceCommand: (originalId: string) => void;
 
   /* 
       Usage: append destination command is a function that appends a command to the destination commands.
       This function is used to add a command to the recipe area's dropzone.
     */
-  appendDestinationCommand: (command: Command) => void;
+  appendDestinationCommand: (command: CommandEntity) => void;
 
   /* 
       Usage: insert destination command is a function that inserts a command at a specific index in the destination commands.
       This function is used to insert a command at a specific position in the recipe area's dropzone.
     */
-  insertDestinationCommand: (index: number, command: Command) => void;
+  insertDestinationCommand: (index: number, command: CommandEntity) => void;
 
   /* 
       Usage: swap destination commands is a function that swaps the positions of two commands in the destination commands.
@@ -108,18 +111,23 @@ interface CommandState {
   setManageState: (state: ManageState) => void;
 
   /* 
-      Usage: draft command is the command that is currently being edited or created.
-      This command is used to store the current state of the command being edited or created.
+      Usage: draft command is the command that is currently being created.
+      This command is used to store the current state of the command being created.
     */
-  draftCommand: Command | null;
+  draftCommand: CreateCommandDto | null;
   setDraftCommand: (
-    value: ((draft: Command | null) => void) | Command | null,
+    value: ((draft: CreateCommandDto | null) => void) | CreateCommandDto | null,
+  ) => void;
+
+  revisedCommand: CommandEntity | null;
+  setRevisedCommand: (
+    value: ((draft: CommandEntity | null) => void) | CommandEntity | null,
   ) => void;
 
   /* 
       Usage: command previews is an array consisting of commands in the form of what would be in a bat file.
     */
-  commandPreviews: CommandPreview[];
+  commandPreviews: CommandPreviewEntity[];
   setCommandPreviews: () => void;
 }
 

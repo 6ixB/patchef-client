@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { ManageState } from "@/types/use-command.store";
+import { ManageState } from "@/types/hooks/use-command.store";
 import {
   type ColumnDef,
   type ColumnFiltersState,

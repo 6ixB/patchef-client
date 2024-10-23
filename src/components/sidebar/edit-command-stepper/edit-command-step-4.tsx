@@ -20,10 +20,10 @@ import {
   generateDefaultValues,
 } from "@/lib/utils";
 import {
-  type CommandOption,
-  type CommandParameter,
-  CommandParameterSchema,
-} from "@/types/command";
+  type CommandOptionEntity,
+  type CommandParameterEntity,
+  CommandParameterEntitySchema,
+} from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -35,17 +35,15 @@ import {
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
 
 const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
-  const { draftCommand, setDraftCommand } = useCommandStore();
+  const { revisedCommand, setRevisedCommand } = useCommandStore();
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CommandParameterEntity | null>(null);
 
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] =
+    useState<CommandOptionEntity | null>(null);
   const editCommandOptionsComboboxProps = {
     open,
     setOpen,
@@ -53,21 +51,22 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
     setSelectedOption,
   };
 
-  const form = useForm<z.infer<typeof CommandParameterSchema>>({
-    resolver: zodResolver(CommandParameterSchema),
-    defaultValues: generateDefaultValues.commandParameter(),
+  const form = useForm<CommandParameterEntity>({
+    resolver: zodResolver(CommandParameterEntitySchema),
+    defaultValues: generateDefaultValues.commandParameter({ generateId: true }),
   });
 
   /* 
     Get the index of the selected option
     Note: option index can be 0 so we need to check for not found and undefined
   */
-  const optionIndex = draftCommand?.options?.findIndex(
+  const optionIndex = revisedCommand?.options?.findIndex(
     (option) => option.id === selectedOption?.id,
   );
 
-  const onSubmit = (values: z.infer<typeof CommandParameterSchema>) => {
-    if (!draftCommand) {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CommandParameterEntity) => {
+    if (!revisedCommand) {
       return;
     }
 
@@ -78,7 +77,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
     }
 
     if (selectedParameter) {
-      const updatedParameters = draftCommand.options?.[
+      const updatedParameters = revisedCommand.options?.[
         optionIndex
       ]?.parameters?.map((parameter) => {
         if (parameter.id === selectedParameter.id) {
@@ -93,7 +92,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
         return parameter;
       });
 
-      setDraftCommand((draft) => {
+      setRevisedCommand((draft) => {
         if (
           !draft?.options ||
           optionIndex === undefined ||
@@ -107,7 +106,31 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
 
       setSelectedParameter(null);
     } else {
-      setDraftCommand((draft) => {
+      if (
+        revisedCommand.options &&
+        optionIndex !== undefined &&
+        optionIndex !== -1 &&
+        revisedCommand?.options[optionIndex].parameters
+      ) {
+        let nameAlreadyExists = false;
+
+        for (const parameter of revisedCommand.options[optionIndex]
+          .parameters) {
+          if (parameter.name === name) {
+            nameAlreadyExists = true;
+            break;
+          }
+        }
+
+        if (nameAlreadyExists) {
+          form.setError("name", {
+            message: "Parameter already exists",
+          });
+          return;
+        }
+      }
+
+      setRevisedCommand((draft) => {
         if (
           !draft?.options ||
           optionIndex === undefined ||
@@ -126,13 +149,13 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
       });
     }
 
-    form.reset(generateDefaultValues.commandParameter());
+    form.reset(generateDefaultValues.commandParameter({ generateId: true }));
   };
 
-  const handleParameterClick = (parameter: CommandParameter) => {
+  const handleParameterClick = (parameter: CommandParameterEntity) => {
     if (selectedParameter?.id === parameter.id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter());
+      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
     } else {
       setSelectedParameter(parameter);
       form.setValue("id", parameter.id);
@@ -147,11 +170,11 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
   ) => {
     e.stopPropagation();
 
-    if (!draftCommand) {
+    if (!revisedCommand) {
       return;
     }
 
-    setDraftCommand((draft) => {
+    setRevisedCommand((draft) => {
       if (!draft?.options || optionIndex === undefined || optionIndex === -1) {
         return draft;
       }
@@ -163,7 +186,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
 
     if (selectedParameter?.id === id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter());
+      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
     }
   };
 
@@ -197,7 +220,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string"
+                        placeholder="Verbose Level"
                         {...field}
                         className="w-full"
                       />
@@ -218,7 +241,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Connection string with format: user@host"
+                        placeholder="The verbosity level of the command"
                         {...field}
                         className="w-full"
                       />
@@ -240,9 +263,10 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
             <ScrollArea className="h-[24.5rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
                 {optionIndex !== undefined &&
-                draftCommand?.options &&
-                draftCommand?.options[optionIndex]?.parameters?.length !== 0 ? (
-                  draftCommand?.options[optionIndex]?.parameters?.map(
+                revisedCommand?.options &&
+                revisedCommand?.options[optionIndex]?.parameters?.length !==
+                  0 ? (
+                  revisedCommand?.options[optionIndex]?.parameters?.map(
                     (parameter) => (
                       <Card
                         key={parameter.id}
@@ -288,7 +312,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
             type="button"
             onClick={() => {
               // Check if all required option parameters are filled
-              if (!checkAllFillableOptionParametersAreFilled(draftCommand)) {
+              if (!checkAllFillableOptionParametersAreFilled(revisedCommand)) {
                 toast.error(
                   "Please fill out all required parameters for each option.",
                 );

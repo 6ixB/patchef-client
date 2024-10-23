@@ -1,4 +1,4 @@
-import type { RecipeState } from "@/types/use-recipe-store";
+import type { RecipeState } from "@/types/hooks/use-recipe-store";
 import { produce } from "immer";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";

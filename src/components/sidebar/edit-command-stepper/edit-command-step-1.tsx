@@ -20,28 +20,33 @@ import {
 } from "@/components/ui/select";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { generateDefaultValues } from "@/lib/utils";
-import { CommandSchema, CommandType } from "@/types/command";
-import { ManageState } from "@/types/use-command.store";
+import {
+  CommandEntitySchema,
+  type CommandEntity,
+  CommandType,
+} from "@/types/commands/command.entity";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
-  const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
+  const { setManageState, revisedCommand, setRevisedCommand } =
+    useCommandStore();
 
-  const form = useForm<z.infer<typeof CommandSchema>>({
-    resolver: zodResolver(CommandSchema),
-    defaultValues: generateDefaultValues.command(draftCommand),
+  const form = useForm<CommandEntity>({
+    resolver: zodResolver(CommandEntitySchema),
+    defaultValues: generateDefaultValues.revisedCommand(revisedCommand),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandSchema>) => {
-    const { id, type, name, description, payload } = values;
+  const onSubmit = (values: CommandEntity) => {
+    const { id, originalId, type, name, description, payload } = values;
 
-    setDraftCommand({
-      ...draftCommand,
+    setRevisedCommand({
+      ...revisedCommand,
       id,
+      originalId,
       type,
       name,
       description,
@@ -56,7 +61,7 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
   ) => {
     e.preventDefault();
     form.reset();
-    setDraftCommand(null);
+    setRevisedCommand(null);
     setManageState(ManageState.View);
   };
 
@@ -81,7 +86,7 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
                   <Input
                     autoComplete="off"
                     autoFocus={true}
-                    placeholder="Secure Socket Shell"
+                    placeholder="Start Chrome"
                     {...field}
                     className="w-full"
                   />
@@ -102,7 +107,7 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
                 <FormControl>
                   <Input
                     autoComplete="off"
-                    placeholder="Connect to a remote machine via SSH"
+                    placeholder="Starts Google Chrome browser with Custom URL"
                     {...field}
                     className="w-full"
                   />

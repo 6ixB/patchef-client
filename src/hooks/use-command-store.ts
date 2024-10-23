@@ -1,6 +1,9 @@
 import { generateCommandString } from "@/lib/utils";
-import type { CommandPreview } from "@/types/command-preview";
-import { type CommandState, ManageState } from "@/types/use-command.store";
+import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
+import {
+  type CommandState,
+  ManageState,
+} from "@/types/hooks/use-command.store";
 import { produce } from "immer";
 import { v4 as generateUuidV4 } from "uuid";
 import { create } from "zustand";
@@ -27,6 +30,14 @@ const useCommandStore = create<CommandState>()(
           } else {
             state.initialSourceCommands = value;
           }
+
+          /* 
+            Everytime the initial source commands are set, the destination commands are also updated,
+            to prevent having the same id with any of the source commands, a new id is generated.
+          */
+          state.destinationCommands = state.destinationCommands.map(
+            (command) => ({ ...command, id: generateUuidV4() }),
+          );
         }),
 
       sourceCommands: [],
@@ -95,14 +106,19 @@ const useCommandStore = create<CommandState>()(
         });
       },
 
-      removeSourceCommand: (id) => {
+      removeSourceCommand: (originalId) => {
         set((state) => {
-          const index = state.sourceCommands.findIndex(
-            (command) => command.id === id,
+          const sourceIndex = state.sourceCommands.findIndex(
+            (command) => command.originalId === originalId,
           );
 
-          if (index !== -1) {
-            state.sourceCommands.splice(index, 1);
+          const initalSourceIndex = state.initialSourceCommands.findIndex(
+            (command) => command.originalId === originalId,
+          );
+
+          if (sourceIndex !== -1 && initalSourceIndex !== -1) {
+            state.sourceCommands.splice(sourceIndex, 1);
+            state.initialSourceCommands.splice(initalSourceIndex, 1);
           }
         });
       },
@@ -179,13 +195,23 @@ const useCommandStore = create<CommandState>()(
           }
         }),
 
+      revisedCommand: null,
+      setRevisedCommand: (value) =>
+        set((state) => {
+          if (typeof value === "function") {
+            state.revisedCommand = produce(state.revisedCommand, value);
+          } else {
+            state.revisedCommand = value;
+          }
+        }),
+
       commandPreviews: [],
       setCommandPreviews: () =>
         set((state) => {
           state.commandPreviews = state.destinationCommands.map((command) => {
             const commandString = generateCommandString(command);
 
-            const commandPreview: CommandPreview = {
+            const commandPreview: CommandPreviewEntity = {
               id: generateUuidV4(),
               preview: commandString.trim(),
             };

@@ -1,4 +1,4 @@
-import { updateCommand } from "@/api/command.api";
+import { updateCommand as updateCommandApi } from "@/api/command.api";
 import { Code } from "@/components/markdown/code";
 import { EditCommandOptionsPlaygroundDialog } from "@/components/sidebar/edit-command-stepper/edit-command-options-playground-dialog";
 import { EditCommandParametersCombobox } from "@/components/sidebar/edit-command-stepper/edit-command-parameters-combobox";
@@ -6,12 +6,15 @@ import type { EditCommandStepProps } from "@/components/sidebar/edit-command-ste
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import {
-  copyDraftCommand,
+  copyRevisedCommand,
   generateCodeMarkdown,
   generateCommandString,
 } from "@/lib/utils";
-import type { Command, CommandParameter } from "@/types/command";
-import { ManageState } from "@/types/use-command.store";
+import type {
+  CommandEntity,
+  CommandParameterEntity,
+} from "@/types/commands/command.entity";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
@@ -20,8 +23,8 @@ import { useImmer } from "use-immer";
 
 const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
   const {
-    draftCommand,
-    setDraftCommand,
+    revisedCommand,
+    setRevisedCommand,
     setInitialSourceCommands,
     setSourceCommands,
     setManageState,
@@ -32,22 +35,21 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
     This is to prevent the actual command draft's parameters to be modified and have a payload value
     other than the default, since source commands should not have a custom payload value yet.
   */
-  const [draftCommandCopy, setDraftCommandCopy] = useImmer<Command | null>(
-    copyDraftCommand(draftCommand),
-  );
+  const [revisedCommandCopy, setRevisedCommandCopy] =
+    useImmer<CommandEntity | null>(copyRevisedCommand(revisedCommand));
 
   const [open, setOpen] = useState(false);
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CommandParameterEntity | null>(null);
 
   const updateCommandMutation = useMutation({
-    mutationKey: ["update-command", draftCommand?.id],
-    mutationFn: updateCommand,
+    mutationKey: ["update-command", revisedCommand?.id],
+    mutationFn: updateCommandApi,
   });
 
   const editCommandParametersComboboxProps = {
-    draftCommandCopy,
-    setDraftCommandCopy,
+    revisedCommandCopy,
+    setRevisedCommandCopy,
     open,
     setOpen,
     selectedParameter,
@@ -55,12 +57,12 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
   };
 
   const codePayload =
-    draftCommandCopy && generateCommandString(draftCommandCopy);
+    revisedCommandCopy && generateCommandString(revisedCommandCopy);
   const codeMarkdown =
     codePayload &&
     generateCodeMarkdown({ codePayload, showLineNumbers: false });
 
-  const saveUpdatedCommand = (draftCommand: Command) => {
+  const saveUpdatedCommand = (draftCommand: CommandEntity) => {
     setSourceCommands((draft) => {
       const index = draft.findIndex(
         (command) => command.id === draftCommand.id,
@@ -73,23 +75,23 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
       );
       draft[index] = draftCommand;
     });
-    setDraftCommand(null);
-    setDraftCommandCopy(null);
+    setRevisedCommand(null);
+    setRevisedCommandCopy(null);
   };
 
   const handleSubmit = async () => {
-    if (!draftCommand) {
+    if (!revisedCommand) {
       return;
     }
 
-    await updateCommandMutation.mutateAsync(draftCommand);
+    await updateCommandMutation.mutateAsync(revisedCommand);
 
-    const commandName = `${draftCommand.name}`;
+    const commandName = `${revisedCommand.name}`;
 
     /* 
       Finally add the draft command to the source commands list.
     */
-    saveUpdatedCommand(draftCommand);
+    saveUpdatedCommand(revisedCommand);
     setManageState(ManageState.View);
     toast.success(`Command updated successfully! - ${commandName}`);
   };
@@ -103,18 +105,19 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
         </div>
         <div className="flex flex-col gap-y-2">
           {/* Check using draft command but pass the value of copy of draft command */}
-          {draftCommand?.parameters && draftCommand?.options && (
+          {revisedCommand?.parameters && revisedCommand?.options && (
             <div className="text-sm">Command Playground</div>
           )}
-          {draftCommand?.parameters && draftCommand.parameters.length !== 0 && (
-            <EditCommandParametersCombobox
-              {...editCommandParametersComboboxProps}
-            />
-          )}
-          {draftCommand?.options && draftCommand.options.length !== 0 && (
+          {revisedCommand?.parameters &&
+            revisedCommand.parameters.length !== 0 && (
+              <EditCommandParametersCombobox
+                {...editCommandParametersComboboxProps}
+              />
+            )}
+          {revisedCommand?.options && revisedCommand.options.length !== 0 && (
             <EditCommandOptionsPlaygroundDialog
-              draftCommandCopy={draftCommandCopy}
-              setDraftCommandCopy={setDraftCommandCopy}
+              revisedCommandCopy={revisedCommandCopy}
+              setRevisedCommandCopy={setRevisedCommandCopy}
             />
           )}
         </div>

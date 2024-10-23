@@ -10,14 +10,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import type { Command } from "@/types/command";
+import type { CreateCommandDto } from "@/types/commands/command.dto";
 import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 import type { DraftFunction } from "use-immer";
 
 interface CreateCommandOptionsPlaygroundDialogProps {
-  draftCommandCopy: Command | null;
-  setDraftCommandCopy: (draftFunction: DraftFunction<Command | null>) => void;
+  draftCommandCopy: CreateCommandDto | null;
+  setDraftCommandCopy: (
+    draftFunction: DraftFunction<CreateCommandDto | null>,
+  ) => void;
 }
 
 const CreateCommandOptionsPlaygroundDialog = ({
@@ -64,7 +66,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
             draftCommandCopy.options.length !== 0 ? (
               draftCommandCopy.options?.map((option, optionIndex) => (
                 <div
-                  key={option.id}
+                  key={option.name}
                   className="flex flex-col gap-y-2 rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
                 >
                   <div className="flex flex-col gap-y-2">
@@ -77,7 +79,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
                       <Switch
                         checked={option.enabled}
                         onCheckedChange={() => {
-                          setDraftCommandCopy((draft: Command | null) => {
+                          setDraftCommandCopy((draft) => {
                             if (!draft?.options) {
                               return draft;
                             }
@@ -97,7 +99,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
                       <div className="flex flex-col gap-y-2">
                         {option.parameters?.map((parameter, parameterIndex) => (
                           <div
-                            key={parameter.id}
+                            key={parameter.name}
                             className="rounded border bg-muted p-4"
                           >
                             <div className="flex flex-col gap-y-2">

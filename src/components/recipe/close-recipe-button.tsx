@@ -6,11 +6,13 @@ import { XIcon } from "lucide-react";
 
 const CloseRecipeButton = () => {
   const { destinationCommands, setDestinationCommands } = useCommandStore();
-  const { activeRecipe, setActiveRecipe } = useRecipeStore();
+  const { activeRecipe, setActiveRecipe, setPreviousActiveRecipe } =
+    useRecipeStore();
 
   const handleClick = () => {
     setDestinationCommands([]);
     setActiveRecipe(null);
+    setPreviousActiveRecipe(null);
   };
 
   const noActiveRecipe =

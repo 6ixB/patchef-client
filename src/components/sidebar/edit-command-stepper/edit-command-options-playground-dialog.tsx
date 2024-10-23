@@ -10,19 +10,21 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 import type { DraftFunction } from "use-immer";
 
 interface EditCommandOptionsPlaygroundDialogProps {
-  draftCommandCopy: Command | null;
-  setDraftCommandCopy: (draftFunction: DraftFunction<Command | null>) => void;
+  revisedCommandCopy: CommandEntity | null;
+  setRevisedCommandCopy: (
+    draftFunction: DraftFunction<CommandEntity | null>,
+  ) => void;
 }
 
 const EditCommandOptionsPlaygroundDialog = ({
-  draftCommandCopy,
-  setDraftCommandCopy,
+  revisedCommandCopy,
+  setRevisedCommandCopy,
 }: EditCommandOptionsPlaygroundDialogProps) => {
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -31,7 +33,7 @@ const EditCommandOptionsPlaygroundDialog = ({
   ) => {
     const value = e.target.value;
 
-    setDraftCommandCopy((draft) => {
+    setRevisedCommandCopy((draft) => {
       if (!draft?.options?.[optionIndex].parameters) {
         return draft;
       }
@@ -60,9 +62,9 @@ const EditCommandOptionsPlaygroundDialog = ({
             This command has the following options
           </p>
           <div className="mt-2 flex flex-col gap-y-2">
-            {draftCommandCopy?.options &&
-            draftCommandCopy.options.length !== 0 ? (
-              draftCommandCopy.options?.map((option, optionIndex) => (
+            {revisedCommandCopy?.options &&
+            revisedCommandCopy.options.length !== 0 ? (
+              revisedCommandCopy.options?.map((option, optionIndex) => (
                 <div
                   key={option.id}
                   className="flex flex-col gap-y-2 rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
@@ -77,14 +79,16 @@ const EditCommandOptionsPlaygroundDialog = ({
                       <Switch
                         checked={option.enabled}
                         onCheckedChange={() => {
-                          setDraftCommandCopy((draft: Command | null) => {
-                            if (!draft?.options) {
-                              return draft;
-                            }
+                          setRevisedCommandCopy(
+                            (draft: CommandEntity | null) => {
+                              if (!draft?.options) {
+                                return draft;
+                              }
 
-                            draft.options[optionIndex].enabled =
-                              !option.enabled;
-                          });
+                              draft.options[optionIndex].enabled =
+                                !option.enabled;
+                            },
+                          );
                         }}
                       />
                     </div>

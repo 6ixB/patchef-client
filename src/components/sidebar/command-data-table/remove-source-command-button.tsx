@@ -1,4 +1,4 @@
-import { removeCommand } from "@/api/command.api";
+import { removeCommand as removeCommandApi } from "@/api/command.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { useMutation } from "@tanstack/react-query";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
 interface RemoveSourceCommandButtonProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const RemoveSourceCommandButton = ({
@@ -27,14 +27,14 @@ const RemoveSourceCommandButton = ({
   const { removeSourceCommand } = useCommandStore();
 
   const removeCommandMutation = useMutation({
-    mutationKey: ["remove-command", command.id],
-    mutationFn: removeCommand,
+    mutationKey: ["remove-command", command.originalId],
+    mutationFn: removeCommandApi,
   });
 
   const handleSubmit = async () => {
     await removeCommandMutation.mutateAsync(command);
 
-    removeSourceCommand(command.id);
+    removeSourceCommand(command.originalId);
     toast.success(`Command removed successfully - ${command.name}`);
   };
 

@@ -11,12 +11,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
-import type { Recipe } from "@/types/recipe";
+import type { RecipeEntity } from "@/types/recipes/recipe.entity";
 import { ArrowRightToLineIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { v4 as generateUuidV4 } from "uuid";
 
 interface RecipeTemplateListItemApplyButtonProps {
-  recipe: Recipe;
+  recipe: RecipeEntity;
 }
 
 const RecipeTemplateListItemApplyButton = ({
@@ -31,7 +32,18 @@ const RecipeTemplateListItemApplyButton = ({
   }, []);
 
   const applyRecipe = useCallback(() => {
-    setDestinationCommands([...recipe.commands]);
+    /* 
+      To prevent drag and drop issues, we need to create a new array of commands,
+      with new ids for each command. Because the drag and drop library uses the id to
+      identify the commands. If we don't change the id, the drag and drop library will
+      drag the the source command not the destination command.
+      - MY23-1
+    */
+    const sanitizedCommands = [...recipe.commands].map((command) => ({
+      ...command,
+      id: generateUuidV4(),
+    }));
+    setDestinationCommands([...sanitizedCommands]);
     setActiveRecipe(recipe);
   }, [recipe, setDestinationCommands, setActiveRecipe]);
 

@@ -1,8 +1,16 @@
-import { CommandSchema, type Command } from "@/types/command";
+import type { CreateCommandDto } from "@/types/commands/command.dto";
+import {
+  CommandEntitySchema,
+  type CommandEntity,
+} from "@/types/commands/command.entity";
 
 const baseUrl = `${process.env.PUBLIC_SERVER_URL}/commands`;
 
-async function createCommand(command: Command): Promise<Command> {
+async function createCommand(
+  command: CreateCommandDto,
+): Promise<CommandEntity> {
+  console.info("Creating command...");
+
   const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -16,7 +24,8 @@ async function createCommand(command: Command): Promise<Command> {
   }
 
   const data = await response.json();
-  const validatedCommand = await CommandSchema.safeParseAsync(data);
+
+  const validatedCommand = await CommandEntitySchema.safeParseAsync(data);
 
   if (!validatedCommand.success) {
     throw new Error("Failed to validate created command");
@@ -25,7 +34,9 @@ async function createCommand(command: Command): Promise<Command> {
   return validatedCommand.data;
 }
 
-async function fetchCommands(): Promise<Command[]> {
+async function fetchCommands(): Promise<CommandEntity[]> {
+  console.info("Fetching commands...");
+
   const response = await fetch(baseUrl, {
     method: "GET",
   });
@@ -35,7 +46,8 @@ async function fetchCommands(): Promise<Command[]> {
   }
 
   const data = await response.json();
-  const validatedCommands = await CommandSchema.array().safeParseAsync(data);
+  const validatedCommands =
+    await CommandEntitySchema.array().safeParseAsync(data);
 
   if (!validatedCommands.success) {
     throw new Error("Failed to validate fetched commands");
@@ -44,7 +56,9 @@ async function fetchCommands(): Promise<Command[]> {
   return validatedCommands.data;
 }
 
-async function fetchCommand(id: string): Promise<Command> {
+async function fetchCommand(id: string): Promise<CommandEntity> {
+  console.info(`Fetching command with id: ${id}...`);
+
   const response = await fetch(`${baseUrl}/${id}`, {
     method: "GET",
   });
@@ -54,7 +68,7 @@ async function fetchCommand(id: string): Promise<Command> {
   }
 
   const data = await response.json();
-  const validatedCommand = await CommandSchema.safeParseAsync(data);
+  const validatedCommand = await CommandEntitySchema.safeParseAsync(data);
 
   if (!validatedCommand.success) {
     throw new Error("Failed to validate fetched command");
@@ -63,7 +77,11 @@ async function fetchCommand(id: string): Promise<Command> {
   return validatedCommand.data;
 }
 
-async function updateCommand(command: Command): Promise<Command> {
+async function updateCommand(
+  command: CreateCommandDto,
+): Promise<CommandEntity> {
+  console.info(`Updating command with id: ${command.id}...`);
+
   const response = await fetch(`${baseUrl}/${command.id}`, {
     method: "PATCH",
     headers: {
@@ -77,7 +95,7 @@ async function updateCommand(command: Command): Promise<Command> {
   }
 
   const data = await response.json();
-  const validatedCommand = await CommandSchema.safeParseAsync(data);
+  const validatedCommand = await CommandEntitySchema.safeParseAsync(data);
 
   if (!validatedCommand.success) {
     throw new Error("Failed to validate updated command");
@@ -86,8 +104,10 @@ async function updateCommand(command: Command): Promise<Command> {
   return validatedCommand.data;
 }
 
-async function removeCommand(command: Command): Promise<Command> {
-  const response = await fetch(`${baseUrl}/${command.id}`, {
+async function removeCommand(command: CommandEntity): Promise<CommandEntity> {
+  console.info(`Removing command with id: ${command.originalId}...`);
+
+  const response = await fetch(`${baseUrl}/${command.originalId}`, {
     method: "DELETE",
   });
 
@@ -96,7 +116,7 @@ async function removeCommand(command: Command): Promise<Command> {
   }
 
   const data = await response.json();
-  const validatedCommand = await CommandSchema.safeParseAsync(data);
+  const validatedCommand = await CommandEntitySchema.safeParseAsync(data);
 
   if (!validatedCommand.success) {
     throw new Error("Failed to validate removed command");

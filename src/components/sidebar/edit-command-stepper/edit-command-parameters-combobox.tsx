@@ -14,28 +14,31 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { CommandParameter, Command as CommandType } from "@/types/command";
+import type {
+  CommandParameterEntity,
+  CommandEntity as CommandEntityType,
+} from "@/types/commands/command.entity";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { type ChangeEvent, useState } from "react";
 
 interface EditCommandParametersComboboxProps {
-  draftCommandCopy: CommandType | null;
-  setDraftCommandCopy: (command: CommandType | null) => void;
+  revisedCommandCopy: CommandEntityType | null;
+  setRevisedCommandCopy: (command: CommandEntityType | null) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  selectedParameter: CommandParameter | null;
-  setSelectedParameter: (parameter: CommandParameter | null) => void;
+  selectedParameter: CommandParameterEntity | null;
+  setSelectedParameter: (parameter: CommandParameterEntity | null) => void;
 }
 
 const EditCommandParametersCombobox = ({
-  draftCommandCopy,
-  setDraftCommandCopy,
+  revisedCommandCopy,
+  setRevisedCommandCopy,
   open,
   setOpen,
   selectedParameter,
   setSelectedParameter,
 }: EditCommandParametersComboboxProps) => {
-  const initialParameterIndex = draftCommandCopy?.parameters?.findIndex(
+  const initialParameterIndex = revisedCommandCopy?.parameters?.findIndex(
     (parameter) => parameter.id === selectedParameter?.id,
   );
 
@@ -43,33 +46,33 @@ const EditCommandParametersCombobox = ({
 
   const parameterPayload =
     parameterIndex !== undefined && parameterIndex !== -1
-      ? draftCommandCopy?.parameters?.[parameterIndex]?.payload
+      ? revisedCommandCopy?.parameters?.[parameterIndex]?.payload
       : "";
 
   const handleParameterPayloadOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     if (
-      !draftCommandCopy?.parameters ||
+      !revisedCommandCopy?.parameters ||
       parameterIndex === -1 ||
       parameterIndex === undefined
     ) {
       return;
     }
 
-    const modifiedCommandParameters = [...draftCommandCopy.parameters];
+    const modifiedCommandParameters = [...revisedCommandCopy.parameters];
 
     modifiedCommandParameters[parameterIndex] = {
       ...modifiedCommandParameters[parameterIndex],
       payload: value,
     };
 
-    const modifiedDraftCommand: CommandType = {
-      ...draftCommandCopy,
+    const modifiedDraftCommand: CommandEntityType = {
+      ...revisedCommandCopy,
       parameters: [...modifiedCommandParameters],
     };
 
-    setDraftCommandCopy(modifiedDraftCommand);
+    setRevisedCommandCopy(modifiedDraftCommand);
   };
 
   return (
@@ -83,7 +86,7 @@ const EditCommandParametersCombobox = ({
             className="w-[16rem] justify-between"
           >
             {selectedParameter
-              ? draftCommandCopy?.parameters?.find(
+              ? revisedCommandCopy?.parameters?.find(
                   (parameter) => parameter.id === selectedParameter.id,
                 )?.name
               : "Select parameter..."}
@@ -96,7 +99,7 @@ const EditCommandParametersCombobox = ({
             <CommandList>
               <CommandEmpty>No parameter found.</CommandEmpty>
               <CommandGroup>
-                {draftCommandCopy?.parameters?.map((parameter) => (
+                {revisedCommandCopy?.parameters?.map((parameter) => (
                   <CommandItem
                     key={parameter.id}
                     value={parameter.id}
@@ -108,7 +111,7 @@ const EditCommandParametersCombobox = ({
                       );
 
                       const newParameterIndex =
-                        draftCommandCopy?.parameters?.findIndex(
+                        revisedCommandCopy?.parameters?.findIndex(
                           (parameter) => parameter.id === currentParameterId,
                         );
 

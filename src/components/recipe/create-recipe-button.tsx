@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { cn, createRecipe } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
 import { GroupIcon } from "lucide-react";
 import {
   type ChangeEvent,
@@ -10,6 +11,11 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "sonner";
+import {
+  createRecipe as createRecipeApi,
+  updateRecipe as updateRecipeApi,
+} from "@/api/recipe.api";
 
 const CreateRecipeButton = () => {
   const { destinationCommands } = useCommandStore();
@@ -23,18 +29,32 @@ const CreateRecipeButton = () => {
   const [isInput, setIsInput] = useState(false);
   const [recipeName, setRecipeName] = useState(activeRecipe?.name ?? "");
 
-  const submitRecipe = () => {
+  const createRecipeMutation = useMutation({
+    mutationKey: ["create-recipe"],
+    mutationFn: createRecipeApi,
+  });
+
+  const updateRecipeMutation = useMutation({
+    mutationKey: ["update-recipe", activeRecipe?.id],
+    mutationFn: updateRecipeApi,
+  });
+
+  const submitRecipe = async () => {
     setIsInput(false);
 
     if (activeRecipe) {
       const recipeIndex = recipes.findIndex(
         (recipe) => recipe.id === activeRecipe.id,
       );
-      const updatedRecipe = {
+      const revisedRecipe = {
         ...recipes[recipeIndex],
         name: recipeName,
         commands: destinationCommands,
       };
+
+      const updatedRecipe =
+        await updateRecipeMutation.mutateAsync(revisedRecipe);
+
       setInitialRecipes((draft) => {
         draft[recipeIndex] = updatedRecipe;
       });
@@ -42,26 +62,34 @@ const CreateRecipeButton = () => {
         draft[recipeIndex] = updatedRecipe;
       });
       setActiveRecipe(updatedRecipe);
+      toast.success(`Recipe updated successfully - ${recipeName}`);
       return;
     }
 
-    const newRecipe = createRecipe({
+    // TODO: Add util function to create the draft recipe
+    const draftRecipe = {
       name: recipeName,
-      commands: destinationCommands,
-    });
+      commands: destinationCommands.map((command) => ({
+        originalId: command.originalId,
+      })),
+    };
+
+    const createdRecipe = await createRecipeMutation.mutateAsync(draftRecipe);
 
     setInitialRecipes((draft) => {
-      draft.push(newRecipe);
+      draft.push(createdRecipe);
     });
     setRecipes((draft) => {
-      draft.push(newRecipe);
+      draft.push(createdRecipe);
     });
-    setActiveRecipe(newRecipe);
+    setActiveRecipe(createdRecipe);
+    toast.success(`Recipe created successfully - ${createdRecipe.name}`);
   };
 
   // -------- Modify Handlers --------
   const handleClick = () => {
     setIsInput(true);
+    toast.info("Enter a recipe name and press Enter to save");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

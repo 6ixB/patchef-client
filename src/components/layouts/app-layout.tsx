@@ -18,7 +18,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
           <div className="flex h-full w-full">{children}</div>
         </div>
       </div>
-      <Toaster />
+      <Toaster richColors={true} />
     </Providers>
   );
 };

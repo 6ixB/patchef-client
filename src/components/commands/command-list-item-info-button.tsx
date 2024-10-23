@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
 
 interface CommandListItemInfoButtonProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const CommandListItemInfoButton = ({

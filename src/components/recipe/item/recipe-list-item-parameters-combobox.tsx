@@ -15,17 +15,20 @@ import {
 } from "@/components/ui/popover";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn } from "@/lib/utils";
-import type { CommandParameter, Command as CommandType } from "@/types/command";
+import type {
+  CommandParameterEntity,
+  CommandEntity as CommandEntityType,
+} from "@/types/commands/command.entity";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { type ChangeEvent, useState } from "react";
 
 interface RecipeListItemCommandParametersComboboxProps {
-  command: CommandType;
+  command: CommandEntityType;
   commandIndex: number;
   open: boolean;
   setOpen: (open: boolean) => void;
-  selectedParameter: CommandParameter | null;
-  setSelectedParameter: (parameter: CommandParameter | null) => void;
+  selectedParameter: CommandParameterEntity | null;
+  setSelectedParameter: (parameter: CommandParameterEntity | null) => void;
 }
 
 const RecipeListItemParametersCombobox = ({
@@ -67,7 +70,7 @@ const RecipeListItemParametersCombobox = ({
       payload: value,
     };
 
-    const modifiedCommand: CommandType = {
+    const modifiedCommand: CommandEntityType = {
       ...command,
       parameters: [...modifiedCommandParameters],
     };

@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { TrashIcon } from "lucide-react";
 
 interface RecipeListItemRemoveButtonProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const RecipeListItemRemoveButton = ({

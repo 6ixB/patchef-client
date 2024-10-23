@@ -2,7 +2,7 @@ import { ManageDialogContent } from "@/components/sidebar/manage-dialog-content"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { ManageState } from "@/types/use-command.store";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { WrenchIcon } from "lucide-react";
 
 const ManageButton = () => {

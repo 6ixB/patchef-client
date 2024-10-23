@@ -22,7 +22,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn, generateDefaultValues } from "@/lib/utils";
-import { type CommandOption, CommandOptionSchema } from "@/types/command";
+import {
+  type CreateCommandOptionDto,
+  CreateCommandOptionDtoSchema,
+} from "@/types/commands/command.dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -34,26 +37,24 @@ import {
 } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
   const { draftCommand, setDraftCommand } = useCommandStore();
-  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] =
+    useState<CreateCommandOptionDto | null>(null);
 
-  const form = useForm<z.infer<typeof CommandOptionSchema>>({
-    resolver: zodResolver(CommandOptionSchema),
+  const form = useForm<CreateCommandOptionDto>({
+    resolver: zodResolver(CreateCommandOptionDtoSchema),
     defaultValues: generateDefaultValues.commandOption(),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandOptionSchema>) => {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CreateCommandOptionDto) => {
     if (!draftCommand) {
       return;
     }
 
     const {
-      id,
       name,
       description,
       payload,
@@ -64,10 +65,9 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
     if (selectedOption) {
       const updatedOptions = draftCommand.options?.map((option) => {
-        if (option.id === selectedOption.id) {
+        if (option.name === selectedOption.name) {
           return {
             ...option,
-            id,
             name,
             description,
             payload,
@@ -87,12 +87,27 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
       setSelectedOption(null);
     } else {
+      let nameAlreadyExists = false;
+
+      for (const option of draftCommand.options ?? []) {
+        if (option.name === name) {
+          nameAlreadyExists = true;
+          break;
+        }
+      }
+
+      if (nameAlreadyExists) {
+        form.setError("name", {
+          message: "Parameter already exists",
+        });
+        return;
+      }
+
       setDraftCommand({
         ...draftCommand,
         options: [
           ...(draftCommand.options ?? []),
           {
-            id,
             name,
             description,
             payload,
@@ -107,13 +122,14 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
     form.reset(generateDefaultValues.commandOption());
   };
 
-  const handleOptionClick = (option: CommandOption) => {
-    if (selectedOption?.id === option.id) {
+  const handleOptionClick = (option: CreateCommandOptionDto) => {
+    form.clearErrors();
+
+    if (selectedOption?.name === option.name) {
       setSelectedOption(null);
       form.reset(generateDefaultValues.commandOption());
     } else {
       setSelectedOption(option);
-      form.setValue("id", option.id);
       form.setValue("name", option.name);
       form.setValue("description", option.description);
       form.setValue("payload", option.payload);
@@ -124,7 +140,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveOptionClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    name: string,
   ) => {
     e.stopPropagation();
 
@@ -133,7 +149,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const filteredOptions = draftCommand.options?.filter(
-      (option) => option.id !== id,
+      (option) => option.name !== name,
     );
 
     // If there are no options left, remove the options key from the draft command
@@ -149,7 +165,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
       });
     }
 
-    if (selectedOption?.id === id) {
+    if (selectedOption?.name === name) {
       setSelectedOption(null);
       form.reset(generateDefaultValues.commandOption());
     }
@@ -304,11 +320,11 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 {draftCommand?.options && draftCommand.options.length !== 0 ? (
                   draftCommand.options.map((option) => (
                     <Card
-                      key={option.id}
+                      key={option.name}
                       onClick={() => handleOptionClick(option)}
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                        selectedOption?.id === option.id &&
+                        selectedOption?.name === option.name &&
                           "inner-border-2 inner-border-primary",
                       )}
                     >
@@ -319,7 +335,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                         )}
                         <XIcon
                           onClick={(e) => {
-                            handleRemoveOptionClick(e, option.id);
+                            handleRemoveOptionClick(e, option.name);
                           }}
                           className="size-4"
                         />

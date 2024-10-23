@@ -7,11 +7,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { VariableIcon } from "lucide-react";
 
 interface RecipeListItemFillParamsButtonProps {
-  command: Command;
+  command: CommandEntity;
   commandIndex: number;
 }
 

@@ -11,18 +11,32 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
-import type { Recipe } from "@/types/recipe";
+import type { RecipeEntity } from "@/types/recipes/recipe.entity";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
+import { removeRecipe as removeRecipeApi } from "@/api/recipe.api";
+import { useMutation } from "@tanstack/react-query";
 
 interface RecipeTemplateListItemRemoveButtonProps {
-  recipe: Recipe;
+  recipe: RecipeEntity;
 }
 
 const RecipeTemplateListItemRemoveButton = ({
   recipe,
 }: RecipeTemplateListItemRemoveButtonProps) => {
   const { removeRecipe } = useRecipeStore();
+
+  const removeCommandMutation = useMutation({
+    mutationKey: ["remove-recipe", recipe.id],
+    mutationFn: removeRecipeApi,
+  });
+
+  const handleSubmit = async () => {
+    await removeCommandMutation.mutateAsync(recipe);
+
+    removeRecipe(recipe.id);
+    toast.success(`Recipe removed successfully - ${recipe.name}`);
+  };
 
   return (
     <AlertDialog>
@@ -41,14 +55,7 @@ const RecipeTemplateListItemRemoveButton = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              removeRecipe(recipe.id);
-              toast.success(`Recipe removed successfully - ${recipe.name}`);
-            }}
-          >
-            Continue
-          </AlertDialogAction>
+          <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

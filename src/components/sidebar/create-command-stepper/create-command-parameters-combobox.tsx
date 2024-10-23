@@ -14,17 +14,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { CommandParameter, Command as CommandType } from "@/types/command";
+import type {
+  CreateCommandParameterDto,
+  CreateCommandDto,
+} from "@/types/commands/command.dto";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { type ChangeEvent, useState } from "react";
 
 interface CreateCommandParametersComboboxProps {
-  draftCommandCopy: CommandType | null;
-  setDraftCommandCopy: (command: CommandType | null) => void;
+  draftCommandCopy: CreateCommandDto | null;
+  setDraftCommandCopy: (command: CreateCommandDto | null) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  selectedParameter: CommandParameter | null;
-  setSelectedParameter: (parameter: CommandParameter | null) => void;
+  selectedParameter: CreateCommandParameterDto | null;
+  setSelectedParameter: (parameter: CreateCommandParameterDto | null) => void;
 }
 
 const CreateCommandParametersCombobox = ({
@@ -36,7 +39,7 @@ const CreateCommandParametersCombobox = ({
   setSelectedParameter,
 }: CreateCommandParametersComboboxProps) => {
   const initialParameterIndex = draftCommandCopy?.parameters?.findIndex(
-    (parameter) => parameter.id === selectedParameter?.id,
+    (parameter) => parameter.name === selectedParameter?.name,
   );
 
   const [parameterIndex, setParameterIndex] = useState(initialParameterIndex);
@@ -64,7 +67,7 @@ const CreateCommandParametersCombobox = ({
       payload: value,
     };
 
-    const modifiedDraftCommand: CommandType = {
+    const modifiedDraftCommand: CreateCommandDto = {
       ...draftCommandCopy,
       parameters: [...modifiedCommandParameters],
     };
@@ -84,7 +87,7 @@ const CreateCommandParametersCombobox = ({
           >
             {selectedParameter
               ? draftCommandCopy?.parameters?.find(
-                  (parameter) => parameter.id === selectedParameter.id,
+                  (parameter) => parameter.name === selectedParameter.name,
                 )?.name
               : "Select parameter..."}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -98,18 +101,18 @@ const CreateCommandParametersCombobox = ({
               <CommandGroup>
                 {draftCommandCopy?.parameters?.map((parameter) => (
                   <CommandItem
-                    key={parameter.id}
-                    value={parameter.id}
+                    key={parameter.name}
+                    value={parameter.name}
                     onSelect={(currentParameterId) => {
                       setSelectedParameter(
-                        currentParameterId === selectedParameter?.id
+                        currentParameterId === selectedParameter?.name
                           ? null
                           : parameter,
                       );
 
                       const newParameterIndex =
                         draftCommandCopy?.parameters?.findIndex(
-                          (parameter) => parameter.id === currentParameterId,
+                          (parameter) => parameter.name === currentParameterId,
                         );
 
                       setParameterIndex(newParameterIndex);
@@ -120,7 +123,7 @@ const CreateCommandParametersCombobox = ({
                     <CheckIcon
                       className={cn(
                         "mr-2 h-4 w-4",
-                        selectedParameter?.id === parameter.id
+                        selectedParameter?.name === parameter.name
                           ? "opacity-100"
                           : "opacity-0",
                       )}

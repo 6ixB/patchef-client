@@ -6,11 +6,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { Command, CommandParameter } from "@/types/command";
+import type {
+  CommandEntity,
+  CommandParameterEntity,
+} from "@/types/commands/command.entity";
 import { useState } from "react";
 
 interface RecipeListItemFillParamsDialogContentProps {
-  command: Command;
+  command: CommandEntity;
   commandIndex: number;
 }
 
@@ -20,7 +23,7 @@ const RecipeListItemFillParamsDialogContent = ({
 }: RecipeListItemFillParamsDialogContentProps) => {
   const [open, setOpen] = useState(false);
   const [selectedParameter, setSelectedParameter] =
-    useState<CommandParameter | null>(null);
+    useState<CommandParameterEntity | null>(null);
 
   const RecipeListItemParametersComboboxProps = {
     command,

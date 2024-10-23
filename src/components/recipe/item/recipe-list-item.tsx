@@ -10,7 +10,7 @@ import {
   checkAllRequiredParametersAreFilled,
   formatOptionParameters,
 } from "@/lib/utils";
-import type { Command } from "@/types/command";
+import type { CommandEntity } from "@/types/commands/command.entity";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import type { Active, UniqueIdentifier } from "@dnd-kit/core";
 import { defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
@@ -43,7 +43,7 @@ function animateLayoutChanges(args: {
 }
 
 interface RecipeListItemProps {
-  command: Command;
+  command: CommandEntity;
 }
 
 const RecipeListItem = ({ command }: RecipeListItemProps) => {

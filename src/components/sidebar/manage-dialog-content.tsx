@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
-import type { Command } from "@/types/command";
-import { ManageState } from "@/types/use-command.store";
+import type { CommandEntity } from "@/types/commands/command.entity";
+import { ManageState } from "@/types/hooks/use-command.store";
 import { TerminalIcon, WandSparklesIcon } from "lucide-react";
 
 const renderHeader = (state: ManageState) => {
@@ -73,7 +73,7 @@ const renderHeader = (state: ManageState) => {
   );
 };
 
-const renderContent = (state: ManageState, sourceCommands: Command[]) => {
+const renderContent = (state: ManageState, sourceCommands: CommandEntity[]) => {
   switch (state) {
     case ManageState.View:
       return <CommandDataTable columns={columns} data={sourceCommands} />;

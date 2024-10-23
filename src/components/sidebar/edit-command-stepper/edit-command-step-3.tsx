@@ -22,7 +22,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn, generateDefaultValues } from "@/lib/utils";
-import { type CommandOption, CommandOptionSchema } from "@/types/command";
+import {
+  type CommandOptionEntity,
+  CommandOptionEntitySchema,
+} from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -34,21 +37,20 @@ import {
 } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
-  const { draftCommand, setDraftCommand } = useCommandStore();
-  const [selectedOption, setSelectedOption] = useState<CommandOption | null>(
-    null,
-  );
+  const { revisedCommand, setRevisedCommand } = useCommandStore();
+  const [selectedOption, setSelectedOption] =
+    useState<CommandOptionEntity | null>(null);
 
-  const form = useForm<z.infer<typeof CommandOptionSchema>>({
-    resolver: zodResolver(CommandOptionSchema),
-    defaultValues: generateDefaultValues.commandOption(),
+  const form = useForm<CommandOptionEntity>({
+    resolver: zodResolver(CommandOptionEntitySchema),
+    defaultValues: generateDefaultValues.commandOption({ generateId: true }),
   });
 
-  const onSubmit = (values: z.infer<typeof CommandOptionSchema>) => {
-    if (!draftCommand) {
+  // TODO: Reduce the complexity of this function
+  const onSubmit = (values: CommandOptionEntity) => {
+    if (!revisedCommand) {
       return;
     }
 
@@ -63,7 +65,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
     } = values;
 
     if (selectedOption) {
-      const updatedOptions = draftCommand.options?.map((option) => {
+      const updatedOptions = revisedCommand.options?.map((option) => {
         if (option.id === selectedOption.id) {
           return {
             ...option,
@@ -80,17 +82,33 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
         return option;
       });
 
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         options: updatedOptions,
       });
 
       setSelectedOption(null);
     } else {
-      setDraftCommand({
-        ...draftCommand,
+      let nameAlreadyExists = false;
+
+      for (const option of revisedCommand.options ?? []) {
+        if (option.name === name) {
+          nameAlreadyExists = true;
+          break;
+        }
+      }
+
+      if (nameAlreadyExists) {
+        form.setError("name", {
+          message: "Parameter already exists",
+        });
+        return;
+      }
+
+      setRevisedCommand({
+        ...revisedCommand,
         options: [
-          ...(draftCommand.options ?? []),
+          ...(revisedCommand.options ?? []),
           {
             id,
             name,
@@ -104,13 +122,13 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
       });
     }
 
-    form.reset(generateDefaultValues.commandOption());
+    form.reset(generateDefaultValues.commandOption({ generateId: true }));
   };
 
-  const handleOptionClick = (option: CommandOption) => {
+  const handleOptionClick = (option: CommandOptionEntity) => {
     if (selectedOption?.id === option.id) {
       setSelectedOption(null);
-      form.reset(generateDefaultValues.commandOption());
+      form.reset(generateDefaultValues.commandOption({ generateId: true }));
     } else {
       setSelectedOption(option);
       form.setValue("id", option.id);
@@ -128,30 +146,30 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
   ) => {
     e.stopPropagation();
 
-    if (!draftCommand) {
+    if (!revisedCommand) {
       return;
     }
 
-    const filteredOptions = draftCommand.options?.filter(
+    const filteredOptions = revisedCommand.options?.filter(
       (option) => option.id !== id,
     );
 
     // If there are no options left, remove the options key from the draft command
     if (filteredOptions?.length === 0) {
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         options: undefined,
       });
     } else {
-      setDraftCommand({
-        ...draftCommand,
+      setRevisedCommand({
+        ...revisedCommand,
         options: filteredOptions,
       });
     }
 
     if (selectedOption?.id === id) {
       setSelectedOption(null);
-      form.reset(generateDefaultValues.commandOption());
+      form.reset(generateDefaultValues.commandOption({ generateId: true }));
     }
   };
 
@@ -180,7 +198,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Silent mode"
+                        placeholder="Incognito mode"
                         {...field}
                         className="w-full"
                       />
@@ -201,7 +219,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Run the command in silent mode"
+                        placeholder="Run the the browser in incognito mode"
                         {...field}
                         className="w-full"
                       />
@@ -222,7 +240,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="/s"
+                        placeholder="--incognito"
                         {...field}
                         className="w-full"
                       />
@@ -305,8 +323,9 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
             </h1>
             <ScrollArea className="h-[25.25rem] w-full rounded-sm border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                {draftCommand?.options && draftCommand.options.length !== 0 ? (
-                  draftCommand.options.map((option) => (
+                {revisedCommand?.options &&
+                revisedCommand.options.length !== 0 ? (
+                  revisedCommand.options.map((option) => (
                     <Card
                       key={option.id}
                       onClick={() => handleOptionClick(option)}

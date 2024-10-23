@@ -6,7 +6,7 @@ import { DndContextEventDataType, DndContextNodeId } from "@/types/dnd-context";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCommands } from "@/api/command.api";
+import { fetchCommands as fetchCommandsApi } from "@/api/command.api";
 import { RabbitIcon, ServerCrashIcon } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { CommandListItemSkeleton } from "./command-list-item-skeleton";
@@ -28,7 +28,7 @@ const CommandList = () => {
 
   const { status, data } = useQuery({
     queryKey: ["get-commands"],
-    queryFn: fetchCommands,
+    queryFn: fetchCommandsApi,
   });
 
   useEffect(() => {
