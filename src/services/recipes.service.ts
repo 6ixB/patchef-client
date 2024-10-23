@@ -22,8 +22,8 @@ function isActiveRecipeModified(
 }
 
 /* 
-    Usage: this function is used to compare the previous recipe with the destination commands
-  */
+  Usage: this function is used to compare the previous recipe with the destination commands
+*/
 function comparePreviousRecipeWithDestinationCommands(
   previousRecipe: RecipeEntity,
   commands: CommandEntity[],

@@ -60,7 +60,7 @@ function generateCommandString(command: CreateCommandDto): string {
 }
 
 /* 
-    Usage: this function is used to copy a draft command
+  Usage: this function is used to copy a draft command
 */
 function copyDraftCommand(
   draftCommand: CreateCommandDto | null,
@@ -83,7 +83,7 @@ function copyDraftCommand(
 }
 
 /* 
-    Usage: this function is used to copy a revised command
+  Usage: this function is used to copy a revised command
 */
 function copyRevisedCommand(
   revisedCommand: CommandEntity | null,
@@ -106,7 +106,7 @@ function copyRevisedCommand(
 }
 
 /* 
-    Usage: this function is used to generate default values for a command
+  Usage: this function is used to generate default values for a command
 */
 const generateDefaultValues = {
   draftCommand: (draftCommand: CreateCommandDto | null) => ({
@@ -147,7 +147,7 @@ const generateDefaultValues = {
 };
 
 /* 
-    Usage: this function is used to check if all required parameters are filled
+  Usage: this function is used to check if all required parameters are filled
 */
 function checkAllRequiredParametersAreFilled(command: CommandEntity): boolean {
   if (!command.parameters) {
@@ -164,7 +164,7 @@ function checkAllRequiredParametersAreFilled(command: CommandEntity): boolean {
 }
 
 /* 
-    Usage: this function is used to check if all enabled option parameters are filled
+  Usage: this function is used to check if all enabled option parameters are filled
 */
 function checkAllEnabledOptionsParametersAreFilled(
   command: CommandEntity,
@@ -189,7 +189,7 @@ function checkAllEnabledOptionsParametersAreFilled(
 }
 
 /* 
-    Usage: this function is used to check if all required option parameters are filled
+  Usage: this function is used to check if all required option parameters are filled
     when CREATING a new command
 */
 function checkAllFillableOptionParametersAreFilled(
@@ -212,7 +212,7 @@ function checkAllFillableOptionParametersAreFilled(
 }
 
 /* 
-    Usage: this function is used to check if all required option parameters are filled
+  Usage: this function is used to check if all required option parameters are filled
     when USING a command
 */
 function checkAllRequiredOptionParametersAreFilled(
@@ -232,7 +232,7 @@ function checkAllRequiredOptionParametersAreFilled(
 }
 
 /* 
-    Usage: this function is used to format option parameters
+  Usage: this function is used to format option parameters
 */
 function formatOptionParameters(
   parameters: CommandParameterEntity[] | undefined,
@@ -262,8 +262,8 @@ function generateCodeMarkdown({
 }
 
 /* 
-    Usage: this function is used to generate a script payload
-  */
+  Usage: this function is used to generate a script payload
+*/
 function generateScriptPayload(
   commandPreviews: CommandPreviewEntity[],
 ): string {
