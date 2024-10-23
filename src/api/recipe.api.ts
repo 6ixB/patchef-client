@@ -107,7 +107,6 @@ async function removeRecipe(recipe: RecipeEntity): Promise<RecipeEntity> {
   const validatedRecipe = await RecipeEntitySchema.safeParseAsync(data);
 
   if (!validatedRecipe.success) {
-    console.info(validatedRecipe.error);
     throw new Error("Failed to validate removed recipe");
   }
 

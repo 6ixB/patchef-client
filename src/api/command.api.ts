@@ -9,8 +9,6 @@ const baseUrl = `${process.env.PUBLIC_SERVER_URL}/commands`;
 async function createCommand(
   command: CreateCommandDto,
 ): Promise<CommandEntity> {
-  console.info("Creating command...");
-
   const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -35,8 +33,6 @@ async function createCommand(
 }
 
 async function fetchCommands(): Promise<CommandEntity[]> {
-  console.info("Fetching commands...");
-
   const response = await fetch(baseUrl, {
     method: "GET",
   });
@@ -57,8 +53,6 @@ async function fetchCommands(): Promise<CommandEntity[]> {
 }
 
 async function fetchCommand(id: string): Promise<CommandEntity> {
-  console.info(`Fetching command with id: ${id}...`);
-
   const response = await fetch(`${baseUrl}/${id}`, {
     method: "GET",
   });
@@ -80,8 +74,6 @@ async function fetchCommand(id: string): Promise<CommandEntity> {
 async function updateCommand(
   command: CreateCommandDto,
 ): Promise<CommandEntity> {
-  console.info(`Updating command with id: ${command.id}...`);
-
   const response = await fetch(`${baseUrl}/${command.id}`, {
     method: "PATCH",
     headers: {
@@ -105,8 +97,6 @@ async function updateCommand(
 }
 
 async function removeCommand(command: CommandEntity): Promise<CommandEntity> {
-  console.info(`Removing command with id: ${command.originalId}...`);
-
   const response = await fetch(`${baseUrl}/${command.originalId}`, {
     method: "DELETE",
   });
