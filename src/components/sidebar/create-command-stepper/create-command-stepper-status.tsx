@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { checkAllFillableOptionParametersAreFilled, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { checkAllFillableOptionParametersAreFilled } from "@/services/commands.service";
 import type { Step, Stepper } from "@stepperize/react";
 import { toast } from "sonner";
 

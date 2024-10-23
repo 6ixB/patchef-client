@@ -5,7 +5,7 @@ import { useRecipeStore } from "@/hooks/use-recipe-store";
 import {
   comparePreviousRecipeWithDestinationCommands,
   isActiveRecipeModified,
-} from "@/lib/utils";
+} from "@/services/recipes.service";
 import { useDocumentTitle } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 

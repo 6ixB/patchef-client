@@ -10,7 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
+import {
+  generateCodeMarkdown,
+  generateCommandString,
+} from "@/services/commands.service";
 import type { CommandEntity } from "@/types/commands/command.entity";
 import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
 

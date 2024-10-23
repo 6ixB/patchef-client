@@ -9,7 +9,7 @@ import {
   copyRevisedCommand,
   generateCodeMarkdown,
   generateCommandString,
-} from "@/lib/utils";
+} from "@/services/commands.service";
 import type {
   CommandEntity,
   CommandParameterEntity,

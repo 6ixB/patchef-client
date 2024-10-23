@@ -5,7 +5,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { generateCodeMarkdown, generateCommandString } from "@/lib/utils";
+import {
+  generateCodeMarkdown,
+  generateCommandString,
+} from "@/services/commands.service";
 import type { CommandEntity } from "@/types/commands/command.entity";
 
 interface RecipeListItemPreviewDialogContentProps {

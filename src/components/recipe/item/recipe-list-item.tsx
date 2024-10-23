@@ -9,7 +9,7 @@ import {
   checkAllRequiredOptionParametersAreFilled,
   checkAllRequiredParametersAreFilled,
   formatOptionParameters,
-} from "@/lib/utils";
+} from "@/services/commands.service";
 import type { CommandEntity } from "@/types/commands/command.entity";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import type { Active, UniqueIdentifier } from "@dnd-kit/core";

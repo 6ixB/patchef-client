@@ -9,7 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { cn, generateCodeMarkdown, generateScriptPayload } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import {
+  generateCodeMarkdown,
+  generateScriptPayload,
+} from "@/services/commands.service";
 import { SquareTerminalIcon } from "lucide-react";
 import { useMemo } from "react";
 

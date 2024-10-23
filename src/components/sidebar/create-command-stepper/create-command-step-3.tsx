@@ -21,7 +21,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { cn, generateDefaultValues } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { generateDefaultValues } from "@/services/commands.service";
 import {
   type CreateCommandOptionDto,
   CreateCommandOptionDtoSchema,

@@ -1,4 +1,4 @@
-import { generateCommandString } from "@/lib/utils";
+import { generateCommandString } from "@/services/commands.service";
 import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
 import {
   type CommandState,

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
-import { cn, createRecipe } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { GroupIcon } from "lucide-react";
 import {

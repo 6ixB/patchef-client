@@ -10,7 +10,7 @@ import {
   copyDraftCommand,
   generateCodeMarkdown,
   generateCommandString,
-} from "@/lib/utils";
+} from "@/services/commands.service";
 import type {
   CreateCommandDto,
   CreateCommandParameterDto,

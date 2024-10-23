@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { generateDefaultValues } from "@/lib/utils";
+import { generateDefaultValues } from "@/services/commands.service";
 import {
   CreateCommandDtoSchema,
   type CreateCommandDto,

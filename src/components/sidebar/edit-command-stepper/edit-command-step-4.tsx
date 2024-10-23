@@ -14,11 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { cn } from "@/lib/utils";
 import {
   checkAllFillableOptionParametersAreFilled,
-  cn,
   generateDefaultValues,
-} from "@/lib/utils";
+} from "@/services/commands.service";
 import {
   type CommandOptionEntity,
   type CommandParameterEntity,

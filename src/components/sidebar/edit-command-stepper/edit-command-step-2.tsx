@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { cn, generateDefaultValues } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { generateDefaultValues } from "@/services/commands.service";
 import {
   type CommandParameterEntity,
   CommandParameterEntitySchema,
