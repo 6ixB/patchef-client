@@ -27,6 +27,7 @@ import {
   type CreateCommandOptionDto,
   CreateCommandOptionDtoSchema,
 } from "@/types/commands/command.dto";
+import { CommandType } from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -56,6 +57,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const {
+      id,
       name,
       description,
       payload,
@@ -66,9 +68,10 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
     if (selectedOption) {
       const updatedOptions = draftCommand.options?.map((option) => {
-        if (option.name === selectedOption.name) {
+        if (option.id === selectedOption.id) {
           return {
             ...option,
+            id,
             name,
             description,
             payload,
@@ -109,6 +112,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
         options: [
           ...(draftCommand.options ?? []),
           {
+            id,
             name,
             description,
             payload,
@@ -126,11 +130,12 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
   const handleOptionClick = (option: CreateCommandOptionDto) => {
     form.clearErrors();
 
-    if (selectedOption?.name === option.name) {
+    if (selectedOption?.id === option.id) {
       setSelectedOption(null);
       form.reset(generateDefaultValues.commandOption());
     } else {
       setSelectedOption(option);
+      form.setValue("id", option.id);
       form.setValue("name", option.name);
       form.setValue("description", option.description);
       form.setValue("payload", option.payload);
@@ -141,16 +146,16 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveOptionClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    name: string,
+    id: string | undefined,
   ) => {
     e.stopPropagation();
 
-    if (!draftCommand) {
+    if (!(draftCommand && id)) {
       return;
     }
 
     const filteredOptions = draftCommand.options?.filter(
-      (option) => option.name !== name,
+      (option) => option.id !== id,
     );
 
     // If there are no options left, remove the options key from the draft command
@@ -166,13 +171,14 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
       });
     }
 
-    if (selectedOption?.name === name) {
+    if (selectedOption?.id === id) {
       setSelectedOption(null);
       form.reset(generateDefaultValues.commandOption());
     }
   };
 
   const isOptionSelected = selectedOption !== null;
+  const isBasicCommand = draftCommand?.type === CommandType.Basic;
 
   return (
     <Form {...form}>
@@ -185,6 +191,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
           <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -207,6 +214,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -228,6 +236,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="payload"
                 render={({ field }) => (
@@ -249,6 +258,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="parameterRequired"
                 render={({ field }) => (
@@ -261,6 +271,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     </div>
                     <FormControl>
                       <Switch
+                        disabled={!isBasicCommand}
                         name="parameterRequired"
                         checked={field.value}
                         onCheckedChange={field.onChange}
@@ -271,6 +282,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
               />
               {form.watch("parameterRequired") && (
                 <FormField
+                  disabled={!isBasicCommand}
                   control={form.control}
                   name="delimiter"
                   render={({ field }) => (
@@ -281,6 +293,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                         parameters
                       </FormDescription>
                       <Select
+                        disabled={!isBasicCommand}
                         onValueChange={(value) => {
                           form.setValue(
                             "delimiter",
@@ -307,7 +320,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 />
               )}
             </div>
-            <Button type="submit">
+            <Button type="submit" disabled={!isBasicCommand}>
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isOptionSelected ? "Update" : "Add"} option
             </Button>
@@ -321,11 +334,11 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                 {draftCommand?.options && draftCommand.options.length !== 0 ? (
                   draftCommand.options.map((option) => (
                     <Card
-                      key={option.name}
+                      key={option.id}
                       onClick={() => handleOptionClick(option)}
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                        selectedOption?.name === option.name &&
+                        selectedOption?.id === option.id &&
                           "inner-border-2 inner-border-primary",
                       )}
                     >
@@ -336,7 +349,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                         )}
                         <XIcon
                           onClick={(e) => {
-                            handleRemoveOptionClick(e, option.name);
+                            handleRemoveOptionClick(e, option.id);
                           }}
                           className="size-4"
                         />

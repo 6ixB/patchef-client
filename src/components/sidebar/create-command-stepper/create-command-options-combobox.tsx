@@ -15,6 +15,7 @@ import {
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn } from "@/lib/utils";
 import type { CreateCommandOptionDto } from "@/types/commands/command.dto";
+import { CommandType } from "@/types/commands/command.entity";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 interface CreateCommandOptionsComboboxProps {
@@ -36,10 +37,13 @@ const CreateCommandOptionsCombobox = ({
     (option) => option.parameterRequired,
   );
 
+  const isBasicCommand = draftCommand?.type === CommandType.Basic;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild={true}>
         <Button
+          disabled={!isBasicCommand}
           variant="outline"
           role="combobox"
           aria-expanded={open}
@@ -47,7 +51,7 @@ const CreateCommandOptionsCombobox = ({
         >
           {selectedOption
             ? optionsWithRequiredParameters?.find(
-                (option) => option.name === selectedOption.name,
+                (option) => option.id === selectedOption.id,
               )?.name
             : "Select option..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -61,11 +65,11 @@ const CreateCommandOptionsCombobox = ({
             <CommandGroup>
               {optionsWithRequiredParameters?.map((option) => (
                 <CommandItem
-                  key={option.name}
+                  key={option.id}
                   value={option.name}
                   onSelect={(currentOptionId) => {
                     setSelectedOption(
-                      currentOptionId === selectedOption?.name ? null : option,
+                      currentOptionId === selectedOption?.id ? null : option,
                     );
                     setOpen(false);
                   }}
@@ -73,7 +77,7 @@ const CreateCommandOptionsCombobox = ({
                   <CheckIcon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedOption?.name === option.name
+                      selectedOption?.id === option.id
                         ? "opacity-100"
                         : "opacity-0",
                     )}

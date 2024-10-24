@@ -18,6 +18,7 @@ import { generateDefaultValues } from "@/services/commands.service";
 import {
   type CommandParameterEntity,
   CommandParameterEntitySchema,
+  CommandType,
 } from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -37,7 +38,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
 
   const form = useForm<CommandParameterEntity>({
     resolver: zodResolver(CommandParameterEntitySchema),
-    defaultValues: generateDefaultValues.commandParameter({ generateId: true }),
+    defaultValues: generateDefaultValues.commandParameter(),
   });
 
   // TODO: Reduce the complexity of this function
@@ -99,13 +100,13 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
       });
     }
 
-    form.reset(generateDefaultValues.commandParameter({ generateId: true }));
+    form.reset(generateDefaultValues.commandParameter());
   };
 
   const handleParameterClick = (parameter: CommandParameterEntity) => {
     if (selectedParameter?.id === parameter.id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
+      form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
       form.setValue("id", parameter.id);
@@ -143,11 +144,12 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
 
     if (selectedParameter?.id === id) {
       setSelectedParameter(null);
-      form.reset(generateDefaultValues.commandParameter({ generateId: true }));
+      form.reset(generateDefaultValues.commandParameter());
     }
   };
 
   const isParameterSelected = selectedParameter !== null;
+  const isBasicCommand = revisedCommand?.type === CommandType.Basic;
 
   return (
     <Form {...form}>
@@ -160,6 +162,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
           <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -182,6 +185,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -203,7 +207,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit">
+            <Button type="submit" disabled={!isBasicCommand}>
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>

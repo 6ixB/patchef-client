@@ -24,39 +24,64 @@ function formatParameters(parameters: CreateCommandParameterDto[]): string {
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is fine as is - MY23-1
 function generateCommandString(command: CreateCommandDto): string {
-  let commandString = command.payload;
+  switch (command.type) {
+    case CommandType.Basic: {
+      let commandString = command.payload;
 
-  if (command.parameters && command.parameters.length > 0) {
-    const params = formatParameters(command.parameters);
-    commandString += ` ${params}`;
-  }
-
-  if (command.options && command.options.length > 0) {
-    for (const option of command.options) {
-      if (!option.enabled) {
-        continue;
+      if (command.parameters && command.parameters.length > 0) {
+        const params = formatParameters(command.parameters);
+        commandString += ` ${params}`;
       }
 
-      commandString += ` ${option.payload}`;
+      if (command.options && command.options.length > 0) {
+        for (const option of command.options) {
+          if (!option.enabled) {
+            continue;
+          }
 
-      if (
-        option.parameterRequired &&
-        option.parameters &&
-        option.parameters.length > 0
-      ) {
-        const delimiter =
-          option.delimiter !== undefined ? option.delimiter : " ";
-        commandString += delimiter;
+          commandString += ` ${option.payload}`;
 
-        const optionParams = formatParameters(option.parameters);
-        commandString += optionParams;
+          if (
+            option.parameterRequired &&
+            option.parameters &&
+            option.parameters.length > 0
+          ) {
+            const delimiter =
+              option.delimiter !== undefined ? option.delimiter : " ";
+            commandString += delimiter;
+
+            const optionParams = formatParameters(option.parameters);
+            commandString += optionParams;
+          }
+        }
       }
+
+      commandString = commandString.trim();
+
+      return commandString;
     }
+
+    case CommandType.Advanced: {
+      let commandString = command.payload;
+
+      if (command.parameters) {
+        for (const parameter of command.parameters) {
+          if (parameter.payload) {
+            commandString = commandString.replace(
+              new RegExp(`{{${parameter.name}}}`, "g"),
+              parameter?.payload,
+            );
+          }
+        }
+      }
+
+      return commandString;
+    }
+
+    // TODO: Implement a better return value for this default case
+    default:
+      return "";
   }
-
-  commandString = commandString.trim();
-
-  return commandString;
 }
 
 /* 
@@ -109,9 +134,19 @@ function copyRevisedCommand(
   Usage: this function is used to generate default values for a command
 */
 const generateDefaultValues = {
-  draftCommand: (draftCommand: CreateCommandDto | null) => ({
-    id: draftCommand?.id ?? undefined,
-    type: CommandType.Basic,
+  draftCommand: ({
+    draftCommand,
+    generateId = true,
+  }: {
+    /* 
+      If the user has not created the command but the draft command is not null,
+      then the draft command is returned as is. Otherwise, a new command is created.
+    */
+    draftCommand?: CreateCommandDto | null;
+    generateId?: boolean;
+  }) => ({
+    id: draftCommand?.id ?? generateId ? generateUuidV4() : undefined,
+    type: draftCommand?.type ?? CommandType.Basic,
     name: draftCommand?.name ?? "",
     description: draftCommand?.description ?? "",
     payload: draftCommand?.payload ?? "",
@@ -122,7 +157,7 @@ const generateDefaultValues = {
   }),
 
   commandParameter: ({
-    generateId = false,
+    generateId = true,
   }: {
     generateId?: boolean;
   } = {}) => ({
@@ -132,7 +167,7 @@ const generateDefaultValues = {
   }),
 
   commandOption: ({
-    generateId = false,
+    generateId = true,
   }: {
     generateId?: boolean;
   } = {}) => ({
@@ -213,7 +248,7 @@ function checkAllFillableOptionParametersAreFilled(
 
 /* 
   Usage: this function is used to check if all required option parameters are filled
-    when USING a command
+  when USING a command
 */
 function checkAllRequiredOptionParametersAreFilled(
   option: CommandOptionEntity | undefined,

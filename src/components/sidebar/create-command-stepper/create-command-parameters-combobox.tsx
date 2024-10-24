@@ -39,7 +39,7 @@ const CreateCommandParametersCombobox = ({
   setSelectedParameter,
 }: CreateCommandParametersComboboxProps) => {
   const initialParameterIndex = draftCommandCopy?.parameters?.findIndex(
-    (parameter) => parameter.name === selectedParameter?.name,
+    (parameter) => parameter.id === selectedParameter?.id,
   );
 
   const [parameterIndex, setParameterIndex] = useState(initialParameterIndex);
@@ -87,7 +87,7 @@ const CreateCommandParametersCombobox = ({
           >
             {selectedParameter
               ? draftCommandCopy?.parameters?.find(
-                  (parameter) => parameter.name === selectedParameter.name,
+                  (parameter) => parameter.id === selectedParameter.id,
                 )?.name
               : "Select parameter..."}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -101,18 +101,18 @@ const CreateCommandParametersCombobox = ({
               <CommandGroup>
                 {draftCommandCopy?.parameters?.map((parameter) => (
                   <CommandItem
-                    key={parameter.name}
-                    value={parameter.name}
+                    key={parameter.id}
+                    value={parameter.id}
                     onSelect={(currentParameterId) => {
                       setSelectedParameter(
-                        currentParameterId === selectedParameter?.name
+                        currentParameterId === selectedParameter?.id
                           ? null
                           : parameter,
                       );
 
                       const newParameterIndex =
                         draftCommandCopy?.parameters?.findIndex(
-                          (parameter) => parameter.name === currentParameterId,
+                          (parameter) => parameter.id === currentParameterId,
                         );
 
                       setParameterIndex(newParameterIndex);
@@ -123,7 +123,7 @@ const CreateCommandParametersCombobox = ({
                     <CheckIcon
                       className={cn(
                         "mr-2 h-4 w-4",
-                        selectedParameter?.name === parameter.name
+                        selectedParameter?.id === parameter.id
                           ? "opacity-100"
                           : "opacity-0",
                       )}

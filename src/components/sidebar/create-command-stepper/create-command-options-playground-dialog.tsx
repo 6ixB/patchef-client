@@ -99,7 +99,7 @@ const CreateCommandOptionsPlaygroundDialog = ({
                       <div className="flex flex-col gap-y-2">
                         {option.parameters?.map((parameter, parameterIndex) => (
                           <div
-                            key={parameter.name}
+                            key={parameter.id}
                             className="rounded border bg-muted p-4"
                           >
                             <div className="flex flex-col gap-y-2">

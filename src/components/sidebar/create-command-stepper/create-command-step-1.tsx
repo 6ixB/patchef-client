@@ -1,4 +1,4 @@
-import { CodeEditorDialog } from "@/components/markdown/code-editor-dialog";
+import { CreateCommandCodeEditorDialog } from "@/components/sidebar/create-command-stepper/create-command-code-editor-dialog";
 import type { CreateCommandStepProps } from "@/components/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,14 +36,15 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
 
   const form = useForm<CreateCommandDto>({
     resolver: zodResolver(CreateCommandDtoSchema),
-    defaultValues: generateDefaultValues.draftCommand(draftCommand),
+    defaultValues: generateDefaultValues.draftCommand({ draftCommand }),
   });
 
   const onSubmit = (values: CreateCommandDto) => {
-    const { type, name, description, payload } = values;
+    const { id, type, name, description, payload } = values;
 
     setDraftCommand({
       ...draftCommand,
+      id,
       type,
       name,
       description,
@@ -124,9 +125,24 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                 </FormDescription>
                 <Select
                   name="create-command-type-select"
-                  onValueChange={field.onChange}
+                  onValueChange={(e) => {
+                    field.onChange(e);
+
+                    /*
+                      Reset payload when switching between command types,
+                      the following code is disgusting but it works 
+                    */
+                    form.setValue("payload", "");
+                    setDraftCommand((draft) => {
+                      if (draft) {
+                        draft.payload = `REM Start your patching journey now!
+@echo off
+echo Hello, World!
+pause`;
+                      }
+                    });
+                  }}
                   defaultValue={field.value}
-                  disabled={true}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -174,7 +190,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
               <p className="text-[0.8rem] text-muted-foreground">
                 Open the code editor to write the payload of the command
               </p>
-              <CodeEditorDialog />
+              <CreateCommandCodeEditorDialog form={form} />
             </div>
           )}
         </div>

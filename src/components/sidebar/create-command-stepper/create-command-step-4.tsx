@@ -24,6 +24,7 @@ import {
   type CreateCommandParameterDto,
   CreateCommandParameterDtoSchema,
 } from "@/types/commands/command.dto";
+import { CommandType } from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeftIcon,
@@ -61,7 +62,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     Note: option index can be 0 so we need to check for not found and undefined
   */
   const optionIndex = draftCommand?.options?.findIndex(
-    (option) => option.name === selectedOption?.name,
+    (option) => option.id === selectedOption?.id,
   );
 
   // TODO: Reduce the complexity of this function
@@ -70,7 +71,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
       return;
     }
 
-    const { name, description } = values;
+    const { id, name, description } = values;
 
     if (optionIndex === -1 || optionIndex === undefined) {
       return;
@@ -80,9 +81,10 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
       const updatedParameters = draftCommand.options?.[
         optionIndex
       ]?.parameters?.map((parameter) => {
-        if (parameter.name === selectedParameter.name) {
+        if (parameter.id === selectedParameter.id) {
           return {
             ...parameter,
+            id,
             name,
             description,
           };
@@ -137,7 +139,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
           return;
         }
 
-        const newParameter = { name, description, payload: `[${name}]` }; // Placeholder payload as default value
+        const newParameter = { id, name, description, payload: `[${name}]` }; // Placeholder payload as default value
 
         if (draft.options[optionIndex].parameters) {
           draft.options[optionIndex].parameters.push(newParameter);
@@ -153,11 +155,12 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
   const handleParameterClick = (parameter: CreateCommandParameterDto) => {
     form.clearErrors();
 
-    if (selectedParameter?.name === parameter.name) {
+    if (selectedParameter?.id === parameter.id) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
+      form.setValue("id", parameter.id);
       form.setValue("name", parameter.name);
       form.setValue("description", parameter.description);
     }
@@ -165,11 +168,11 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    name: string,
+    id: string | undefined,
   ) => {
     e.stopPropagation();
 
-    if (!draftCommand) {
+    if (!(draftCommand && id)) {
       return;
     }
 
@@ -180,16 +183,17 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
       draft.options[optionIndex].parameters = draft.options[
         optionIndex
-      ].parameters?.filter((parameter) => parameter.name !== name);
+      ].parameters?.filter((parameter) => parameter.id !== id);
     });
 
-    if (selectedParameter?.name === name) {
+    if (selectedParameter?.id === id) {
       setSelectedParameter(null);
       form.reset(generateDefaultValues.commandParameter());
     }
   };
 
   const isParameterSelected = selectedParameter !== null;
+  const isBasicCommand = draftCommand?.type === CommandType.Basic;
 
   return (
     <Form {...form}>
@@ -208,6 +212,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                 />
               </div>
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -229,6 +234,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -250,7 +256,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit">
+            <Button type="submit" disabled={!isBasicCommand}>
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>
@@ -267,18 +273,18 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                   draftCommand?.options[optionIndex]?.parameters?.map(
                     (parameter) => (
                       <Card
-                        key={parameter.name}
+                        key={parameter.id}
                         onClick={() => handleParameterClick(parameter)}
                         className={cn(
                           "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                          selectedParameter?.name === parameter.name &&
+                          selectedParameter?.id === parameter.id &&
                             "inner-border-2 inner-border-primary",
                         )}
                       >
                         {parameter.name}
                         <XIcon
                           onClick={(e) => {
-                            handleRemoveParameterClick(e, parameter.name);
+                            handleRemoveParameterClick(e, parameter.id);
                           }}
                           className="size-4"
                         />

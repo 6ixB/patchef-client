@@ -26,6 +26,7 @@ import { generateDefaultValues } from "@/services/commands.service";
 import {
   type CommandOptionEntity,
   CommandOptionEntitySchema,
+  CommandType,
 } from "@/types/commands/command.entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -46,7 +47,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
 
   const form = useForm<CommandOptionEntity>({
     resolver: zodResolver(CommandOptionEntitySchema),
-    defaultValues: generateDefaultValues.commandOption({ generateId: true }),
+    defaultValues: generateDefaultValues.commandOption(),
   });
 
   // TODO: Reduce the complexity of this function
@@ -123,13 +124,13 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
       });
     }
 
-    form.reset(generateDefaultValues.commandOption({ generateId: true }));
+    form.reset(generateDefaultValues.commandOption());
   };
 
   const handleOptionClick = (option: CommandOptionEntity) => {
     if (selectedOption?.id === option.id) {
       setSelectedOption(null);
-      form.reset(generateDefaultValues.commandOption({ generateId: true }));
+      form.reset(generateDefaultValues.commandOption());
     } else {
       setSelectedOption(option);
       form.setValue("id", option.id);
@@ -170,11 +171,12 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
 
     if (selectedOption?.id === id) {
       setSelectedOption(null);
-      form.reset(generateDefaultValues.commandOption({ generateId: true }));
+      form.reset(generateDefaultValues.commandOption());
     }
   };
 
   const isOptionSelected = selectedOption !== null;
+  const isBasicCommand = revisedCommand?.type === CommandType.Basic;
 
   return (
     <Form {...form}>
@@ -187,6 +189,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
           <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -209,6 +212,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -230,6 +234,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="payload"
                 render={({ field }) => (
@@ -251,6 +256,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
               <FormField
+                disabled={!isBasicCommand}
                 control={form.control}
                 name="parameterRequired"
                 render={({ field }) => (
@@ -263,6 +269,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                     </div>
                     <FormControl>
                       <Switch
+                        disabled={!isBasicCommand}
                         name="parameterRequired"
                         checked={field.value}
                         onCheckedChange={field.onChange}
@@ -273,6 +280,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
               />
               {form.watch("parameterRequired") && (
                 <FormField
+                  disabled={!isBasicCommand}
                   control={form.control}
                   name="delimiter"
                   render={({ field }) => (
@@ -283,6 +291,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                         parameters
                       </FormDescription>
                       <Select
+                        disabled={!isBasicCommand}
                         onValueChange={(value) => {
                           form.setValue(
                             "delimiter",
@@ -313,7 +322,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                 />
               )}
             </div>
-            <Button type="submit">
+            <Button type="submit" disabled={!isBasicCommand}>
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isOptionSelected ? "Update" : "Add"} option
             </Button>

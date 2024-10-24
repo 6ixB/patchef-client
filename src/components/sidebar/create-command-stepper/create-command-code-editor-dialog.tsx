@@ -10,9 +10,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useCommandStore } from "@/hooks/use-command-store";
 import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
 import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
 import { cn } from "@/lib/utils";
+import { generateDefaultValues } from "@/services/commands.service";
+import { parseParameters } from "@/services/parser.service";
+import type { CreateCommandDto } from "@/types/commands/command.dto";
 import Editor, {
   type BeforeMount,
   type OnMount,
@@ -20,8 +24,10 @@ import Editor, {
   type Monaco,
 } from "@monaco-editor/react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { CodeIcon, RabbitIcon, XIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { CodeIcon, RabbitIcon } from "lucide-react";
+import { useRef } from "react";
+import type { UseFormReturn } from "react-hook-form";
+import { v4 as generateUuidV4 } from "uuid";
 
 const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
   if (theme === "system") {
@@ -33,13 +39,14 @@ const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
   return theme;
 };
 
-const CodeEditorDialog = () => {
+interface CodeEditorDialogProps {
+  form: UseFormReturn<CreateCommandDto>;
+}
+
+const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
   const { theme } = useTheme();
   const monacoRef = useRef<Monaco | null>(null);
-  const [code, setCode] = useState<string>(`REM Start your patching journey now!
-@echo off
-echo Hello, World!
-pause`);
+  const { draftCommand, setDraftCommand } = useCommandStore();
 
   const preventDefault = (e: Event) => {
     e.preventDefault();
@@ -63,7 +70,20 @@ pause`);
   };
 
   const handleEditorChange: OnChange = (value, _event) => {
-    setCode(value ?? "");
+    const rawValue = value ?? "";
+    const parsedParameters = parseParameters(rawValue);
+
+    form.setValue("payload", rawValue);
+    setDraftCommand({
+      ...(draftCommand ?? generateDefaultValues.draftCommand({ draftCommand })),
+      payload: rawValue,
+      parameters: parsedParameters.map((parameter) => ({
+        id: generateUuidV4(),
+        name: parameter,
+        description: "None",
+        payload: `[${parameter}]`,
+      })),
+    });
   };
 
   return (
@@ -90,7 +110,13 @@ pause`);
             {/* TODO: Fix code editor height only half of the total screen in intial render */}
             <Editor
               defaultLanguage="bat"
-              defaultValue={code}
+              defaultValue={
+                draftCommand?.payload ??
+                `REM Start your patching journey now!
+@echo off
+echo Hello, World!
+pause`
+              }
               onChange={handleEditorChange}
               beforeMount={handleEditorWillMount}
               onMount={handleEditorDidMount}
@@ -128,27 +154,30 @@ pause`);
           <div className="flex flex-col">
             <ScrollArea className="h-full w-full rounded-md border bg-gray-100 p-2 dark:bg-[#171823]">
               <div className="flex flex-col gap-y-2">
-                <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
-                  No parameters added
-                  <RabbitIcon className="size-4" />
-                </Card>
-                <Card
-                  className={cn(
-                    "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Parameter Name
-                  <XIcon className="size-4" />
-                </Card>
+                {draftCommand?.parameters &&
+                draftCommand?.parameters?.length !== 0 ? (
+                  draftCommand?.parameters?.map((parameter) => (
+                    <Card
+                      key={parameter.id}
+                      className={cn(
+                        "flex select-none items-center justify-between rounded-md border p-2 text-sm",
+                      )}
+                    >
+                      {parameter.name}
+                    </Card>
+                  ))
+                ) : (
+                  <Card className="flex items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
+                    No parameters added
+                    <RabbitIcon className="size-4" />
+                  </Card>
+                )}
               </div>
             </ScrollArea>
             <div className="flex items-center justify-end gap-x-2">
               <DialogClose asChild={true}>
-                <Button variant="outline" className="mt-4">
-                  Cancel
-                </Button>
+                <Button className="mt-4">Continue</Button>
               </DialogClose>
-              <Button className="mt-4">Save</Button>
             </div>
           </div>
         </div>
@@ -157,4 +186,4 @@ pause`);
   );
 };
 
-export { CodeEditorDialog };
+export { type CodeEditorDialogProps, CreateCommandCodeEditorDialog };

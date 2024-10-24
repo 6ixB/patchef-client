@@ -14,7 +14,10 @@ import {
 } from "@/components/ui/popover";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { cn } from "@/lib/utils";
-import type { CommandOptionEntity } from "@/types/commands/command.entity";
+import {
+  CommandType,
+  type CommandOptionEntity,
+} from "@/types/commands/command.entity";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 interface EditCommandOptionsComboboxProps {
@@ -36,10 +39,13 @@ const EditCommandOptionsCombobox = ({
     (option) => option.parameterRequired,
   );
 
+  const isBasicCommand = revisedCommand?.type === CommandType.Basic;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild={true}>
         <Button
+          disabled={!isBasicCommand}
           variant="outline"
           role="combobox"
           aria-expanded={open}

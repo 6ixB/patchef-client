@@ -46,7 +46,7 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     useState<CreateCommandParameterDto | null>(null);
 
   const createCommandMutation = useMutation({
-    mutationKey: ["create-command", draftCommand?.name],
+    mutationKey: ["create-command", draftCommand?.id],
     mutationFn: createCommandApi,
   });
 

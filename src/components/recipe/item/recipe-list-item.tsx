@@ -104,7 +104,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
     >
       <div className="flex items-center">
         {/* Represents the Line Number */}
-        <div className="flex h-8 w-8 items-center justify-center rounded border text-xs shadow">
+        <div className="flex min-h-8 min-w-8 items-center justify-center rounded border text-xs shadow">
           {index + 1}
         </div>
         <div>
@@ -116,7 +116,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           </CardHeader>
           <CardContent className="space-y-2 pb-4">
             <div className="flex flex-wrap items-center gap-2">
-              {!(command.parameters && command.options) && (
+              {!(command.parameters || command.options) && (
                 <Badge
                   variant="secondary"
                   className="flex items-center gap-x-1"
