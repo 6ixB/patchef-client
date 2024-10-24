@@ -8,23 +8,6 @@
 - **Custom Command Creation**: Define custom commands and reusable blocks tailored to your specific tasks.
 - **Export & Execute**: Export your script directly as a batch file, ready for execution on any system.
 
-# Tech Stack
-
-PatChef is built using a modern and versatile tech stack. Each tool in this stack plays a key role in enhancing performance, development speed, and maintainability:
-
-- **TypeScript**: A statically-typed superset of JavaScript that enhances code quality and development experience by providing type safety, reducing runtime errors, and improving maintainability.
-- **Rsbuild**: A fast and efficient bundler that compiles and bundles code to ensure optimized performance and swift build times.
-- **React**: The core library for building dynamic, component-driven user interfaces. React’s declarative approach simplifies the development of complex UIs.
-- **Zustand**: A lightweight, intuitive state management library for React. It allows for easy management of global state with minimal boilerplate.
-- **DndKit**: A flexible and accessible drag-and-drop library for React, providing customizable and performant drag-and-drop interactions within the app.
-- **Immer**: A utility that makes working with immutable data easier by allowing "mutations" on a draft state, which simplifies state management in React components.
-- **UUID**: A library used to generate unique identifiers, crucial for assigning unique keys to elements and ensuring proper rendering in dynamic React lists.
-- **TanStack React Table**: A headless library for building advanced, customizable data tables in React. It supports features like sorting, filtering, and pagination.
-- **TanStack React Query**: A powerful tool for managing and caching server-side data in React applications, simplifying API interactions, data synchronization, and cache management.
-- **Tailwind CSS**: A utility-first CSS framework that accelerates the development of responsive and custom-designed interfaces without the need for writing custom CSS.
-- **ShadCN**: A collection of pre-built and customizable components that integrate seamlessly with Tailwind, allowing rapid development of consistent and polished UIs.
-- **Zod**: A TypeScript-first schema validation library used to enforce strict data structures. Zod is particularly helpful for form validation and ensuring API responses conform to expected formats.
-
 # Contribution Guidelines
 
 Please follow these instructions to maintain consistency, quality, and strict adherence to TypeScript typing standards in the project. **All parameters, objects, and variables used must be properly typed**.
@@ -36,7 +19,7 @@ Before contributing, ensure you have the following installed:
 - **pnpm** (for managing dependencies)
 - **Biome** (linter and formatter) extension in VS Code
 
-## Visual Studio Code Setup
+## Code Editor Setup
 
 For a consistent development experience, set the following preferences:
 
@@ -49,7 +32,7 @@ To maintain readability and consistency in the codebase, adhere to the following
 
 ### File Names
 - Use **kebab-case** for file names.
-  - Example: `ini-contoh-file.tsx`
+  - Example: `example-file-name.tsx`
 
 ### Component Names
 - Use **PascalCase** for React components.
@@ -58,7 +41,7 @@ To maintain readability and consistency in the codebase, adhere to the following
 ### React Component Guidelines
 
 - Declare each component as a **const arrow function**.
-- Use **export** for the main component at the end of the component file.
+- Use **export** for the main component at the end of the component file (**but do not use export default**).
 - Always import components with **absolute paths** relative to the project root.
   - Example: `import Button from "@/components/ui/button"`
 - For icons, always use components with the suffix `"Icon"` and import them from the **LucidIcon** library.
@@ -71,14 +54,19 @@ To maintain readability and consistency in the codebase, adhere to the following
 ## Folder Structure
 
 Organize files within the `src` directory as follows:
-
-- **types**: Holds declared types, interfaces, and enums.
-- **lib**: Contains dummy data, utility functions, or library-specific code.
-- **hooks**: Stores custom hooks and Zustand stores.
-- **components**: Contains all React components.
-  - **ui**: This folder holds **shadcn** base components. **Do not modify** files in this folder.
-  - Main components that need children should be placed in a folder using **kebab-case**, except layout files.
-  - If there are multiple layout files, group them inside a `layouts` folder.
+```
+├── public
+└── src
+    ├── api
+    ├── components
+    │   ├── ui
+    │   └── (modules)
+    ├── hooks
+    ├── lib
+    ├── services
+    ├── styles
+    └── types
+```
 
 ## Branching
 
@@ -87,6 +75,8 @@ Always create a new branch when contributing. Follow the branch naming conventio
 ## Git Commit Messages
 
 We follow **semantic commit messages**. Learn more about the conventions from this [guide](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
+
+To commit please run ```pnpm commit```
 
 ### Semantic Commit Messages Tool
 
@@ -114,6 +104,12 @@ Start the dev server:
 
 ```bash
 pnpm dev
+```
+
+Commit changes:
+
+```bash
+pnpm commit
 ```
 
 Build the app for production:
