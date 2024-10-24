@@ -1,0 +1,11 @@
+services:
+  patchef-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: patchef-client
+    restart: always
+    ports:
+      - "3000:6969"
+    env_file:
+      - .env
