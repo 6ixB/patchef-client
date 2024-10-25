@@ -53,6 +53,8 @@ const CommandEntitySchema = z.object({
   payload: z.string().min(1, errorMessages.command.payload),
   options: z.array(CommandOptionEntitySchema).optional(),
   parameters: z.array(CommandParameterEntitySchema).optional(),
+  createdAt: z.string().transform((s) => new Date(s)),
+  updatedAt: z.string().transform((s) => new Date(s)),
 });
 
 type CommandParameterEntity = z.infer<typeof CommandParameterEntitySchema>;
