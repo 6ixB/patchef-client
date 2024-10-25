@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Icons } from "@/components/ui/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
 import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
@@ -22,7 +23,6 @@ import Editor, {
   type OnChange,
   type Monaco,
 } from "@monaco-editor/react";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { CodeIcon, RabbitIcon } from "lucide-react";
 import { useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
@@ -99,7 +99,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
       <DialogContent
         onInteractOutside={preventDefault}
         onEscapeKeyDown={preventDefault}
-        className="!rounded-md h-full max-h-[48rem] w-full max-w-7xl"
+        className="!rounded-md flex h-full max-h-[48rem] w-full max-w-7xl flex-col"
       >
         <DialogHeader>
           <DialogTitle>Advanced Payload Editor</DialogTitle>
@@ -109,7 +109,6 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
         </DialogHeader>
         <div className="grid flex-1 grid-cols-4 gap-4">
           <div className="col-span-3 rounded-md border bg-white dark:bg-[#24292e]">
-            {/* TODO: Fix code editor height only half of the total screen in intial render */}
             <Editor
               defaultLanguage="bat"
               defaultValue={
@@ -151,37 +150,31 @@ pause`
                 smoothScrolling: true,
                 scrollBeyondLastLine: false,
               }}
+              loading={<Icons.spinner className="size-4 animate-spin" />}
             />
           </div>
-          <div className="flex flex-col">
-            <ScrollArea className="h-full w-full rounded-md border bg-gray-100 p-2 dark:bg-[#171823]">
-              <div className="flex flex-col gap-y-2">
-                {revisedCommand?.parameters &&
-                revisedCommand?.parameters?.length !== 0 ? (
-                  revisedCommand?.parameters?.map((parameter) => (
-                    <Card
-                      key={parameter.id}
-                      className={cn(
-                        "flex select-none items-center justify-between rounded-md border p-2 text-sm",
-                      )}
-                    >
-                      {parameter.name}
-                    </Card>
-                  ))
-                ) : (
-                  <Card className="flex items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
-                    No parameters added
-                    <RabbitIcon className="size-4" />
+          <ScrollArea className="h-full w-full rounded-md border bg-gray-100 p-2 dark:bg-[#171823]">
+            <div className="flex flex-col gap-y-2">
+              {revisedCommand?.parameters &&
+              revisedCommand?.parameters?.length !== 0 ? (
+                revisedCommand?.parameters?.map((parameter) => (
+                  <Card
+                    key={parameter.id}
+                    className={cn(
+                      "flex select-none items-center justify-between rounded-md border p-2 text-sm",
+                    )}
+                  >
+                    {parameter.name}
                   </Card>
-                )}
-              </div>
-            </ScrollArea>
-            <div className="flex items-center justify-end gap-x-2">
-              <DialogClose asChild={true}>
-                <Button className="mt-4">Continue</Button>
-              </DialogClose>
+                ))
+              ) : (
+                <Card className="flex items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
+                  No parameters added
+                  <RabbitIcon className="size-4" />
+                </Card>
+              )}
             </div>
-          </div>
+          </ScrollArea>
         </div>
       </DialogContent>
     </Dialog>
