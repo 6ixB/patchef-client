@@ -47,6 +47,6 @@
     }
   },
   "files": {
-    "ignore": ["./src/components/ui/**/*.tsx"]
+    "ignore": ["./src/routeTree.gen.ts", "./src/components/ui/**/*.tsx"]
   }
 }

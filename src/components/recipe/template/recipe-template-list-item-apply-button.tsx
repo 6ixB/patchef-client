@@ -41,18 +41,21 @@ const RecipeTemplateListItemApplyButton = ({
 
   const applyRecipe = useCallback(() => {
     if (!recipe.commands) {
-      const promise = () => new Promise<void>((resolve) => setTimeout(async () => {
-        await removeCommandMutation.mutateAsync(recipe);
-        removeRecipe(recipe.id);
-        resolve();
-      }, 3000));
+      const promise = () =>
+        new Promise<void>((resolve) =>
+          setTimeout(async () => {
+            await removeCommandMutation.mutateAsync(recipe);
+            removeRecipe(recipe.id);
+            resolve();
+          }, 3000),
+        );
 
       toast.promise(promise, {
-        loading: 'Recipe has no commands, removing recipe...',
+        loading: "Recipe has no commands, removing recipe...",
         success: () => {
           return `Recipe removed successfully - ${recipe.name}`;
         },
-        error: 'Error',
+        error: "Error",
       });
       return;
     }
@@ -70,7 +73,13 @@ const RecipeTemplateListItemApplyButton = ({
     }));
     setDestinationCommands([...sanitizedCommands]);
     setActiveRecipe(recipe);
-  }, [recipe, setDestinationCommands, setActiveRecipe]);
+  }, [
+    recipe,
+    setDestinationCommands,
+    setActiveRecipe,
+    removeRecipe,
+    removeCommandMutation.mutateAsync,
+  ]);
 
   const handleConfirm = useCallback(() => {
     applyRecipe();

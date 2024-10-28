@@ -10,8 +10,10 @@
   "scripts": {
     "commit": "git-cz",
     "build": "rsbuild build",
+    "build:rsdoctor": "rsbuild build RSDOCTOR=true",
     "check": "biome check --write",
     "dev": "rsbuild dev --open",
+    "dev:rsdoctor": "rsbuild dev RSDOCTOR=true",
     "format": "biome format --write",
     "preview": "rsbuild preview"
   },
@@ -38,7 +40,9 @@
     "@rehype-pretty/transformers": "^0.13.2",
     "@stepperize/react": "^3.0.1",
     "@tanstack/react-query": "^5.59.15",
+    "@tanstack/react-router": "^1.77.5",
     "@tanstack/react-table": "^8.20.5",
+    "@tanstack/router-devtools": "^1.77.5",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -67,9 +71,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@rsbuild/core": "1.0.1-beta.15",
+    "@rsbuild/core": "1.0.18",
     "@rsbuild/plugin-react": "1.0.1-beta.15",
     "@tanstack/react-query-devtools": "^5.59.15",
+    "@tanstack/router-plugin": "^1.76.4",
     "@types/node": "^22.5.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
