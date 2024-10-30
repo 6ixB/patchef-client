@@ -3,10 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: registry.kube.slc.net/slc/patchef-client
     container_name: patchef-client
-    image: DAFFODIL.ad.slc.net:5000/slc/patchef-client
     restart: always
     ports:
-      - "3000:6969"
+      - "6969:6969"
     env_file:
       - .env
+
+networks:
+  patchef-frontend-network:
+    driver: bridge
