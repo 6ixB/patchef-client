@@ -80,6 +80,9 @@ const RecipeListItemParametersCombobox = ({
     });
   };
 
+  const hasNoParameters =
+    !command.parameters || command.parameters.length === 0;
+
   return (
     <div className="flex items-center gap-x-4">
       <Popover open={open} onOpenChange={setOpen}>
@@ -89,6 +92,7 @@ const RecipeListItemParametersCombobox = ({
             role="combobox"
             aria-expanded={open}
             className="w-[16rem] justify-between"
+            disabled={hasNoParameters}
           >
             {selectedParameter
               ? command.parameters?.find(

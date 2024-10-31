@@ -101,20 +101,14 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
         </div>
         <div className="flex flex-col gap-y-2">
           {/* Check using draft command but pass the value of copy of draft command */}
-          {draftCommand?.parameters && draftCommand?.options && (
-            <div className="text-sm">Command Playground</div>
-          )}
-          {draftCommand?.parameters && draftCommand.parameters.length !== 0 && (
-            <CreateCommandParametersCombobox
-              {...createCommandParametersComboboxProps}
-            />
-          )}
-          {draftCommand?.options && draftCommand.options.length !== 0 && (
-            <CreateCommandOptionsPlaygroundPopover
-              draftCommandCopy={draftCommandCopy}
-              setDraftCommandCopy={setDraftCommandCopy}
-            />
-          )}
+          <div className="text-sm">Command Playground</div>
+          <CreateCommandParametersCombobox
+            {...createCommandParametersComboboxProps}
+          />
+          <CreateCommandOptionsPlaygroundPopover
+            draftCommandCopy={draftCommandCopy}
+            setDraftCommandCopy={setDraftCommandCopy}
+          />
         </div>
         <div className="flex flex-1 flex-col gap-y-2">
           <h1 className="text-sm">Command Preview</h1>

@@ -2,13 +2,11 @@ import { Code } from "@/components/app/markdown/code";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   generateCodeMarkdown,
@@ -31,8 +29,8 @@ const CommandListItemInfoButton = ({
   });
 
   return (
-    <Dialog>
-      <DialogTrigger asChild={true}>
+    <Popover>
+      <PopoverTrigger asChild={true}>
         <Button
           variant="ghost"
           size="icon"
@@ -40,135 +38,143 @@ const CommandListItemInfoButton = ({
         >
           <InfoIcon className="size-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="w-full max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Command Information</DialogTitle>
-          <DialogDescription>
-            View information about this command.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
-          <div className="flex flex-col gap-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-x-2">
-                <CommandIcon className="size-4" />
-                <h1 className="font-medium text-sm">{command.name}</h1>
+      </PopoverTrigger>
+      <PopoverContent className="w-[32rem]">
+        <ScrollArea>
+          <div className="flex max-h-[32rem] flex-col gap-y-4">
+            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+              <h2 className="font-semibold text-lg leading-none tracking-tight">
+                Command Information
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                View information about this command.
+              </p>
+            </div>
+            <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
+              <div className="flex flex-col gap-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-x-2">
+                    <CommandIcon className="size-4" />
+                    <h1 className="font-medium text-sm">{command.name}</h1>
+                  </div>
+                  <Badge>Command</Badge>
+                </div>
+                <p className="text-sm">{command.description}</p>
               </div>
-              <Badge>Command</Badge>
             </div>
-            <p className="text-sm">{command.description}</p>
-          </div>
-        </div>
-        <div className="flex w-full max-w-full flex-col gap-y-2">
-          <p className="text-muted-foreground text-sm">Command Preview</p>
-          <Code codeMarkdown={commandCodeMarkdown} />
-        </div>
-        <Tabs defaultValue="parameters">
-          <TabsList className="rounded">
-            <TabsTrigger value="parameters" className="rounded">
-              Parameters
-            </TabsTrigger>
-            <TabsTrigger value="options" className="rounded">
-              Options
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="parameters">
-            <p className="text-muted-foreground text-sm">
-              This command needs the following parameters to work
-            </p>
-            <div className="mt-2 flex flex-col gap-y-2">
-              {command.parameters && command.parameters.length !== 0 ? (
-                command.parameters?.map((parameter) => (
-                  <div
-                    key={parameter.id}
-                    className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
-                  >
-                    <div className="flex flex-col gap-y-2">
-                      <div className="flex items-center justify-between">
-                        <h1 className="font-medium text-sm">
-                          {parameter.name}
-                        </h1>
-                        <Badge>Parameter</Badge>
-                      </div>
-                      <p className="text-sm">{parameter.description}</p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm">
-                      This command does not require any parameters
-                    </p>
-                    <RabbitIcon className="size-4" />
-                  </div>
-                </div>
-              )}
+            <div className="flex w-full max-w-full flex-col gap-y-2">
+              <p className="text-muted-foreground text-sm">Command Payload</p>
+              <Code codeMarkdown={commandCodeMarkdown} />
             </div>
-          </TabsContent>
-          <TabsContent value="options">
-            <p className="text-muted-foreground text-sm">
-              This command has the following options
-            </p>
-            <div className="mt-2 flex flex-col gap-y-2">
-              {command.options && command.options.length !== 0 ? (
-                command.options?.map((option) => (
-                  <div
-                    key={option.id}
-                    className="flex flex-col gap-y-2 rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
-                  >
-                    <div className="flex flex-col gap-y-2">
-                      <div className="flex items-center justify-between">
-                        <h1 className="font-medium text-sm">{option.name}</h1>
-                        <Badge>Option</Badge>
-                      </div>
-                      <p className="text-sm">{option.description}</p>
-                    </div>
-                    {option.parameterRequired && (
-                      <>
-                        <p className="text-muted-foreground text-sm">
-                          This option requires the following parameters
-                        </p>
+            <Tabs defaultValue="parameters">
+              <TabsList className="rounded">
+                <TabsTrigger value="parameters" className="rounded">
+                  Parameters
+                </TabsTrigger>
+                <TabsTrigger value="options" className="rounded">
+                  Options
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="parameters">
+                <p className="text-muted-foreground text-sm">
+                  This command needs the following parameters to work
+                </p>
+                <div className="mt-2 flex flex-col gap-y-2">
+                  {command.parameters && command.parameters.length !== 0 ? (
+                    command.parameters?.map((parameter) => (
+                      <div
+                        key={parameter.id}
+                        className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
+                      >
                         <div className="flex flex-col gap-y-2">
-                          {option.parameters?.map((parameter) => (
-                            <div
-                              key={parameter.id}
-                              className="rounded border bg-gray-50 p-4 dark:bg-muted"
-                            >
-                              <div className="flex flex-col gap-y-2">
-                                <div className="flex items-center justify-between">
-                                  <h1 className="font-medium text-sm">
-                                    {parameter.name}
-                                  </h1>
-                                  <Badge>Parameter</Badge>
-                                </div>
-                                <p className="text-sm">
-                                  {parameter.description}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
+                          <div className="flex items-center justify-between">
+                            <h1 className="font-medium text-sm">
+                              {parameter.name}
+                            </h1>
+                            <Badge>Parameter</Badge>
+                          </div>
+                          <p className="text-sm">{parameter.description}</p>
                         </div>
-                      </>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm">
-                      This command does not have any options
-                    </p>
-                    <RabbitIcon className="size-4" />
-                  </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm">
+                          This command does not require any parameters
+                        </p>
+                        <RabbitIcon className="size-4" />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
+              </TabsContent>
+              <TabsContent value="options">
+                <p className="text-muted-foreground text-sm">
+                  This command has the following options
+                </p>
+                <div className="mt-2 flex flex-col gap-y-2">
+                  {command.options && command.options.length !== 0 ? (
+                    command.options?.map((option) => (
+                      <div
+                        key={option.id}
+                        className="flex flex-col gap-y-2 rounded-md border bg-gray-100 p-4 dark:bg-[#171823]"
+                      >
+                        <div className="flex flex-col gap-y-2">
+                          <div className="flex items-center justify-between">
+                            <h1 className="font-medium text-sm">
+                              {option.name}
+                            </h1>
+                            <Badge>Option</Badge>
+                          </div>
+                          <p className="text-sm">{option.description}</p>
+                        </div>
+                        {option.parameterRequired && (
+                          <>
+                            <p className="text-muted-foreground text-sm">
+                              This option requires the following parameters
+                            </p>
+                            <div className="flex flex-col gap-y-2">
+                              {option.parameters?.map((parameter) => (
+                                <div
+                                  key={parameter.id}
+                                  className="rounded border bg-gray-50 p-4 dark:bg-muted"
+                                >
+                                  <div className="flex flex-col gap-y-2">
+                                    <div className="flex items-center justify-between">
+                                      <h1 className="font-medium text-sm">
+                                        {parameter.name}
+                                      </h1>
+                                      <Badge>Parameter</Badge>
+                                    </div>
+                                    <p className="text-sm">
+                                      {parameter.description}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="rounded-md border bg-gray-100 p-4 dark:bg-[#171823]">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm">
+                          This command does not have any options
+                        </p>
+                        <RabbitIcon className="size-4" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </ScrollArea>
+      </PopoverContent>
+    </Popover>
   );
 };
 

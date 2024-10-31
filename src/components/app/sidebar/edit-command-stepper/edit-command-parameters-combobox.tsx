@@ -75,6 +75,8 @@ const EditCommandParametersCombobox = ({
     setRevisedCommandCopy(modifiedDraftCommand);
   };
 
+  const hasNoParameters = !revisedCommandCopy?.parameters?.length;
+
   return (
     <div className="flex items-center gap-x-4">
       <Popover open={open} onOpenChange={setOpen}>
@@ -84,6 +86,7 @@ const EditCommandParametersCombobox = ({
             role="combobox"
             aria-expanded={open}
             className="w-[16rem] justify-between"
+            disabled={hasNoParameters}
           >
             {selectedParameter
               ? revisedCommandCopy?.parameters?.find(

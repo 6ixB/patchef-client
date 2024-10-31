@@ -104,22 +104,15 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
           Does the following command looks good to you?
         </div>
         <div className="flex flex-col gap-y-2">
-          {/* Check using draft command but pass the value of copy of draft command */}
-          {revisedCommand?.parameters && revisedCommand?.options && (
-            <div className="text-sm">Command Playground</div>
-          )}
-          {revisedCommand?.parameters &&
-            revisedCommand.parameters.length !== 0 && (
-              <EditCommandParametersCombobox
-                {...editCommandParametersComboboxProps}
-              />
-            )}
-          {revisedCommand?.options && revisedCommand.options.length !== 0 && (
-            <EditCommandOptionsPlaygroundPopover
-              revisedCommandCopy={revisedCommandCopy}
-              setRevisedCommandCopy={setRevisedCommandCopy}
-            />
-          )}
+          {/* Check using revised command but pass the value of copy of revised command */}
+          <div className="text-sm">Command Playground</div>
+          <EditCommandParametersCombobox
+            {...editCommandParametersComboboxProps}
+          />
+          <EditCommandOptionsPlaygroundPopover
+            revisedCommandCopy={revisedCommandCopy}
+            setRevisedCommandCopy={setRevisedCommandCopy}
+          />
         </div>
         <div className="flex flex-1 flex-col gap-y-2">
           <h1 className="text-sm">Command Preview</h1>

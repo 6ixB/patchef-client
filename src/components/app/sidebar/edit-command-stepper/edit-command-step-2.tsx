@@ -151,6 +151,9 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
   const isParameterSelected = selectedParameter !== null;
   const isBasicCommand = revisedCommand?.type === CommandType.Basic;
 
+  console.info(form.formState.isDirty);
+  console.info(JSON.stringify(form.formState.dirtyFields));
+
   return (
     <Form {...form}>
       <form

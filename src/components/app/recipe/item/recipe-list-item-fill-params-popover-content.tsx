@@ -1,6 +1,7 @@
 import { RecipeListItemOptionControlsPopover } from "@/components/app/recipe/item/recipe-list-item-option-controls-popover";
 import { RecipeListItemParametersCombobox } from "@/components/app/recipe/item/recipe-list-item-parameters-combobox";
 import { PopoverContent } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type {
   CommandEntity,
   CommandParameterEntity,
@@ -31,17 +32,19 @@ const RecipeListItemFillParamsPopoverContent = ({
 
   return (
     <PopoverContent className="w-full max-w-2xl">
-      <div className="flex flex-col gap-y-2">
-        <RecipeListItemParametersCombobox
-          {...RecipeListItemParametersComboboxProps}
-        />
-        {command.options && command.options.length !== 0 && (
-          <RecipeListItemOptionControlsPopover
-            command={command}
-            commandIndex={commandIndex}
-          />
-        )}
-      </div>
+      <ScrollArea>
+        <div className="flex max-h-[32rem] flex-col gap-y-4">
+          <div className="flex flex-col gap-y-2">
+            <RecipeListItemParametersCombobox
+              {...RecipeListItemParametersComboboxProps}
+            />
+            <RecipeListItemOptionControlsPopover
+              command={command}
+              commandIndex={commandIndex}
+            />
+          </div>
+        </div>
+      </ScrollArea>
     </PopoverContent>
   );
 };

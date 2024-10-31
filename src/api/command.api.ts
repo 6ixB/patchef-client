@@ -71,10 +71,8 @@ async function fetchCommand(id: string): Promise<CommandEntity> {
   return validatedCommand.data;
 }
 
-async function updateCommand(
-  command: CreateCommandDto,
-): Promise<CommandEntity> {
-  const response = await fetch(`${baseUrl}/${command.id}`, {
+async function updateCommand(command: CommandEntity): Promise<CommandEntity> {
+  const response = await fetch(`${baseUrl}/${command.originalId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

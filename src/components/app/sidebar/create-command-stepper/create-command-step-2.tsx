@@ -153,6 +153,9 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
   const isParameterSelected = selectedParameter !== null;
   const isBasicCommand = draftCommand?.type === CommandType.Basic;
 
+  console.info(form.formState.isDirty);
+  console.info(JSON.stringify(form.formState.dirtyFields));
+
   return (
     <Form {...form}>
       <form
