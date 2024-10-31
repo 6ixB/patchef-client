@@ -1,31 +1,28 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import type { CommandEntity } from "@/types/commands/command.entity";
 import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 import type { DraftFunction } from "use-immer";
 
-interface EditCommandOptionsPlaygroundDialogProps {
+interface EditCommandOptionsPlaygroundPopoverProps {
   revisedCommandCopy: CommandEntity | null;
   setRevisedCommandCopy: (
     draftFunction: DraftFunction<CommandEntity | null>,
   ) => void;
 }
 
-const EditCommandOptionsPlaygroundDialog = ({
+const EditCommandOptionsPlaygroundPopover = ({
   revisedCommandCopy,
   setRevisedCommandCopy,
-}: EditCommandOptionsPlaygroundDialogProps) => {
+}: EditCommandOptionsPlaygroundPopoverProps) => {
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
@@ -43,20 +40,14 @@ const EditCommandOptionsPlaygroundDialog = ({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild={true}>
+    <Popover>
+      <PopoverTrigger asChild={true}>
         <Button variant="outline" className="w-[11.75rem]">
           <BoltIcon className="mr-2 size-4" />
           Configure options
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Configure enabled options</DialogTitle>
-          <DialogDescription>
-            Configure the options that will be enabled for this command
-          </DialogDescription>
-        </DialogHeader>
+      </PopoverTrigger>
+      <PopoverContent className="w-[32rem]">
         <div>
           <p className="text-muted-foreground text-sm">
             This command has the following options
@@ -146,12 +137,12 @@ const EditCommandOptionsPlaygroundDialog = ({
             )}
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </PopoverContent>
+    </Popover>
   );
 };
 
 export {
-  type EditCommandOptionsPlaygroundDialogProps,
-  EditCommandOptionsPlaygroundDialog,
+  type EditCommandOptionsPlaygroundPopoverProps,
+  EditCommandOptionsPlaygroundPopover,
 };

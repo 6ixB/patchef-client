@@ -1,6 +1,6 @@
 import { updateCommand as updateCommandApi } from "@/api/command.api";
 import { Code } from "@/components/app/markdown/code";
-import { EditCommandOptionsPlaygroundDialog } from "@/components/app/sidebar/edit-command-stepper/edit-command-options-playground-dialog";
+import { EditCommandOptionsPlaygroundPopover } from "@/components/app/sidebar/edit-command-stepper/edit-command-options-playground-popover";
 import { EditCommandParametersCombobox } from "@/components/app/sidebar/edit-command-stepper/edit-command-parameters-combobox";
 import type { EditCommandStepProps } from "@/components/app/sidebar/edit-command-stepper/edit-command-stepper";
 import { Button } from "@/components/ui/button";
@@ -115,7 +115,7 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
               />
             )}
           {revisedCommand?.options && revisedCommand.options.length !== 0 && (
-            <EditCommandOptionsPlaygroundDialog
+            <EditCommandOptionsPlaygroundPopover
               revisedCommandCopy={revisedCommandCopy}
               setRevisedCommandCopy={setRevisedCommandCopy}
             />

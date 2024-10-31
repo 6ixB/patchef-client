@@ -1,6 +1,6 @@
 import { createCommand as createCommandApi } from "@/api/command.api";
 import { Code } from "@/components/app/markdown/code";
-import { CreateCommandOptionsPlaygroundDialog } from "@/components/app/sidebar/create-command-stepper/create-command-options-playground-dialog";
+import { CreateCommandOptionsPlaygroundPopover } from "@/components/app/sidebar/create-command-stepper/create-command-options-playground-popover";
 import { CreateCommandParametersCombobox } from "@/components/app/sidebar/create-command-stepper/create-command-parameters-combobox";
 import type { CreateCommandStepProps } from "@/components/app/sidebar/create-command-stepper/create-command-stepper";
 import { Button } from "@/components/ui/button";
@@ -110,7 +110,7 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
             />
           )}
           {draftCommand?.options && draftCommand.options.length !== 0 && (
-            <CreateCommandOptionsPlaygroundDialog
+            <CreateCommandOptionsPlaygroundPopover
               draftCommandCopy={draftCommandCopy}
               setDraftCommandCopy={setDraftCommandCopy}
             />
