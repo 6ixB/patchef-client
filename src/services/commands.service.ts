@@ -144,7 +144,7 @@ const generateDefaultValues = {
     */
     draftCommand?: CreateCommandDto | null;
     generateId?: boolean;
-  }) => ({
+  }): CreateCommandDto => ({
     id: draftCommand?.id ?? generateId ? generateUuidV4() : undefined,
     type: draftCommand?.type ?? CommandType.Basic,
     name: draftCommand?.name ?? "",

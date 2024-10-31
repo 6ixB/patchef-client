@@ -1,13 +1,15 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
+const RootComponent = () => (
+  <>
+    <Outlet />
+    <TanStackRouterDevtools />
+  </>
+);
+
 const Route = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: RootComponent,
 });
 
-export { Route };
+export { RootComponent, Route };

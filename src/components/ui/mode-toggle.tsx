@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Theme, useTheme } from "@/components/providers/theme-provider";
+import { Theme, useTheme } from "@/components/app/providers/theme-provider";
 import { cn } from "@/lib/utils";
 
 const ModeToggle = () => {
@@ -32,7 +32,7 @@ const ModeToggle = () => {
             <CheckIcon
               className={cn(
                 "size-4",
-                theme === mode.toLowerCase() ? "opacity-100" : "opacity-0"
+                theme === mode.toLowerCase() ? "opacity-100" : "opacity-0",
               )}
             />
           </DropdownMenuItem>
