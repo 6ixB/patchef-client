@@ -295,6 +295,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                         parameters
                       </FormDescription>
                       <Select
+                        name="create-command-option-delimiter-select"
                         disabled={!isBasicCommand}
                         onValueChange={(value) => {
                           form.setValue(

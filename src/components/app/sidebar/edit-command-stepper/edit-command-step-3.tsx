@@ -294,6 +294,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                         parameters
                       </FormDescription>
                       <Select
+                        name="edit-command-option-delimiter-select"
                         disabled={!isBasicCommand}
                         onValueChange={(value) => {
                           form.setValue(
