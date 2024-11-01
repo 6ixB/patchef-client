@@ -48,7 +48,7 @@ const CommandDataTablePagination = <TData,>({
       <div className="flex items-center justify-end space-x-2">
         <div className="flex w-[100px] items-center justify-center font-medium text-sm">
           Page {table.getState().pagination.pageIndex + 1} of&nbsp;
-          {table.getPageCount()}
+          {table.getPageCount() === 0 ? 1 : table.getPageCount()}
         </div>
         <Button
           variant="outline"
