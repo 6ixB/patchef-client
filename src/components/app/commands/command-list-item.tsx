@@ -4,18 +4,22 @@ import type { CommandEntity } from "@/types/commands/command.entity";
 import { DndContextEventDataType } from "@/types/dnd-context";
 import { useDraggable } from "@dnd-kit/core";
 import { CommandIcon } from "lucide-react";
+import { useState } from "react";
 
 interface CommandListItemProps {
   command: CommandEntity;
 }
 
 const CommandListItem = ({ command }: CommandListItemProps) => {
+  const [disabled, setDisabled] = useState(false);
+
   const { setNodeRef, attributes, listeners } = useDraggable({
     id: command.id,
     data: {
       type: DndContextEventDataType.SourceCommand,
       command,
     },
+    disabled,
   });
 
   return (
@@ -29,7 +33,7 @@ const CommandListItem = ({ command }: CommandListItemProps) => {
         <CommandIcon className="size-4" />
         <CardTitle className="text-sm">{command.name}</CardTitle>
       </div>
-      <CommandListItemInfoButton command={command} />
+      <CommandListItemInfoButton command={command} setDisabled={setDisabled} />
     </Card>
   );
 };

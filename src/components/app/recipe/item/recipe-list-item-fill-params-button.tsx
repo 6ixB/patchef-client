@@ -7,16 +7,26 @@ import { VariableIcon } from "lucide-react";
 interface RecipeListItemFillParamsButtonProps {
   command: CommandEntity;
   commandIndex: number;
+  setDisabled: (disabled: boolean) => void;
 }
 
 const RecipeListItemFillParamsButton = ({
   command,
   commandIndex,
+  setDisabled,
 }: RecipeListItemFillParamsButtonProps) => {
   const hasNoParametersAndOptions = !(command.parameters || command.options);
 
   return (
-    <Popover>
+    <Popover
+      onOpenChange={(open) => {
+        if (open) {
+          setDisabled(true);
+        } else {
+          setDisabled(false);
+        }
+      }}
+    >
       <PopoverTrigger asChild={true}>
         <Button
           variant="outline"

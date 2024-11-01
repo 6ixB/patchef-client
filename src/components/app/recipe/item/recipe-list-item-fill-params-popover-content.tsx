@@ -33,7 +33,7 @@ const RecipeListItemFillParamsPopoverContent = ({
   return (
     <PopoverContent className="w-full max-w-2xl">
       <ScrollArea>
-        <div className="flex max-h-[32rem] flex-col gap-y-4">
+        <div className="flex max-h-[40rem] flex-col gap-y-4 p-0.5">
           <div className="flex flex-col gap-y-2">
             <RecipeListItemParametersCombobox
               {...RecipeListItemParametersComboboxProps}

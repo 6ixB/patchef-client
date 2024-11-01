@@ -16,7 +16,7 @@ import { defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
 import type { SortableTransition } from "@dnd-kit/sortable/dist/hooks/types";
 import { CSS } from "@dnd-kit/utilities";
 import { CommandIcon, TriangleAlertIcon } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 function animateLayoutChanges(args: {
   active: Active | null;
@@ -46,6 +46,7 @@ interface RecipeListItemProps {
 }
 
 const RecipeListItem = ({ command }: RecipeListItemProps) => {
+  const [disabled, setDisabled] = useState(false);
   const { destinationCommands } = useCommandStore();
 
   const index = useMemo(() => {
@@ -66,6 +67,7 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
       type: DndContextEventDataType.DestinationCommand,
       command,
     },
+    disabled,
   });
 
   const style = {
@@ -175,9 +177,13 @@ const RecipeListItem = ({ command }: RecipeListItemProps) => {
           <RecipeListItemFillParamsButton
             command={command}
             commandIndex={index}
+            setDisabled={setDisabled}
           />
         )}
-        <RecipeListItemRemoveButton command={command} />
+        <RecipeListItemRemoveButton
+          command={command}
+          setDisabled={setDisabled}
+        />
       </div>
     </Card>
   );

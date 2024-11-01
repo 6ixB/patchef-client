@@ -16,15 +16,25 @@ import { TrashIcon } from "lucide-react";
 
 interface RecipeListItemRemoveButtonProps {
   command: CommandEntity;
+  setDisabled: (disabled: boolean) => void;
 }
 
 const RecipeListItemRemoveButton = ({
   command,
+  setDisabled,
 }: RecipeListItemRemoveButtonProps) => {
   const { removeDestinationCommand } = useCommandStore();
 
   return (
-    <AlertDialog>
+    <AlertDialog
+      onOpenChange={(open) => {
+        if (open) {
+          setDisabled(true);
+        } else {
+          setDisabled(false);
+        }
+      }}
+    >
       <AlertDialogTrigger asChild={true}>
         <Button variant="outline" size="icon">
           <TrashIcon className="size-4" />

@@ -17,10 +17,12 @@ import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
 
 interface CommandListItemInfoButtonProps {
   command: CommandEntity;
+  setDisabled: (disabled: boolean) => void;
 }
 
 const CommandListItemInfoButton = ({
   command,
+  setDisabled,
 }: CommandListItemInfoButtonProps) => {
   const commandString = generateCommandString(command);
   const commandCodeMarkdown = generateCodeMarkdown({
@@ -29,7 +31,15 @@ const CommandListItemInfoButton = ({
   });
 
   return (
-    <Popover>
+    <Popover
+      onOpenChange={(open) => {
+        if (open) {
+          setDisabled(true);
+        } else {
+          setDisabled(false);
+        }
+      }}
+    >
       <PopoverTrigger asChild={true}>
         <Button
           variant="ghost"
