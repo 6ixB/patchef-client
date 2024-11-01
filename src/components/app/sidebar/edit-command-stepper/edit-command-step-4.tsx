@@ -159,9 +159,11 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
       form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
-      form.setValue("id", parameter.id);
-      form.setValue("name", parameter.name);
-      form.setValue("description", parameter.description);
+      form.reset({
+        id: parameter.id,
+        name: parameter.name,
+        description: parameter.description,
+      });
     }
   };
 
@@ -255,7 +257,10 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit" disabled={!isBasicCommand}>
+            <Button
+              type="submit"
+              disabled={!(isBasicCommand && form.formState.isDirty)}
+            >
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>

@@ -111,9 +111,11 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
       form.reset(generateDefaultValues.commandParameter());
     } else {
       setSelectedParameter(parameter);
-      form.setValue("id", parameter.id);
-      form.setValue("name", parameter.name);
-      form.setValue("description", parameter.description);
+      form.reset({
+        id: parameter.id,
+        name: parameter.name,
+        description: parameter.description,
+      });
     }
   };
 
@@ -152,9 +154,6 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
   const isParameterSelected = selectedParameter !== null;
   const isBasicCommand = draftCommand?.type === CommandType.Basic;
-
-  console.info(form.formState.isDirty);
-  console.info(JSON.stringify(form.formState.dirtyFields));
 
   return (
     <Form {...form}>
@@ -212,7 +211,10 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button type="submit" disabled={!isBasicCommand}>
+            <Button
+              type="submit"
+              disabled={!(isBasicCommand && form.formState.isDirty)}
+            >
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>

@@ -133,12 +133,15 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
       form.reset(generateDefaultValues.commandOption());
     } else {
       setSelectedOption(option);
-      form.setValue("id", option.id);
-      form.setValue("name", option.name);
-      form.setValue("description", option.description);
-      form.setValue("payload", option.payload);
-      form.setValue("parameterRequired", option.parameterRequired);
-      form.setValue("delimiter", option.delimiter);
+      form.reset({
+        id: option.id,
+        name: option.name,
+        description: option.description,
+        payload: option.payload,
+        parameterRequired: option.parameterRequired,
+        delimiter: option.delimiter,
+        enabled: option.enabled,
+      });
     }
   };
 
@@ -322,7 +325,10 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                 />
               )}
             </div>
-            <Button type="submit" disabled={!isBasicCommand}>
+            <Button
+              type="submit"
+              disabled={!(isBasicCommand && form.formState.isDirty)}
+            >
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isOptionSelected ? "Update" : "Add"} option
             </Button>
