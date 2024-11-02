@@ -91,7 +91,7 @@ const RecipeListItemParametersCombobox = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[16rem] justify-between"
+            className="min-w-[11.5rem] justify-between"
             disabled={hasNoParameters}
           >
             {selectedParameter
