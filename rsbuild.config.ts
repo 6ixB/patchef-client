@@ -1,6 +1,7 @@
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
 import { TanStackRouterRspack } from "@tanstack/router-plugin/rspack";
+import { MagicRegExpTransformPlugin } from "magic-regexp/transform";
 
 export default defineConfig({
   html: {
@@ -22,7 +23,7 @@ export default defineConfig({
   plugins: [pluginReact()],
   tools: {
     rspack: {
-      plugins: [TanStackRouterRspack()],
+      plugins: [TanStackRouterRspack(), MagicRegExpTransformPlugin.rspack()],
     },
   },
 });

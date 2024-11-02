@@ -1,5 +1,10 @@
+import { createRegExp, charNotIn, global, oneOrMore } from "magic-regexp";
+
 function parseParameters(text: string): string[] {
-  const parameterRegex = /{{([^\s{}]+)}}/g;
+  const parameterRegex = createRegExp(
+    oneOrMore(charNotIn(" \t\r\n{{")).before("}}").after("{{"),
+    [global],
+  );
   const matches = text.matchAll(parameterRegex);
 
   if (!matches) {
@@ -7,9 +12,13 @@ function parseParameters(text: string): string[] {
   }
   const parameters: string[] = [];
   for (const match of matches) {
-    const value = match[1].trim();
+    const value = match[0];
 
-    if (parameters.includes(value)) {
+    if (!value) {
+      continue;
+    }
+
+    if (parameters.includes(value.trim())) {
       continue;
     }
 
