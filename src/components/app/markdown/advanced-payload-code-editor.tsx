@@ -8,8 +8,8 @@ import {
 import { useTheme } from "@/components/app/providers/theme-provider";
 import type { CreateCommandDto } from "@/types/commands/command.dto";
 import type { CommandEntity } from "@/types/commands/command.entity";
-import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
-import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
+import GitHubDarkTheme from "@/lib/monaco-editor/themes/github-dark.json";
+import GitHubLightTheme from "@/lib/monaco-editor/themes/github-light.json";
 import { defaults } from "@/lib/defaults";
 
 const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
