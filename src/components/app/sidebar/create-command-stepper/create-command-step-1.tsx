@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { defaults } from "@/lib/defaults";
 import { generateDefaultValues } from "@/services/commands.service";
 import {
   CreateCommandDtoSchema,
@@ -84,7 +85,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                   <Input
                     autoComplete="off"
                     autoFocus={true}
-                    placeholder="Start Chrome"
+                    placeholder={defaults.placeholders.command.name}
                     {...field}
                     className="w-full"
                   />
@@ -105,7 +106,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                 <FormControl>
                   <Input
                     autoComplete="off"
-                    placeholder="Starts Google Chrome browser with Custom URL"
+                    placeholder={defaults.placeholders.command.description}
                     {...field}
                     className="w-full"
                   />
@@ -146,7 +147,9 @@ pause`;
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select command type" />
+                      <SelectValue
+                        placeholder={defaults.placeholders.command.type}
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -173,7 +176,7 @@ pause`;
                   <FormControl>
                     <Input
                       autoComplete="off"
-                      placeholder="start chrome"
+                      placeholder={defaults.placeholders.command.payload}
                       {...field}
                       className="w-full"
                     />

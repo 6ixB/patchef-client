@@ -1,4 +1,3 @@
-import { useTheme } from "@/components/app/providers/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,42 +8,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Icons } from "@/components/ui/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
-import GitHubDarkTheme from "@/lib/monaco-editor-themes/github-dark.json";
-import GitHubLightTheme from "@/lib/monaco-editor-themes/github-light.json";
 import { cn } from "@/lib/utils";
 import { generateDefaultValues } from "@/services/commands.service";
 import { parseParameters } from "@/services/parser.service";
 import type { CreateCommandDto } from "@/types/commands/command.dto";
-import Editor, {
-  type BeforeMount,
-  type OnMount,
-  type OnChange,
-  type Monaco,
+import type {
+  BeforeMount,
+  OnMount,
+  OnChange,
+  Monaco,
 } from "@monaco-editor/react";
 import { CodeIcon, RabbitIcon } from "lucide-react";
 import { useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { v4 as generateUuidV4 } from "uuid";
-
-const getTheme = (theme: "light" | "dark" | "system" | undefined) => {
-  if (theme === "system") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  }
-
-  return theme;
-};
+import { AdvancedPayloadCodeEditor } from "../../markdown/advanced-payload-code-editor";
 
 interface CodeEditorDialogProps {
   form: UseFormReturn<CreateCommandDto>;
 }
 
 const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
-  const { theme } = useTheme();
   const monacoRef = useRef<Monaco | null>(null);
   const { draftCommand, setDraftCommand } = useCommandStore();
 
@@ -52,17 +38,8 @@ const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
     e.preventDefault();
   };
 
-  const handleEditorWillMount: BeforeMount = (monaco) => {
-    monaco.editor.defineTheme("GitHubLightTheme", {
-      base: "vs-dark",
-      inherit: true,
-      ...GitHubLightTheme,
-    });
-    monaco.editor.defineTheme("GitHubDarkTheme", {
-      base: "vs-dark",
-      inherit: true,
-      ...GitHubDarkTheme,
-    });
+  const handleEditorWillMount: BeforeMount = (_monaco) => {
+    console.info("Editor will mount");
   };
 
   const handleEditorDidMount: OnMount = (_editor, monaco) => {
@@ -107,48 +84,11 @@ const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
         </DialogHeader>
         <div className="grid flex-1 grid-cols-4 gap-4">
           <div className="col-span-3 rounded-md border bg-white dark:bg-[#24292e]">
-            <Editor
-              defaultLanguage="bat"
-              defaultValue={
-                draftCommand?.payload ??
-                `REM Start your patching journey now!
-@echo off
-echo Hello, World!
-pause`
-              }
-              onChange={handleEditorChange}
-              beforeMount={handleEditorWillMount}
-              onMount={handleEditorDidMount}
-              theme={
-                getTheme(theme as "light" | "dark" | "system" | undefined) ===
-                "light"
-                  ? "GitHubLightTheme"
-                  : "GitHubDarkTheme"
-              }
-              options={{
-                padding: {
-                  top: 16,
-                  bottom: 16,
-                },
-                fontSize: 14,
-                fontFamily: "Geist Mono",
-                fontLigatures: true,
-                wordWrap: "on",
-                minimap: {
-                  enabled: false,
-                },
-                bracketPairColorization: {
-                  enabled: true,
-                },
-                cursorBlinking: "phase",
-                cursorStyle: "block-outline",
-                formatOnPaste: true,
-                mouseWheelZoom: true,
-                cursorSmoothCaretAnimation: "on",
-                smoothScrolling: true,
-                scrollBeyondLastLine: false,
-              }}
-              loading={<Icons.spinner className="size-4 animate-spin" />}
+            <AdvancedPayloadCodeEditor
+              draftCommand={draftCommand}
+              handleEditorChange={handleEditorChange}
+              handleEditorDidMount={handleEditorDidMount}
+              handleEditorWillMount={handleEditorWillMount}
             />
           </div>
           <ScrollArea className="h-full w-full rounded-md border bg-gray-100 p-2 dark:bg-[#171823]">

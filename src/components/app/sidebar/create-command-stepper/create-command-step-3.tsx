@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { defaults } from "@/lib/defaults";
 import { cn } from "@/lib/utils";
 import { generateDefaultValues } from "@/services/commands.service";
 import {
@@ -206,7 +207,7 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Incognito mode"
+                        placeholder={defaults.placeholders.commandOption.name}
                         {...field}
                         className="w-full"
                       />
@@ -228,7 +229,9 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Run the the browser in incognito mode"
+                        placeholder={
+                          defaults.placeholders.commandOption.description
+                        }
                         {...field}
                         className="w-full"
                       />
@@ -250,7 +253,9 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="--incognito"
+                        placeholder={
+                          defaults.placeholders.commandOption.payload
+                        }
                         {...field}
                         className="w-full"
                       />
@@ -307,7 +312,11 @@ const CreateCommandStep3 = ({ prev, next }: CreateCommandStepProps) => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a delimiter" />
+                            <SelectValue
+                              placeholder={
+                                defaults.placeholders.commandOption.delimiter
+                              }
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

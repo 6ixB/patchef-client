@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { defaults } from "@/lib/defaults";
 import { cn } from "@/lib/utils";
 import { generateDefaultValues } from "@/services/commands.service";
 import {
@@ -179,7 +180,9 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder="Custom URL"
+                        placeholder={
+                          defaults.placeholders.commandParameter.name
+                        }
                         {...field}
                         className="w-full"
                       />
@@ -201,7 +204,9 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="The URL to open in the browser"
+                        placeholder={
+                          defaults.placeholders.commandParameter.description
+                        }
                         {...field}
                         className="w-full"
                       />

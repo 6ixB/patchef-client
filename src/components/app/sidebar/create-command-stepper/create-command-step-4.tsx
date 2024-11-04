@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { defaults } from "@/lib/defaults";
 import { cn } from "@/lib/utils";
 import {
   checkAllFillableOptionParametersAreFilled,
@@ -226,7 +227,9 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="Verbose Level"
+                        placeholder={
+                          defaults.placeholders.commandOptionParameter.name
+                        }
                         {...field}
                         className="w-full"
                       />
@@ -248,7 +251,10 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder="The verbosity level of the command"
+                        placeholder={
+                          defaults.placeholders.commandOptionParameter
+                            .description
+                        }
                         {...field}
                         className="w-full"
                       />
