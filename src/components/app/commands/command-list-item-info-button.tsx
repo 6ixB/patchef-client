@@ -24,7 +24,10 @@ const CommandListItemInfoButton = ({
   command,
   setDisabled,
 }: CommandListItemInfoButtonProps) => {
-  const commandString = generateCommandString(command);
+  const commandString = generateCommandString({
+    ...command,
+    options: command.options?.map((option) => ({ ...option, enabled: true })),
+  });
   const commandCodeMarkdown = generateCodeMarkdown({
     codePayload: commandString,
     showLineNumbers: false,
@@ -64,7 +67,7 @@ const CommandListItemInfoButton = ({
               <div className="flex flex-col gap-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-x-2">
-                    <CommandIcon className="size-4" />
+                    <CommandIcon className="size-4 min-h-4 min-w-4" />
                     <h1 className="font-medium text-sm">{command.name}</h1>
                   </div>
                   <Badge>Command</Badge>
