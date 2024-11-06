@@ -141,6 +141,9 @@ const CommandListItemInfoButton = ({
                             <Badge>Option</Badge>
                           </div>
                           <p className="text-sm">{option.description}</p>
+                          <Badge variant="secondary" className="w-fit">
+                            {option.payload}
+                          </Badge>
                         </div>
                         {option.parameterRequired && (
                           <>
