@@ -20,8 +20,9 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { DownloadIcon, UploadIcon, WandSparklesIcon } from "lucide-react";
+import { UploadIcon, WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
+import { ExportCommandsButton } from "./export-commands-button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -61,10 +62,7 @@ const CommandDataTable = <TData, TValue>({
             <UploadIcon className="mr-2 size-4" />
             Import
           </Button>
-          <Button variant="secondary">
-            <DownloadIcon className="mr-2 size-4" />
-            Export
-          </Button>
+          <ExportCommandsButton />
           <Button onClick={() => setManageState(ManageState.Create)}>
             <WandSparklesIcon className="mr-2 size-4" />
             Create command

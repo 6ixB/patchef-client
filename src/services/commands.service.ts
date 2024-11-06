@@ -23,7 +23,7 @@ function formatParameters(parameters: CreateCommandParameterDto[]): string {
 */
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is fine as is - MY23-1
-function generateCommandString(command: CreateCommandDto): string {
+function generateCommandString(command: CommandEntity): string {
   switch (command.type) {
     case CommandType.Basic: {
       let commandString = command.payload;
