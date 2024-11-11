@@ -22,7 +22,7 @@ import {
 } from "@tanstack/react-table";
 import { UploadIcon, WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
-import { ExportCommandsButton } from "./export-commands-button";
+import { ExportCommandsButton } from "@/components/app/sidebar/command-data-table/export-commands-button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

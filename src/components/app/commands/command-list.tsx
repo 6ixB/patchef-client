@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCommands as fetchCommandsApi } from "@/api/command.api";
 import { RabbitIcon, ServerCrashIcon } from "lucide-react";
 import { useEffect, useMemo } from "react";
-import { CommandListItemSkeleton } from "./command-list-item-skeleton";
+import { CommandListItemSkeleton } from "@/components/app/commands/command-list-item-skeleton";
 
 const CommandList = () => {
   const { sourceCommands, setSourceCommands, setInitialSourceCommands } =

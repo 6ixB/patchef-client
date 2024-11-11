@@ -6,7 +6,7 @@ import { useRecipeStore } from "@/hooks/use-recipe-store";
 import { useQuery } from "@tanstack/react-query";
 import { RabbitIcon, ServerCrashIcon } from "lucide-react";
 import { useEffect } from "react";
-import { RecipeTemplateListItemSkeleton } from "./recipe-template-list-item-skeleton";
+import { RecipeTemplateListItemSkeleton } from "@/components/app/recipe/template/recipe-template-list-item-skeleton";
 
 const RecipeTemplateList = () => {
   const { recipes, setRecipes, setInitialRecipes } = useRecipeStore();

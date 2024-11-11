@@ -23,7 +23,7 @@ import { CodeIcon, RabbitIcon } from "lucide-react";
 import { useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { v4 as generateUuidV4 } from "uuid";
-import { AdvancedPayloadCodeEditor } from "../../markdown/advanced-payload-code-editor";
+import { AdvancedPayloadCodeEditor } from "@/components/app/markdown/advanced-payload-code-editor";
 import { Badge } from "@/components/ui/badge";
 
 interface CodeEditorDialogProps {
