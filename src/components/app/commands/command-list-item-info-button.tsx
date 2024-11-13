@@ -54,7 +54,7 @@ const CommandListItemInfoButton = ({
       </PopoverTrigger>
       <PopoverContent className="w-[32rem]">
         <ScrollArea>
-          <div className="flex max-h-[32rem] flex-col gap-y-4">
+          <div className="flex h-fit max-h-[32rem] flex-col gap-y-4">
             <div className="flex flex-col space-y-1.5 text-center sm:text-left">
               <h2 className="font-semibold text-lg leading-none tracking-tight">
                 Command Information

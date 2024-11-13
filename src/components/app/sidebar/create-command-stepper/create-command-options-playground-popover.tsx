@@ -56,7 +56,7 @@ const CreateCommandOptionsPlaygroundPopover = ({
       </PopoverTrigger>
       <PopoverContent className="w-[32rem]">
         <ScrollArea>
-          <div className="flex max-h-[32rem] flex-col gap-y-4">
+          <div className="flex h-fit max-h-[32rem] flex-col gap-y-4">
             <div>
               <p className="text-muted-foreground text-sm">
                 This command has the following options
