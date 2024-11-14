@@ -57,16 +57,21 @@ const CommandEntitySchema = z.object({
   updatedAt: z.string().datetime(),
 });
 
+const CommandEntityArraySchema = z.array(CommandEntitySchema);
+
 type CommandParameterEntity = z.infer<typeof CommandParameterEntitySchema>;
 type CommandOptionEntity = z.infer<typeof CommandOptionEntitySchema>;
 type CommandEntity = z.infer<typeof CommandEntitySchema>;
+type CommandEntityArray = z.infer<typeof CommandEntityArraySchema>;
 
 export {
   CommandType,
   CommandParameterEntitySchema,
   CommandOptionEntitySchema,
   CommandEntitySchema,
+  CommandEntityArraySchema,
   type CommandParameterEntity,
   type CommandOptionEntity,
   type CommandEntity,
+  type CommandEntityArray,
 };

@@ -20,9 +20,10 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { UploadIcon, WandSparklesIcon } from "lucide-react";
+import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 import { ExportCommandsButton } from "@/components/app/sidebar/command-data-table/export-commands-button";
+import { ImportCommandsButton } from "./import-commands-button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -58,10 +59,7 @@ const CommandDataTable = <TData, TValue>({
       <div className="flex items-center justify-between gap-x-4">
         <CommandDataTableSearch table={table} />
         <div className="flex items-center gap-x-2">
-          <Button variant="secondary">
-            <UploadIcon className="mr-2 size-4" />
-            Import
-          </Button>
+          <ImportCommandsButton />
           <ExportCommandsButton />
           <Button onClick={() => setManageState(ManageState.Create)}>
             <WandSparklesIcon className="mr-2 size-4" />

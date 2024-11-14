@@ -1,5 +1,6 @@
 import type { CreateCommandDto } from "@/types/commands/command.dto";
 import {
+  CommandEntityArraySchema,
   CommandEntitySchema,
   type CommandEntity,
 } from "@/types/commands/command.entity";
@@ -113,10 +114,37 @@ async function removeCommand(command: CommandEntity): Promise<CommandEntity> {
   return validatedCommand.data;
 }
 
+async function importCommands(
+  commands: CommandEntity[],
+): Promise<CommandEntity[]> {
+  const response = await fetch(`${baseUrl}/bulk`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(commands),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to import commands");
+  }
+
+  const data = await response.json();
+
+  const validatedCommands = await CommandEntityArraySchema.safeParseAsync(data);
+
+  if (!validatedCommands.success) {
+    throw new Error("Failed to validate imported commands");
+  }
+
+  return validatedCommands.data;
+}
+
 export {
   createCommand,
   fetchCommands,
   fetchCommand,
   updateCommand,
   removeCommand,
+  importCommands,
 };
