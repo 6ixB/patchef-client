@@ -32,10 +32,22 @@ const RemoveSourceCommandButton = ({
   });
 
   const handleSubmit = async () => {
-    await removeCommandMutation.mutateAsync(command);
+    const removeCommand = async () => {
+      const removedCommand = await removeCommandMutation.mutateAsync(command);
+      removeSourceCommand(command.originalId);
+      return removedCommand;
+    };
 
-    removeSourceCommand(command.originalId);
-    toast.success(`Command removed successfully - ${command.name}`);
+    toast.promise(removeCommand, {
+      loading: "Removing command...",
+      success: (updatedCommand) => {
+        return `Command removed successfully! - ${updatedCommand.name}`;
+      },
+      error: (error) => {
+        console.error("An unexpected error occurred:", error);
+        return "An error occurred while removing the command.";
+      },
+    });
   };
 
   return (

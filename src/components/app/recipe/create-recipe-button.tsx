@@ -46,44 +46,78 @@ const CreateRecipeButton = () => {
       const recipeIndex = recipes.findIndex(
         (recipe) => recipe.id === activeRecipe.id,
       );
-      const revisedRecipe = {
-        ...recipes[recipeIndex],
-        name: recipeName,
-        commands: destinationCommands,
+
+      if (recipeIndex === -1) {
+        toast.error("Recipe not found");
+        return;
+      }
+
+      const updateRecipe = async () => {
+        const revisedRecipe = {
+          ...recipes[recipeIndex],
+          name: recipeName,
+          commands: destinationCommands,
+        };
+
+        const updatedRecipe =
+          await updateRecipeMutation.mutateAsync(revisedRecipe);
+
+        setInitialRecipes((draft) => {
+          draft[recipeIndex] = updatedRecipe;
+        });
+        setRecipes((draft) => {
+          draft[recipeIndex] = updatedRecipe;
+        });
+        setActiveRecipe(updatedRecipe);
+
+        return updatedRecipe;
       };
 
-      const updatedRecipe =
-        await updateRecipeMutation.mutateAsync(revisedRecipe);
-
-      setInitialRecipes((draft) => {
-        draft[recipeIndex] = updatedRecipe;
+      toast.promise(updateRecipe, {
+        loading: "Updating recipe...",
+        success: (updatedRecipe) => {
+          return `Recipe updated successfully! - ${updatedRecipe.name}`;
+        },
+        error: (error) => {
+          console.error("An unexpected error occurred:", error);
+          return "An error occurred while updating the recipe.";
+        },
       });
-      setRecipes((draft) => {
-        draft[recipeIndex] = updatedRecipe;
-      });
-      setActiveRecipe(updatedRecipe);
-      toast.success(`Recipe updated successfully - ${recipeName}`);
       return;
     }
 
-    // TODO: Add util function to create the draft recipe
-    const draftRecipe = {
-      name: recipeName,
-      commands: destinationCommands.map((command) => ({
-        originalId: command.originalId,
-      })),
+    const createRecipe = async () => {
+      // TODO: Add util function to create the draft recipe
+      const draftRecipe = {
+        name: recipeName,
+        commands: destinationCommands.map((command) => ({
+          originalId: command.originalId,
+        })),
+      };
+
+      const createdRecipe = await createRecipeMutation.mutateAsync(draftRecipe);
+
+      setInitialRecipes((draft) => {
+        draft.push(createdRecipe);
+      });
+      setRecipes((draft) => {
+        draft.push(createdRecipe);
+      });
+      setActiveRecipe(createdRecipe);
+
+      return createdRecipe;
     };
 
-    const createdRecipe = await createRecipeMutation.mutateAsync(draftRecipe);
-
-    setInitialRecipes((draft) => {
-      draft.push(createdRecipe);
+    toast.promise(createRecipe, {
+      loading: "Creating recipe...",
+      success: (createdRecipe) => {
+        return `Recipe created successfully! - ${createdRecipe.name}`;
+      },
+      error: (error) => {
+        console.error("An unexpected error occurred:", error);
+        return "An error occurred while creating the recipe.";
+      },
     });
-    setRecipes((draft) => {
-      draft.push(createdRecipe);
-    });
-    setActiveRecipe(createdRecipe);
-    toast.success(`Recipe created successfully - ${createdRecipe.name}`);
   };
 
   // -------- Modify Handlers --------

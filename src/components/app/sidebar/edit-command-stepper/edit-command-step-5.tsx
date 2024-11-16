@@ -84,16 +84,29 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
       return;
     }
 
-    await updateCommandMutation.mutateAsync(revisedCommand);
+    const updateCommand = async () => {
+      const updatedCommand =
+        await updateCommandMutation.mutateAsync(revisedCommand);
 
-    const commandName = `${revisedCommand.name}`;
+      /* 
+        Finally add the draft command to the source commands list.
+      */
+      saveUpdatedCommand(revisedCommand);
+      setManageState(ManageState.View);
 
-    /* 
-      Finally add the draft command to the source commands list.
-    */
-    saveUpdatedCommand(revisedCommand);
-    setManageState(ManageState.View);
-    toast.success(`Command updated successfully! - ${commandName}`);
+      return updatedCommand;
+    };
+
+    toast.promise(updateCommand, {
+      loading: "Updating command...",
+      success: (updatedCommand) => {
+        return `Command updated successfully! - ${updatedCommand.name}`;
+      },
+      error: (error) => {
+        console.error("An unexpected error occurred:", error);
+        return "An error occurred while updating the command.";
+      },
+    });
   };
 
   return (

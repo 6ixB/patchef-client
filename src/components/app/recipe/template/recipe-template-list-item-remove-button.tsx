@@ -24,7 +24,11 @@ interface RecipeTemplateListItemRemoveButtonProps {
 const RecipeTemplateListItemRemoveButton = ({
   recipe,
 }: RecipeTemplateListItemRemoveButtonProps) => {
-  const { removeRecipe } = useRecipeStore();
+  /*
+    Have to rename removeRecipe to removeRecipeInState to avoid conflict with removeRecipe from useRecipeStore
+    Please note that this is a temporary solution and should be refactored
+  */
+  const { removeRecipe: removeRecipeInState } = useRecipeStore();
 
   const removeCommandMutation = useMutation({
     mutationKey: ["remove-recipe", recipe.id],
@@ -32,10 +36,22 @@ const RecipeTemplateListItemRemoveButton = ({
   });
 
   const handleSubmit = async () => {
-    await removeCommandMutation.mutateAsync(recipe);
+    const removeRecipe = async () => {
+      const removedRecipe = await removeCommandMutation.mutateAsync(recipe);
+      removeRecipeInState(recipe.id);
+      return removedRecipe;
+    };
 
-    removeRecipe(recipe.id);
-    toast.success(`Recipe removed successfully - ${recipe.name}`);
+    toast.promise(removeRecipe, {
+      loading: "Removing recipe...",
+      success: (removedRecipe) => {
+        return `Recipe removed successfully! - ${removedRecipe.name}`;
+      },
+      error: (error) => {
+        console.error("An unexpected error occurred:", error);
+        return "An error occurred while removing the recipe.";
+      },
+    });
   };
 
   return (

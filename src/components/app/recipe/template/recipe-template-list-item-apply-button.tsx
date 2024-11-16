@@ -41,7 +41,7 @@ const RecipeTemplateListItemApplyButton = ({
 
   const applyRecipe = useCallback(() => {
     if (!recipe.commands) {
-      const promise = () =>
+      const applyRecipe = () =>
         new Promise<void>((resolve) =>
           setTimeout(async () => {
             await removeCommandMutation.mutateAsync(recipe);
@@ -50,7 +50,7 @@ const RecipeTemplateListItemApplyButton = ({
           }, 3000),
         );
 
-      toast.promise(promise, {
+      toast.promise(applyRecipe, {
         loading: "Recipe has no commands, removing recipe...",
         success: () => {
           return `Recipe removed successfully - ${recipe.name}`;

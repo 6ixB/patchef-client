@@ -77,19 +77,30 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
       return;
     }
 
-    // TODO: Add validation for options with required parameters must be filled
+    const createCommand = async () => {
+      // TODO: Add validation for options with required parameters must be filled
+      const createdCommand =
+        await createCommandMutation.mutateAsync(draftCommand);
 
-    const createdCommand =
-      await createCommandMutation.mutateAsync(draftCommand);
+      /* 
+        Finally add the draft command to the source commands list.
+      */
+      addCommand(createdCommand);
+      setManageState(ManageState.View);
 
-    const commandName = `${draftCommand.name}`;
+      return createdCommand;
+    };
 
-    /* 
-      Finally add the draft command to the source commands list.
-    */
-    addCommand(createdCommand);
-    setManageState(ManageState.View);
-    toast.success(`Command created successfully! - ${commandName}`);
+    toast.promise(createCommand, {
+      loading: "Creating command...",
+      success: (createdCommand) => {
+        return `Command created successfully! - ${createdCommand.name}`;
+      },
+      error: (error) => {
+        console.error("An unexpected error occurred:", error);
+        return "An error occurred while creating the command.";
+      },
+    });
   };
 
   return (
