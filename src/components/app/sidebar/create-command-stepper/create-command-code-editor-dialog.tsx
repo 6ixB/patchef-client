@@ -146,8 +146,8 @@ const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
               handleEditorWillMount={handleEditorWillMount}
             />
           </div>
-          <ScrollArea className="h-full w-full rounded-r-md rounded-l-none bg-gray-200 px-4 py-2 dark:bg-[#171823]">
-            <div className="flex flex-col gap-y-2">
+          <ScrollArea className="h-full w-full rounded-r-md rounded-l-none bg-gray-200 px-3 py-2 dark:bg-[#171823]">
+            <div className="flex flex-col gap-y-2 px-1">
               <div className="mt-1 text-muted-foreground text-sm">
                 <Badge variant="secondary">Ctrl + Shift + X</Badge> to insert a
                 parameter
@@ -155,15 +155,16 @@ const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
               {draftCommand?.parameters &&
               draftCommand?.parameters?.length !== 0 ? (
                 draftCommand?.parameters?.map((parameter) => (
-                  <Card
+                  <Button
                     key={parameter.id}
                     onClick={() => handleParameterClick(parameter)}
+                    variant="ringHover"
                     className={cn(
-                      "flex cursor-pointer select-none items-center justify-between rounded-md border-none bg-gray-100 p-2 text-sm shadow-none outline-none hover:bg-muted hover:text-foreground dark:bg-gray-800",
+                      "flex cursor-pointer select-none items-center justify-between rounded-md border-none bg-gray-100 p-2 text-foreground text-sm shadow-none outline-none hover:bg-muted dark:bg-gray-800",
                     )}
                   >
                     {parameter.name}
-                  </Card>
+                  </Button>
                 ))
               ) : (
                 <Card className="flex items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
