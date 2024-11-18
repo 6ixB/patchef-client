@@ -149,10 +149,7 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
                     form.setValue("payload", "");
                     setRevisedCommand((draft) => {
                       if (draft) {
-                        draft.payload = `REM Start your patching journey now!
-@echo off
-echo Hello, World!
-pause`;
+                        draft.payload = defaults.values.codeEditor;
                       }
                     });
                   }}

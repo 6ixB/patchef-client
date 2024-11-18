@@ -136,10 +136,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                     form.setValue("payload", "");
                     setDraftCommand((draft) => {
                       if (draft) {
-                        draft.payload = `REM Start your patching journey now!
-@echo off
-echo Hello, World!
-pause`;
+                        draft.payload = defaults.values.codeEditor;
                       }
                     });
                   }}

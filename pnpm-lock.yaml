@@ -65,6 +65,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-visually-hidden':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@rehype-pretty/transformers':
         specifier: ^0.13.2
         version: 0.13.2
@@ -110,6 +113,9 @@ importers:
       magic-regexp:
         specifier: ^0.8.0
         version: 0.8.0(webpack-sources@3.2.3)
+      monaco-editor:
+        specifier: ^0.52.0
+        version: 0.52.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
