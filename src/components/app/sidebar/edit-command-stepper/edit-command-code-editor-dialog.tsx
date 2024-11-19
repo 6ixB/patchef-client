@@ -28,7 +28,7 @@ import { CodeIcon, RabbitIcon } from "lucide-react";
 import { useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { v4 as generateUuidV4 } from "uuid";
-import { AdvancedPayloadCodeEditor } from "@/components/app/markdown/advanced-payload-code-editor";
+import { CodeEditor } from "@/components/app/markdown/code-editor";
 import { initMonaco } from "@/lib/monaco-editor/monaco.config";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
@@ -120,7 +120,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild={true}>
-        <Button className="mt-1 w-fit">
+        <Button variant="ringHover" className="mt-1 w-fit">
           <CodeIcon className="mr-2 size-4" />
           Open Code Editor
         </Button>
@@ -128,7 +128,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
       <DialogContent
         onInteractOutside={preventDefault}
         onEscapeKeyDown={preventDefault}
-        className="flex h-[48rem] w-full max-w-7xl flex-col rounded-md p-0"
+        className="!rounded-none flex w-full max-w-7xl flex-col p-0 sm:h-[32rem] md:h-[40rem] lg:h-[48rem] xl:h-[56rem]"
       >
         <VisuallyHidden>
           <DialogHeader>
@@ -139,15 +139,12 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
           </DialogHeader>
         </VisuallyHidden>
         <div className="grid flex-1 grid-cols-4">
-          {/* I have no fucking idea how to round the editor's corners - MY23-1 */}
-          <div className="col-span-3 bg-white dark:bg-[#24292e]">
-            <AdvancedPayloadCodeEditor
-              revisedCommand={revisedCommand}
-              handleEditorChange={handleEditorChange}
-              handleEditorDidMount={handleEditorDidMount}
-              handleEditorWillMount={handleEditorWillMount}
-            />
-          </div>
+          <CodeEditor
+            revisedCommand={revisedCommand}
+            handleEditorChange={handleEditorChange}
+            handleEditorDidMount={handleEditorDidMount}
+            handleEditorWillMount={handleEditorWillMount}
+          />
           <ScrollArea className="h-full w-full rounded-r-md rounded-l-none bg-gray-200 px-3 py-2 dark:bg-[#171823]">
             <div className="flex flex-col gap-y-2 px-1">
               <div className="mt-1 text-muted-foreground text-sm">
