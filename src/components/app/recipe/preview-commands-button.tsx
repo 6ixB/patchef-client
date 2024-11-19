@@ -45,7 +45,7 @@ const PreviewCommandsButton = () => {
           Preview
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-7xl p-0 [&>button]:hidden">
+      <DialogContent className="w-full max-w-5xl p-0 [&>button]:hidden">
         <VisuallyHidden>
           <DialogHeader>
             <DialogTitle>Preview Recipe</DialogTitle>
