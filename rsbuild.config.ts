@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: Number.parseInt(process.env.SERVER_PORT ?? "") || 3000,
+    port: Number.parseInt(process.env.SERVER_PORT ?? "") || 6969,
   },
   plugins: [pluginReact()],
   tools: {
