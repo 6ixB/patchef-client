@@ -14,6 +14,7 @@ import {
   generateCodeMarkdown,
   generateScriptPayload,
 } from "@/services/commands.service";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { SquareTerminalIcon } from "lucide-react";
 import { useMemo } from "react";
 
@@ -44,14 +45,16 @@ const PreviewCommandsButton = () => {
           Preview
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-4xl">
-        <DialogHeader>
-          <DialogTitle>Preview Recipe</DialogTitle>
-          <DialogDescription>
-            The following is the generated script based on the commands you have
-            added.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="w-full max-w-7xl p-0 [&>button]:hidden">
+        <VisuallyHidden>
+          <DialogHeader>
+            <DialogTitle>Preview Recipe</DialogTitle>
+            <DialogDescription>
+              The following is the generated script based on the commands you
+              have added.
+            </DialogDescription>
+          </DialogHeader>
+        </VisuallyHidden>
         <Code codeMarkdown={scriptMarkdown} />
       </DialogContent>
     </Dialog>
