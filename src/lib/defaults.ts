@@ -1,9 +1,6 @@
 const defaults = {
   values: {
-    codeEditor: `REM Start your patching journey now!
-@echo off
-echo Hello, World!
-pause`,
+    codeEditor: "",
   },
   placeholders: {
     command: {

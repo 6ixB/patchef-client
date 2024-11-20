@@ -167,7 +167,6 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
           <div className="flex w-full flex-col justify-between gap-y-8">
             <div className="flex w-full flex-col gap-y-2">
               <FormField
-                disabled={!isBasicCommand}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -178,6 +177,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                     </FormDescription>
                     <FormControl>
                       <Input
+                        readOnly={!isBasicCommand}
                         autoComplete="off"
                         autoFocus={true}
                         placeholder={
@@ -192,7 +192,6 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
               <FormField
-                disabled={!isBasicCommand}
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -216,10 +215,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                 )}
               />
             </div>
-            <Button
-              type="submit"
-              disabled={!(isBasicCommand && form.formState.isDirty)}
-            >
+            <Button type="submit" disabled={!form.formState.isDirty}>
               <PlusCircleIcon className="mr-2 size-4" />
               &nbsp;{isParameterSelected ? "Update" : "Add"} parameter
             </Button>

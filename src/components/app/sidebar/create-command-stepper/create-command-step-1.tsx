@@ -137,6 +137,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
                     setDraftCommand((draft) => {
                       if (draft) {
                         draft.payload = defaults.values.codeEditor;
+                        draft.parameters = [];
                       }
                     });
                   }}

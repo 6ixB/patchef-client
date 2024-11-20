@@ -41,6 +41,8 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
     defaultValues: generateDefaultValues.revisedCommand(revisedCommand),
   });
 
+  console.info(form.watch("type"));
+
   const onSubmit = (values: CommandEntity) => {
     const {
       id,
@@ -144,12 +146,13 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
 
                     /*
                       Reset payload when switching between command types,
-                      the following code is disgusting but it works 
+                      the following code is disgusting but it works
                     */
                     form.setValue("payload", "");
                     setRevisedCommand((draft) => {
                       if (draft) {
                         draft.payload = defaults.values.codeEditor;
+                        draft.parameters = [];
                       }
                     });
                   }}
