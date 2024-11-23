@@ -58,6 +58,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
             ...parameter,
             name,
             description,
+            payload: `[${name}]`, // Placeholder payload as default value
           };
         }
 

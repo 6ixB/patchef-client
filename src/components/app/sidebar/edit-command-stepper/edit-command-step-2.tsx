@@ -58,6 +58,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
             id,
             name,
             description,
+            payload: `[${name}]`, // Placeholder payload as default value
           };
         }
 

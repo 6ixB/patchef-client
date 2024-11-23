@@ -1,7 +1,9 @@
 import { z } from "zod";
+import { CommandParameterEntitySchema } from "@/types/commands/command.entity";
 
 const CreateRecipeCommandDtoSchema = z.object({
   originalId: z.string(),
+  parameters: z.array(CommandParameterEntitySchema).optional(),
 });
 
 const CreateRecipeDtoSchema = z.object({

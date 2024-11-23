@@ -92,6 +92,7 @@ const CreateRecipeButton = () => {
         name: recipeName,
         commands: destinationCommands.map((command) => ({
           originalId: command.originalId,
+          parameters: command.parameters,
         })),
       };
 

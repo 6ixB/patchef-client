@@ -23,7 +23,7 @@ import {
 import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 import { ExportCommandsButton } from "@/components/app/sidebar/command-data-table/export-commands-button";
-import { ImportCommandsButton } from "./import-commands-button";
+import { ImportCommandsButton } from "@/components/app/sidebar/command-data-table/import-commands-button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

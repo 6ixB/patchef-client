@@ -41,8 +41,6 @@ const EditCommandStep1 = ({ next }: EditCommandStepProps) => {
     defaultValues: generateDefaultValues.revisedCommand(revisedCommand),
   });
 
-  console.info(form.watch("type"));
-
   const onSubmit = (values: CommandEntity) => {
     const {
       id,
