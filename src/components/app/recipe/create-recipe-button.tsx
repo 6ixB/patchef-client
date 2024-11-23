@@ -124,7 +124,9 @@ const CreateRecipeButton = () => {
   // -------- Modify Handlers --------
   const handleClick = () => {
     setIsInput(true);
-    toast.info("Enter a recipe name and press Enter to save");
+    toast.info(
+      "Enter a recipe name and press Enter to save or Escape to cancel",
+    );
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +141,13 @@ const CreateRecipeButton = () => {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
+    if (e.key !== "Enter" && e.key !== "Escape") {
+      return;
+    }
+
+    if (e.key === "Escape") {
+      setIsInput(false);
+      setRecipeName(activeRecipe?.name ?? "");
       return;
     }
 
