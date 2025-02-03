@@ -2,7 +2,7 @@ import { generateCommandString } from "@/services/commands.service";
 import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
 import {
   type CommandState,
-  ManageState,
+  ManageCommandState,
 } from "@/types/hooks/use-command.store";
 import { produce } from "immer";
 import { v4 as generateUuidV4 } from "uuid";
@@ -179,10 +179,10 @@ const useCommandStore = create<CommandState>()(
           state.isDragging = isDragging;
         }),
 
-      manageState: ManageState.View,
-      setManageState: (manageState) =>
+      manageCommandState: ManageCommandState.View,
+      setManageCommandState: (manageState) =>
         set((state) => {
-          state.manageState = manageState;
+          state.manageCommandState = manageState;
         }),
 
       draftCommand: null,

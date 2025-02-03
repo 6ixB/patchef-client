@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -34,7 +34,7 @@ const CommandDataTable = <TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
-  const { setManageState } = useCommandStore();
+  const { setManageCommandState: setManageState } = useCommandStore();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -61,7 +61,7 @@ const CommandDataTable = <TData, TValue>({
         <div className="flex items-center gap-x-2">
           <ImportCommandsButton />
           <ExportCommandsButton />
-          <Button onClick={() => setManageState(ManageState.Create)}>
+          <Button onClick={() => setManageState(ManageCommandState.Create)}>
             <WandSparklesIcon className="mr-2 size-4" />
             Create command
           </Button>

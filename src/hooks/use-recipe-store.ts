@@ -1,4 +1,7 @@
-import type { RecipeState } from "@/types/hooks/use-recipe-store";
+import {
+  ManageRecipeState,
+  type RecipeState,
+} from "@/types/hooks/use-recipe-store";
 import { produce } from "immer";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -68,6 +71,12 @@ const useRecipeStore = create<RecipeState>()(
             state.recipes = state.recipes.filter(
               (recipe) => recipe.id !== recipeId,
             );
+          }),
+
+        manageRecipeState: ManageRecipeState.View,
+        setManageRecipeState: (manageRecipeState) =>
+          set((state) => {
+            state.manageRecipeState = manageRecipeState;
           }),
       })),
       {

@@ -2,7 +2,7 @@ import { RemoveSourceCommandButton } from "@/components/app/sidebar/command-data
 import { Button } from "@/components/ui/button";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { CommandEntity } from "@/types/commands/command.entity";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { BoltIcon, CommandIcon } from "lucide-react";
 
@@ -28,7 +28,8 @@ const columns: ColumnDef<CommandEntity>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { setRevisedCommand, setManageState } = useCommandStore();
+      const { setRevisedCommand, setManageCommandState: setManageState } =
+        useCommandStore();
       const command = row.original;
 
       return (
@@ -38,7 +39,7 @@ const columns: ColumnDef<CommandEntity>[] = [
             size="icon"
             onClick={() => {
               setRevisedCommand(command);
-              setManageState(ManageState.Edit);
+              setManageState(ManageCommandState.Edit);
             }}
           >
             <BoltIcon className="size-4" />

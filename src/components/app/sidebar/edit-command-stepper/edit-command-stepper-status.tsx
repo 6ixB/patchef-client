@@ -40,7 +40,7 @@ const EditCommandStepperStatus = ({
   };
 
   return (
-    <Card className="flex flex-col justify-center gap-y-2 rounded-md p-8">
+    <Card className="flex h-fit flex-col justify-start gap-y-2 rounded-md p-8">
       {stepper.all.map((step, index) => (
         <div key={step.id} className="flex flex-col gap-y-2">
           <div className="flex items-center gap-x-4">

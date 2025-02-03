@@ -2,7 +2,7 @@ import type { CommandEntity } from "@/types/commands/command.entity";
 import type { CommandPreviewEntity } from "@/types/commands/command-preview.entity";
 import type { CreateCommandDto } from "@/types/commands/command.dto";
 
-enum ManageState {
+enum ManageCommandState {
   View = "VIEW",
   Edit = "EDIT",
   Create = "CREATE",
@@ -107,8 +107,8 @@ interface CommandState {
   /* 
     Usage: determines the rendered view of the manage command dialog content
   */
-  manageState: ManageState;
-  setManageState: (state: ManageState) => void;
+  manageCommandState: ManageCommandState;
+  setManageCommandState: (state: ManageCommandState) => void;
 
   /* 
     Usage: draft command is the command that is currently being created.
@@ -131,4 +131,4 @@ interface CommandState {
   setCommandPreviews: () => void;
 }
 
-export { type CommandState, ManageState };
+export { type CommandState, ManageCommandState };

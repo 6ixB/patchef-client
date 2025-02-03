@@ -16,7 +16,7 @@ import type {
   CreateCommandParameterDto,
 } from "@/types/commands/command.dto";
 import type { CommandEntity } from "@/types/commands/command.entity";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
@@ -30,7 +30,7 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
     sourceCommands,
     setInitialSourceCommands,
     setSourceCommands,
-    setManageState,
+    setManageCommandState: setManageState,
   } = useCommandStore();
 
   /* 
@@ -86,7 +86,7 @@ const CreateCommandStep5 = ({ prev }: CreateCommandStepProps) => {
         Finally add the draft command to the source commands list.
       */
       addCommand(createdCommand);
-      setManageState(ManageState.View);
+      setManageState(ManageCommandState.View);
 
       return createdCommand;
     };

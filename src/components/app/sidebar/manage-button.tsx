@@ -2,11 +2,12 @@ import { ManageDialogContent } from "@/components/app/sidebar/manage-dialog-cont
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import { WrenchIcon } from "lucide-react";
 
 const ManageButton = () => {
-  const { setManageState, setDraftCommand } = useCommandStore();
+  const { setManageCommandState: setManageState, setDraftCommand } =
+    useCommandStore();
 
   return (
     <Dialog
@@ -16,7 +17,7 @@ const ManageButton = () => {
           Set the manage state to view when the dialog is opened
           to show the command data table by default
         */
-          setManageState(ManageState.View);
+          setManageState(ManageCommandState.View);
         } else {
           /* 
           Reset the draft command when the dialog is closed

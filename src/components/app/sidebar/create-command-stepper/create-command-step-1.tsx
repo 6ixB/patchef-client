@@ -26,14 +26,18 @@ import {
   type CreateCommandDto,
 } from "@/types/commands/command.dto";
 import { CommandType } from "@/types/commands/command.entity";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useForm } from "react-hook-form";
 
 const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
-  const { setManageState, draftCommand, setDraftCommand } = useCommandStore();
+  const {
+    setManageCommandState: setManageState,
+    draftCommand,
+    setDraftCommand,
+  } = useCommandStore();
 
   const form = useForm<CreateCommandDto>({
     resolver: zodResolver(CreateCommandDtoSchema),
@@ -61,7 +65,7 @@ const CreateCommandStep1 = ({ next }: CreateCommandStepProps) => {
     e.preventDefault();
     form.reset();
     setDraftCommand(null);
-    setManageState(ManageState.View);
+    setManageState(ManageCommandState.View);
   };
 
   return (

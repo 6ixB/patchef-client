@@ -8,6 +8,7 @@ import {
 } from "@/services/recipes.service";
 import { useDocumentTitle } from "@uidotdev/usehooks";
 import { useEffect } from "react";
+import { EditRecipeButton } from "@/components/app/recipe/edit-recipe-button";
 
 const RecipeAreaTitle = () => {
   const { destinationCommands } = useCommandStore();
@@ -51,8 +52,9 @@ const RecipeAreaTitle = () => {
   ]);
 
   return (
-    <div className="flex items-center gap-x-1">
+    <div className="ml-12 flex items-center gap-x-1">
       <CreateRecipeButton />
+      <EditRecipeButton />
       <CloseRecipeButton />
     </div>
   );

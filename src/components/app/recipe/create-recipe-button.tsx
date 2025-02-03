@@ -137,6 +137,11 @@ const CreateRecipeButton = () => {
 
   // -------- Submit Handlers --------
   const handleBlur = () => {
+    if (activeRecipe?.name === recipeName) {
+      setIsInput(false);
+      return;
+    }
+
     submitRecipe();
   };
 

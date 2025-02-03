@@ -10,19 +10,19 @@ import {
 } from "@/components/ui/dialog";
 import { useCommandStore } from "@/hooks/use-command-store";
 import type { CommandEntity } from "@/types/commands/command.entity";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import { TerminalIcon, WandSparklesIcon } from "lucide-react";
 
-const renderHeader = (state: ManageState) => {
+const renderHeader = (state: ManageCommandState) => {
   const getTitle = () => {
     switch (state) {
-      case ManageState.View:
+      case ManageCommandState.View:
         return "Manage commands";
 
-      case ManageState.Edit:
+      case ManageCommandState.Edit:
         return "Edit command";
 
-      case ManageState.Create:
+      case ManageCommandState.Create:
         return "Create command wizard";
 
       default:
@@ -32,13 +32,13 @@ const renderHeader = (state: ManageState) => {
 
   const getDescription = () => {
     switch (state) {
-      case ManageState.View:
+      case ManageCommandState.View:
         return "View and manage all commands in the system.";
 
-      case ManageState.Edit:
+      case ManageCommandState.Edit:
         return "Edit an existing command.";
 
-      case ManageState.Create:
+      case ManageCommandState.Create:
         return "Follow the wizard to create a new command.";
 
       default:
@@ -48,13 +48,13 @@ const renderHeader = (state: ManageState) => {
 
   const getIcon = () => {
     switch (state) {
-      case ManageState.View:
+      case ManageCommandState.View:
         return <TerminalIcon className="size-4" />;
 
-      case ManageState.Edit:
+      case ManageCommandState.Edit:
         return <TerminalIcon className="size-4" />;
 
-      case ManageState.Create:
+      case ManageCommandState.Create:
         return <WandSparklesIcon className="size-4" />;
 
       default:
@@ -73,15 +73,18 @@ const renderHeader = (state: ManageState) => {
   );
 };
 
-const renderContent = (state: ManageState, sourceCommands: CommandEntity[]) => {
+const renderContent = (
+  state: ManageCommandState,
+  sourceCommands: CommandEntity[],
+) => {
   switch (state) {
-    case ManageState.View:
+    case ManageCommandState.View:
       return <CommandDataTable columns={columns} data={sourceCommands} />;
 
-    case ManageState.Create:
+    case ManageCommandState.Create:
       return <CreateCommandStepper />;
 
-    case ManageState.Edit:
+    case ManageCommandState.Edit:
       return <EditCommandStepper />;
 
     default:
@@ -90,7 +93,7 @@ const renderContent = (state: ManageState, sourceCommands: CommandEntity[]) => {
 };
 
 const ManageDialogContent = () => {
-  const { manageState, sourceCommands } = useCommandStore();
+  const { manageCommandState: manageState, sourceCommands } = useCommandStore();
 
   const preventDefault = (e: Event) => {
     e.preventDefault();

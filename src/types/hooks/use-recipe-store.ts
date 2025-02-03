@@ -1,5 +1,10 @@
 import type { RecipeEntity } from "@/types/recipes/recipe.entity";
 
+enum ManageRecipeState {
+  View = "VIEW",
+  Edit = "EDIT",
+}
+
 interface RecipeState {
   /* 
     Usage: initial source recipes are the fallback recipes that are displayed in the sidebar.
@@ -43,6 +48,12 @@ interface RecipeState {
     Usage: take a guess bro
   */
   removeRecipe: (recipeId: string) => void;
+
+  /* 
+    Usage: determines the active recipe is being viewed or edited.
+  */
+  manageRecipeState: ManageRecipeState;
+  setManageRecipeState: (state: ManageRecipeState) => void;
 }
 
-export type { RecipeState };
+export { type RecipeState, ManageRecipeState };

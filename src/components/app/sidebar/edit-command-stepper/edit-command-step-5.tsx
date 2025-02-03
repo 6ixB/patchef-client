@@ -14,7 +14,7 @@ import type {
   CommandEntity,
   CommandParameterEntity,
 } from "@/types/commands/command.entity";
-import { ManageState } from "@/types/hooks/use-command.store";
+import { ManageCommandState } from "@/types/hooks/use-command.store";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeftIcon, BadgePlusIcon, TerminalIcon } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +27,7 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
     setRevisedCommand,
     setInitialSourceCommands,
     setSourceCommands,
-    setManageState,
+    setManageCommandState: setManageState,
   } = useCommandStore();
 
   /* 
@@ -92,7 +92,7 @@ const EditCommandStep5 = ({ prev }: EditCommandStepProps) => {
         Finally add the draft command to the source commands list.
       */
       saveUpdatedCommand(revisedCommand);
-      setManageState(ManageState.View);
+      setManageState(ManageCommandState.View);
 
       return updatedCommand;
     };
