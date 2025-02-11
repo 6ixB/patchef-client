@@ -93,6 +93,7 @@ const CreateRecipeButton = () => {
         commands: destinationCommands.map((command) => ({
           originalId: command.originalId,
           parameters: command.parameters,
+          options: command.options,
         })),
       };
 
@@ -105,7 +106,7 @@ const CreateRecipeButton = () => {
         draft.push(createdRecipe);
       });
       setActiveRecipe(createdRecipe);
-
+      
       return createdRecipe;
     };
 
