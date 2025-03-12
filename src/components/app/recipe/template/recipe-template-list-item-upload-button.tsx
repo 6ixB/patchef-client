@@ -19,6 +19,7 @@ import { removeRecipe as removeRecipeApi } from "@/api/recipe.api";
 import { uploadRecipe as uploadRecipeApi } from "@/api/recipe.api";
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { Input } from "@/components/ui/input";
+import { generateCommandString } from "@/services/commands.service";
 
 interface RecipeTemplateListItemUploadButtonProps {
     recipe: RecipeEntity;
@@ -39,29 +40,30 @@ const RecipeTemplateListItemUploadButton = ({
         mutationFn: uploadRecipeApi,
     });
     const handleSubmit = async () => {
-         if (!recipe.commands) {
-              const applyRecipe = () =>
+        if (!recipe.commands) {
+            const applyRecipe = () =>
                 new Promise<void>((resolve) =>
-                  setTimeout(async () => {
-                    await removeCommandMutation.mutateAsync(recipe);
-                    removeRecipe(recipe.id);
-                    resolve();
-                  }, 3000),
+                    setTimeout(async () => {
+                        await removeCommandMutation.mutateAsync(recipe);
+                        removeRecipe(recipe.id);
+                        resolve();
+                    }, 3000),
                 );
-              toast.promise(applyRecipe, {
+            toast.promise(applyRecipe, {
                 loading: "Recipe has no commands, removing recipe...",
                 success: () => {
-                  return `Recipe removed successfully - ${recipe.name}`;
+                    return `Recipe removed successfully - ${recipe.name}`;
                 },
                 error: "Error",
-              });
-              return;
-            }
+            });
+            return;
+        }
         if (!folderName.trim()) {
             toast.error("Please enter a folder name.");
             return;
         }
-        const sanitizedCommands = recipe.commands.map((command) => command.payload);
+
+        const sanitizedCommands = recipe.commands.map((command) => generateCommandString(command));
         try {
             await uploadMutation.mutateAsync({
                 folderName,
@@ -87,8 +89,8 @@ const RecipeTemplateListItemUploadButton = ({
                     <AlertDialogDescription>
                         Your recipe will be uploaded to ZOU. as a main.bat
                     </AlertDialogDescription>
-                      <form className="flex w-full items-center justify-center gap-x-4">
-                          <div className="relative w-full">
+                    <form className="flex w-full items-center justify-center gap-x-4">
+                        <div className="relative w-full">
                             <Folder className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 name="folder-name"
@@ -97,8 +99,8 @@ const RecipeTemplateListItemUploadButton = ({
                                 value={folderName}
                                 onChange={(e) => setFolderName(e.target.value)}
                             />
-                          </div>
-                        </form>
+                        </div>
+                    </form>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
