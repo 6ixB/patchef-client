@@ -3,7 +3,6 @@ import { RecipeTemplateListItemRemoveButton } from "@/components/app/recipe/temp
 import { Card, CardTitle } from "@/components/ui/card";
 import type { RecipeEntity } from "@/types/recipes/recipe.entity";
 import { CookingPotIcon } from "lucide-react";
-import { RecipeTemplateListItemUploadButton } from "@/components/app/recipe/template/recipe-template-list-item-upload-button";
 
 interface RecipeTemplateListItemProps {
   recipe: RecipeEntity;
@@ -17,7 +16,6 @@ const RecipeTemplateListItem = ({ recipe }: RecipeTemplateListItemProps) => {
         <CardTitle className="text-sm">{recipe.name}</CardTitle>
       </div>
       <div className="flex items-center">
-        <RecipeTemplateListItemUploadButton recipe={recipe} />
         <RecipeTemplateListItemRemoveButton recipe={recipe} />
         <RecipeTemplateListItemApplyButton recipe={recipe} />
       </div>

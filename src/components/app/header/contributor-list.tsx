@@ -3,6 +3,13 @@ import { HeartIcon } from "lucide-react";
 
 const contributors = [
   {
+    id: 0,
+    name: "VU24-1",
+    designation: "Contributor",
+    image: "https://avatars.githubusercontent.com/u/151295519?v=4",
+    githubProfileUrl: "https://github.com/JojmoZ",
+  },
+  {
     id: 1,
     name: "XD23-1",
     designation: "Contributor",

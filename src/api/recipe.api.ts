@@ -31,22 +31,6 @@ async function createRecipe(recipe: CreateRecipeDto): Promise<RecipeEntity> {
 
   return validatedRecipe.data;
 }
-export const uploadRecipe = async (data: { folderName: string; commands: string[] }) => {
-   const response = await fetch(
-     `${process.env.PUBLIC_SERVER_URL}/commands/server`,
-     {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(data),
-     }
-   );
-   if (!response.ok) {
-     throw new Error("Failed to upload recipe");
-   }
-  return response.json();
-};
 
 async function fetchRecipes(): Promise<RecipeEntity[]> {
   const response = await fetch(baseUrl, {
@@ -58,8 +42,9 @@ async function fetchRecipes(): Promise<RecipeEntity[]> {
   }
 
   const data = await response.json();
-  const validatedRecipes =
-    await RecipeEntitySchema.array().safeParseAsync(data);
+  const validatedRecipes = await RecipeEntitySchema.array().safeParseAsync(
+    data
+  );
 
   if (!validatedRecipes.success) {
     throw new Error("Failed to validate fetched recipes");
@@ -129,4 +114,31 @@ async function removeRecipe(recipe: RecipeEntity): Promise<RecipeEntity> {
   return validatedRecipe.data;
 }
 
-export { createRecipe, fetchRecipes, fetchRecipe, updateRecipe, removeRecipe };
+const publishRecipe = async (data: {
+  directoryName: string;
+  fileName: string;
+  commands: string[];
+}) => {
+  const response = await fetch(`${baseUrl}/publish`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to publish recipe");
+  }
+
+  return response.json();
+};
+
+export {
+  createRecipe,
+  fetchRecipes,
+  fetchRecipe,
+  updateRecipe,
+  removeRecipe,
+  publishRecipe,
+};
