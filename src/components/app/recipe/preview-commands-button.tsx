@@ -38,7 +38,7 @@ const PreviewCommandsButton = () => {
           onClick={setCommandPreviews}
           className={cn(
             "transition-opacity duration-200",
-            isEmpty ? "!opacity-0" : "opacity-100",
+            isEmpty ? "!opacity-0" : "opacity-100"
           )}
         >
           <SquareTerminalIcon className="mr-2 size-4" />
