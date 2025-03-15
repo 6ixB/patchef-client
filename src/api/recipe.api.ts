@@ -1,11 +1,16 @@
 import type {
   CreateRecipeDto,
+  PublishRecipeDto,
   UpdateRecipeDto,
 } from "@/types/recipes/recipe.dto";
 import {
+  type PublishedRecipeEntity,
+  PublishedRecipeEntitySchema,
   RecipeEntitySchema,
   type RecipeEntity,
+  PublishedRecipeStatus,
 } from "@/types/recipes/recipe.entity";
+import { PublishedRecipeError } from "@/types/recipes/recipe.error";
 
 const baseUrl = `${process.env.PUBLIC_SERVER_URL}/recipes`;
 
@@ -42,9 +47,8 @@ async function fetchRecipes(): Promise<RecipeEntity[]> {
   }
 
   const data = await response.json();
-  const validatedRecipes = await RecipeEntitySchema.array().safeParseAsync(
-    data
-  );
+  const validatedRecipes =
+    await RecipeEntitySchema.array().safeParseAsync(data);
 
   if (!validatedRecipes.success) {
     throw new Error("Failed to validate fetched recipes");
@@ -114,24 +118,37 @@ async function removeRecipe(recipe: RecipeEntity): Promise<RecipeEntity> {
   return validatedRecipe.data;
 }
 
-const publishRecipe = async (data: {
-  directoryName: string;
-  fileName: string;
-  commands: string[];
-}) => {
+const publishRecipe = async (
+  recipe: PublishRecipeDto,
+): Promise<PublishedRecipeEntity> => {
   const response = await fetch(`${baseUrl}/publish`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(recipe),
   });
 
   if (!response.ok) {
     throw new Error("Failed to publish recipe");
   }
 
-  return response.json();
+  const data = await response.json();
+  const validatedPublishedRecipe =
+    await PublishedRecipeEntitySchema.safeParseAsync(data);
+
+  if (!validatedPublishedRecipe.success) {
+    throw new Error("Failed to validate published recipe, Error:");
+  }
+
+  if (validatedPublishedRecipe.data.status === PublishedRecipeStatus.Failed) {
+    throw new PublishedRecipeError(
+      validatedPublishedRecipe.data.errorDescription,
+      validatedPublishedRecipe.data.errorCode,
+    );
+  }
+
+  return validatedPublishedRecipe.data;
 };
 
 export {

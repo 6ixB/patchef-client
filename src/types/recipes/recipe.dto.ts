@@ -19,6 +19,8 @@ const UpdateRecipeDtoSchema = CreateRecipeDtoSchema.partial().omit({
 const PublishRecipeDtoSchema = z.object({
   directoryName: z.string().min(1),
   fileName: z.string().min(1),
+  overwrite: z.boolean().optional(),
+  commands: z.array(z.string()),
 });
 
 type CreateRecipeDto = z.infer<typeof CreateRecipeDtoSchema>;
