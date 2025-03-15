@@ -123,7 +123,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string | undefined,
+    id: string | undefined
   ) => {
     e.stopPropagation();
 
@@ -132,7 +132,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
     }
 
     const filteredParameters = draftCommand.parameters?.filter(
-      (parameter) => parameter.id !== id,
+      (parameter) => parameter.id !== id
     );
 
     // If there are no parameters left, remove the parameters key from the draft command
@@ -182,7 +182,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                         autoComplete="off"
                         autoFocus={true}
                         placeholder={
-                          defaults.placeholders.commandParameter.name
+                          defaults.placeholders.command.parameter.name
                         }
                         {...field}
                         className="w-full"
@@ -205,7 +205,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandParameter.description
+                          defaults.placeholders.command.parameter.description
                         }
                         {...field}
                         className="w-full"
@@ -236,7 +236,7 @@ const CreateCommandStep2 = ({ prev, next }: CreateCommandStepProps) => {
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                         selectedParameter?.id === parameter.id &&
-                          "inner-border-2 inner-border-primary",
+                          "inner-border-2 inner-border-primary"
                       )}
                     >
                       {parameter.name}

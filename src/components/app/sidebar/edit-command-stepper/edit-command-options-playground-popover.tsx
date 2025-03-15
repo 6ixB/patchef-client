@@ -16,7 +16,7 @@ import type { DraftFunction } from "use-immer";
 interface EditCommandOptionsPlaygroundPopoverProps {
   revisedCommandCopy: CommandEntity | null;
   setRevisedCommandCopy: (
-    draftFunction: DraftFunction<CommandEntity | null>,
+    draftFunction: DraftFunction<CommandEntity | null>
   ) => void;
 }
 
@@ -27,7 +27,7 @@ const EditCommandOptionsPlaygroundPopover = ({
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
-    parameterIndex: number,
+    parameterIndex: number
   ) => {
     const value = e.target.value;
 
@@ -87,7 +87,7 @@ const EditCommandOptionsPlaygroundPopover = ({
 
                                   draft.options[optionIndex].enabled =
                                     !option.enabled;
-                                },
+                                }
                               );
                             }}
                           />
@@ -124,7 +124,7 @@ const EditCommandOptionsPlaygroundPopover = ({
                                           handleOptionParameterPayloadChange(
                                             e,
                                             optionIndex,
-                                            parameterIndex,
+                                            parameterIndex
                                           )
                                         }
                                         className="bg-gray-100 dark:bg-[#171823]"
@@ -132,7 +132,7 @@ const EditCommandOptionsPlaygroundPopover = ({
                                     )}
                                   </div>
                                 </div>
-                              ),
+                              )
                             )}
                           </div>
                         </>

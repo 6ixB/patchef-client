@@ -100,7 +100,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
           false, // Not a regex
           true, // Not matching whole words
           null, // Word definitions
-          true, // Capture matches
+          true // Capture matches
         );
 
         if (matches.length > 0) {
@@ -148,7 +148,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
           <ScrollArea className="h-full w-full rounded-r-md rounded-l-none bg-gray-200 px-3 py-2 dark:bg-[#171823]">
             <div className="flex flex-col gap-y-2 px-1">
               <div className="mt-1 text-muted-foreground text-sm">
-                <Badge variant="secondary">Ctrl + Shift + X</Badge> to insert a
+                <Badge variant="secondary">Ctrl + Alt + X</Badge> to insert a
                 parameter
               </div>
               {revisedCommand?.parameters &&
@@ -159,7 +159,7 @@ const EditCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
                     onClick={() => handleParameterClick(parameter)}
                     variant="ringHover"
                     className={cn(
-                      "flex cursor-pointer select-none items-center justify-between rounded-md border-none bg-gray-100 p-2 text-foreground text-sm shadow-none outline-none hover:bg-muted dark:bg-gray-800",
+                      "flex cursor-pointer select-none items-center justify-between rounded-md border-none bg-gray-100 p-2 text-foreground text-sm shadow-none outline-none hover:bg-muted dark:bg-gray-800"
                     )}
                   >
                     {parameter.name}

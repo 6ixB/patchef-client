@@ -63,7 +63,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
     Note: option index can be 0 so we need to check for not found and undefined
   */
   const optionIndex = revisedCommand?.options?.findIndex(
-    (option) => option.id === selectedOption?.id,
+    (option) => option.id === selectedOption?.id
   );
 
   // TODO: Reduce the complexity of this function
@@ -170,7 +170,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    id: string
   ) => {
     e.stopPropagation();
 
@@ -226,9 +226,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                     <FormControl>
                       <Input
                         autoComplete="off"
-                        placeholder={
-                          defaults.placeholders.commandOptionParameter.name
-                        }
+                        placeholder={defaults.placeholders.command.option.name}
                         {...field}
                         className="w-full"
                       />
@@ -251,8 +249,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandOptionParameter
-                            .description
+                          defaults.placeholders.command.option.description
                         }
                         {...field}
                         className="w-full"
@@ -289,7 +286,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                         className={cn(
                           "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                           selectedParameter?.id === parameter.id &&
-                            "inner-border-2 inner-border-primary",
+                            "inner-border-2 inner-border-primary"
                         )}
                       >
                         {parameter.name}
@@ -300,7 +297,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
                           className="size-4"
                         />
                       </Card>
-                    ),
+                    )
                   )
                 ) : (
                   <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
@@ -329,7 +326,7 @@ const EditCommandStep4 = ({ prev, next }: EditCommandStepProps) => {
               // Check if all required option parameters are filled
               if (!checkAllFillableOptionParametersAreFilled(revisedCommand)) {
                 toast.error(
-                  "Please fill out all required parameters for each option.",
+                  "Please fill out all required parameters for each option."
                 );
                 return;
               }

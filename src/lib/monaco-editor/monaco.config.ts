@@ -1,11 +1,35 @@
 import type { Monaco } from "@monaco-editor/react";
-// biome-ignore lint/correctness/noUnusedImports: We need this namespace for the editor type
 import type { editor } from "monaco-editor";
 
+const editorStyleOptions: editor.IStandaloneEditorConstructionOptions = {
+  roundedSelection: true,
+  padding: {
+    top: 16,
+    bottom: 16,
+  },
+  fontSize: 16,
+  fontFamily: "Geist Mono",
+  fontLigatures: true,
+  wordWrap: "on",
+  minimap: {
+    enabled: false,
+  },
+  bracketPairColorization: {
+    enabled: true,
+  },
+  cursorBlinking: "phase",
+  cursorStyle: "block-outline",
+  formatOnPaste: true,
+  mouseWheelZoom: true,
+  cursorSmoothCaretAnimation: "on",
+  smoothScrolling: true,
+  scrollBeyondLastLine: false,
+};
+
 function addCommands(monaco: Monaco, editor: editor.IStandaloneCodeEditor) {
-  // Register a custom command with Ctrl + Shift + X
+  // Register a custom command with Ctrl + Alt + X
   editor.addCommand(
-    monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyX,
+    monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.KeyX,
     () => {
       const fullText = "{{PARAM_NAME}}";
       const paramText = "PARAM_NAME";
@@ -22,7 +46,7 @@ function addCommands(monaco: Monaco, editor: editor.IStandaloneCodeEditor) {
             position.lineNumber,
             position.column,
             position.lineNumber,
-            position.column,
+            position.column
           ),
           text: fullText,
           forceMoveMarkers: true,
@@ -36,13 +60,13 @@ function addCommands(monaco: Monaco, editor: editor.IStandaloneCodeEditor) {
         position.lineNumber,
         startColumn,
         position.lineNumber,
-        endColumn,
+        endColumn
       );
 
       // Set the selection to highlight only "PARAM_NAME"
       editor.setSelection(range);
       editor.focus();
-    },
+    }
   );
 }
 
@@ -50,4 +74,4 @@ function initMonaco(monaco: Monaco, editor: editor.IStandaloneCodeEditor) {
   addCommands(monaco, editor);
 }
 
-export { initMonaco };
+export { editorStyleOptions, initMonaco };

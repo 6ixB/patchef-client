@@ -63,7 +63,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
     Note: option index can be 0 so we need to check for not found and undefined
   */
   const optionIndex = draftCommand?.options?.findIndex(
-    (option) => option.id === selectedOption?.id,
+    (option) => option.id === selectedOption?.id
   );
 
   // TODO: Reduce the complexity of this function
@@ -171,7 +171,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string | undefined,
+    id: string | undefined
   ) => {
     e.stopPropagation();
 
@@ -228,7 +228,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandOptionParameter.name
+                          defaults.placeholders.command.parameter.name
                         }
                         {...field}
                         className="w-full"
@@ -252,8 +252,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandOptionParameter
-                            .description
+                          defaults.placeholders.command.parameter.description
                         }
                         {...field}
                         className="w-full"
@@ -289,7 +288,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                         className={cn(
                           "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                           selectedParameter?.id === parameter.id &&
-                            "inner-border-2 inner-border-primary",
+                            "inner-border-2 inner-border-primary"
                         )}
                       >
                         {parameter.name}
@@ -300,7 +299,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
                           className="size-4"
                         />
                       </Card>
-                    ),
+                    )
                   )
                 ) : (
                   <Card className="flex cursor-pointer items-center justify-between rounded-md border-none bg-transparent p-2 text-sm shadow-none outline-none">
@@ -329,7 +328,7 @@ const CreateCommandStep4 = ({ prev, next }: CreateCommandStepProps) => {
               // Check if all required option parameters are filled
               if (!checkAllFillableOptionParametersAreFilled(draftCommand)) {
                 toast.error(
-                  "Please fill out all required parameters for each option.",
+                  "Please fill out all required parameters for each option."
                 );
                 return;
               }

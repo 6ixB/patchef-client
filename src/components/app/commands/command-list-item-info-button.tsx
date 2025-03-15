@@ -15,6 +15,11 @@ import {
 import type { CommandEntity } from "@/types/commands/command.entity";
 import { CommandIcon, InfoIcon, RabbitIcon } from "lucide-react";
 
+enum TabContentType {
+  Parameters = "parameters",
+  Options = "options",
+}
+
 interface CommandListItemInfoButtonProps {
   command: CommandEntity;
   setDisabled: (disabled: boolean) => void;
@@ -79,16 +84,19 @@ const CommandListItemInfoButton = ({
               <p className="text-muted-foreground text-sm">Command Payload</p>
               <Code codeMarkdown={commandCodeMarkdown} />
             </div>
-            <Tabs defaultValue="parameters">
+            <Tabs defaultValue={TabContentType.Parameters}>
               <TabsList className="rounded">
-                <TabsTrigger value="parameters" className="rounded">
+                <TabsTrigger
+                  value={TabContentType.Parameters}
+                  className="rounded"
+                >
                   Parameters
                 </TabsTrigger>
-                <TabsTrigger value="options" className="rounded">
+                <TabsTrigger value={TabContentType.Options} className="rounded">
                   Options
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="parameters">
+              <TabsContent value={TabContentType.Parameters}>
                 <p className="text-muted-foreground text-sm">
                   This command needs the following parameters to work
                 </p>
@@ -122,7 +130,7 @@ const CommandListItemInfoButton = ({
                   )}
                 </div>
               </TabsContent>
-              <TabsContent value="options">
+              <TabsContent value={TabContentType.Options}>
                 <p className="text-muted-foreground text-sm">
                   This command has the following options
                 </p>

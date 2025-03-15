@@ -1,4 +1,4 @@
-import { PublishedRecipeErrorCode } from "./recipe.entity";
+import { PublishedRecipeErrorCode } from "@/types/recipes/recipe.entity";
 
 class PublishedRecipeError extends Error {
   constructor(message?: string, code?: PublishedRecipeErrorCode) {

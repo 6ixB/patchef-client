@@ -24,6 +24,7 @@ import { useCommandStore } from "@/hooks/use-command-store";
 import { defaults } from "@/lib/defaults";
 import { cn } from "@/lib/utils";
 import { generateDefaultValues } from "@/services/commands.service";
+import { CommandOptionDelimiter } from "@/types/commands/command-option-delimiter";
 import {
   type CommandOptionEntity,
   CommandOptionEntitySchema,
@@ -148,7 +149,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
 
   const handleRemoveOptionClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    id: string
   ) => {
     e.stopPropagation();
 
@@ -157,7 +158,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
     }
 
     const filteredOptions = revisedCommand.options?.filter(
-      (option) => option.id !== id,
+      (option) => option.id !== id
     );
 
     // If there are no options left, remove the options key from the draft command
@@ -206,7 +207,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         autoFocus={true}
-                        placeholder={defaults.placeholders.commandOption.name}
+                        placeholder={defaults.placeholders.command.option.name}
                         {...field}
                         className="w-full"
                       />
@@ -229,7 +230,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandOption.description
+                          defaults.placeholders.command.option.description
                         }
                         {...field}
                         className="w-full"
@@ -253,7 +254,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandOption.payload
+                          defaults.placeholders.command.option.payload
                         }
                         {...field}
                         className="w-full"
@@ -304,12 +305,12 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                         onValueChange={(value) => {
                           form.setValue(
                             "delimiter",
-                            value === "none" ? "" : value,
+                            value === CommandOptionDelimiter.Empty ? "" : value
                           );
                         }}
                         defaultValue={
                           !!field.value === false && field.value !== undefined
-                            ? "none"
+                            ? CommandOptionDelimiter.Empty
                             : field.value
                         }
                       >
@@ -317,16 +318,24 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                           <SelectTrigger>
                             <SelectValue
                               placeholder={
-                                defaults.placeholders.commandOption.delimiter
+                                defaults.placeholders.command.option.delimiter
                               }
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value=" ">Space</SelectItem>
-                          <SelectItem value="none">Empty</SelectItem>
-                          <SelectItem value="-">Hyphen</SelectItem>
-                          <SelectItem value="#">Hash</SelectItem>
+                          <SelectItem value={CommandOptionDelimiter.Space}>
+                            Space
+                          </SelectItem>
+                          <SelectItem value={CommandOptionDelimiter.Empty}>
+                            Empty
+                          </SelectItem>
+                          <SelectItem value={CommandOptionDelimiter.Hyphen}>
+                            Hyphen
+                          </SelectItem>
+                          <SelectItem value={CommandOptionDelimiter.Hash}>
+                            Hash
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -358,7 +367,7 @@ const EditCommandStep3 = ({ prev, next }: EditCommandStepProps) => {
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                         selectedOption?.id === option.id &&
-                          "inner-border-2 inner-border-primary",
+                          "inner-border-2 inner-border-primary"
                       )}
                     >
                       {option.name}

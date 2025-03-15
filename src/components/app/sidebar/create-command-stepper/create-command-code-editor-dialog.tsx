@@ -146,7 +146,7 @@ const CreateCommandCodeEditorDialog = ({ form }: CodeEditorDialogProps) => {
           <ScrollArea className="h-full w-full bg-gray-200 px-3 py-2 dark:bg-[#171823]">
             <div className="flex flex-col gap-y-2 px-1">
               <div className="mt-1 text-muted-foreground text-sm">
-                <Badge variant="secondary">Ctrl + Shift + X</Badge> to insert a
+                <Badge variant="secondary">Ctrl + Alt + X</Badge> to insert a
                 parameter
               </div>
               {draftCommand?.parameters &&

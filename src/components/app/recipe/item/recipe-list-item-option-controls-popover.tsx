@@ -9,6 +9,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { useCommandStore } from "@/hooks/use-command-store";
+import { defaults } from "@/lib/defaults";
 import type { CommandEntity } from "@/types/commands/command.entity";
 import { BoltIcon, RabbitIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
@@ -27,7 +28,7 @@ const RecipeListItemOptionControlsPopover = ({
   const handleOptionParameterPayloadChange = (
     e: ChangeEvent<HTMLInputElement>,
     optionIndex: number,
-    parameterIndex: number,
+    parameterIndex: number
   ) => {
     const value = e.target.value;
 
@@ -82,7 +83,7 @@ const RecipeListItemOptionControlsPopover = ({
                             onCheckedChange={() => {
                               setDestinationCommands((draft) => {
                                 const commandIndex = draft.findIndex(
-                                  (c) => c.id === command.id,
+                                  (c) => c.id === command.id
                                 );
 
                                 if (
@@ -129,13 +130,16 @@ const RecipeListItemOptionControlsPopover = ({
                                     {option.enabled && (
                                       <Input
                                         name={`parameter-${parameter.id}`}
-                                        placeholder="Parameter payload"
+                                        placeholder={
+                                          defaults.placeholders.recipe.listItem
+                                            .option
+                                        }
                                         value={parameter.payload}
                                         onChange={(e) =>
                                           handleOptionParameterPayloadChange(
                                             e,
                                             optionIndex,
-                                            parameterIndex,
+                                            parameterIndex
                                           )
                                         }
                                         className="bg-gray-100 dark:bg-[#171823]"
@@ -143,7 +147,7 @@ const RecipeListItemOptionControlsPopover = ({
                                     )}
                                   </div>
                                 </div>
-                              ),
+                              )
                             )}
                           </div>
                         </>

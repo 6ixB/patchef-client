@@ -5,6 +5,7 @@ import {
   type OnMount,
   type OnChange,
 } from "@monaco-editor/react";
+import { editorStyleOptions } from "@/lib/monaco-editor/monaco.config";
 import { useTheme } from "@/components/app/providers/theme-provider";
 import type { CreateCommandDto } from "@/types/commands/command.dto";
 import type { CommandEntity } from "@/types/commands/command.entity";
@@ -71,30 +72,7 @@ const CodeEditor = ({
             ? "GitHubLightTheme"
             : "GitHubDarkTheme"
         }
-        options={{
-          roundedSelection: true,
-          padding: {
-            top: 16,
-            bottom: 16,
-          },
-          fontSize: 16,
-          fontFamily: "Geist Mono",
-          fontLigatures: true,
-          wordWrap: "on",
-          minimap: {
-            enabled: false,
-          },
-          bracketPairColorization: {
-            enabled: true,
-          },
-          cursorBlinking: "phase",
-          cursorStyle: "block-outline",
-          formatOnPaste: true,
-          mouseWheelZoom: true,
-          cursorSmoothCaretAnimation: "on",
-          smoothScrolling: true,
-          scrollBeyondLastLine: false,
-        }}
+        options={editorStyleOptions}
         loading={<Icons.spinner className="size-4 animate-spin" />}
       />
     </div>

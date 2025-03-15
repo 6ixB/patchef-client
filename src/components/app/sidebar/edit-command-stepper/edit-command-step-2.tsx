@@ -121,7 +121,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
 
   const handleRemoveParameterClick = (
     e: MouseEvent<SVGSVGElement, globalThis.MouseEvent>,
-    id: string,
+    id: string
   ) => {
     e.stopPropagation();
 
@@ -130,7 +130,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
     }
 
     const filteredParameters = revisedCommand.parameters?.filter(
-      (parameter) => parameter.id !== id,
+      (parameter) => parameter.id !== id
     );
 
     // If there are no parameters left, remove the parameters key from the draft command
@@ -180,7 +180,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                         autoComplete="off"
                         autoFocus={true}
                         placeholder={
-                          defaults.placeholders.commandParameter.name
+                          defaults.placeholders.command.parameter.name
                         }
                         {...field}
                         className="w-full"
@@ -203,7 +203,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                       <Input
                         autoComplete="off"
                         placeholder={
-                          defaults.placeholders.commandParameter.description
+                          defaults.placeholders.command.parameter.description
                         }
                         {...field}
                         className="w-full"
@@ -234,7 +234,7 @@ const EditCommandStep2 = ({ prev, next }: EditCommandStepProps) => {
                       className={cn(
                         "flex cursor-pointer select-none items-center justify-between rounded-md border p-2 text-sm hover:bg-muted hover:text-foreground",
                         selectedParameter?.id === parameter.id &&
-                          "inner-border-2 inner-border-primary",
+                          "inner-border-2 inner-border-primary"
                       )}
                     >
                       {parameter.name}

@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { defaults } from "@/lib/defaults";
 import type { Table } from "@tanstack/react-table";
 import { SearchIcon, XIcon } from "lucide-react";
 
@@ -17,7 +18,7 @@ const CommandDataTableSearch = <TData,>({
         <SearchIcon className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           name="command-data-table-search"
-          placeholder="Filter commands..."
+          placeholder={defaults.placeholders.command.dataTable.search}
           value={query}
           onChange={(e) => {
             table.getColumn("name")?.setFilterValue(e.target.value);

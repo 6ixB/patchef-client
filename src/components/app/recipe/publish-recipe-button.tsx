@@ -24,7 +24,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { FolderIcon, CloudUploadIcon, FileTerminalIcon } from "lucide-react";
+import { CloudUploadIcon } from "lucide-react";
 import { useCommandStore } from "@/hooks/use-command-store";
 import {
   type PublishRecipeDto,
@@ -36,6 +36,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
+import { defaults } from "@/lib/defaults";
 
 const PublishRecipeButton = () => {
   const [overwriteConfirmationOpen, setOverwriteConfirmationOpen] =
@@ -163,7 +164,7 @@ const PublishRecipeButton = () => {
             onClick={setCommandPreviews}
             className={cn(
               "transition-opacity duration-200",
-              isEmpty ? "!opacity-0" : "opacity-100",
+              isEmpty ? "!opacity-0" : "opacity-100"
             )}
           >
             <CloudUploadIcon className="mr-2 size-4" />
@@ -203,16 +204,15 @@ const PublishRecipeButton = () => {
                         published
                       </FormDescription>
                       <FormControl>
-                        <div className="relative w-full">
-                          <FolderIcon className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            autoComplete="off"
-                            autoFocus={true}
-                            placeholder="install-visual-studio-code"
-                            {...field}
-                            className="w-full px-8"
-                          />
-                        </div>
+                        <Input
+                          autoComplete="off"
+                          autoFocus={true}
+                          placeholder={
+                            defaults.placeholders.recipe.publish.directoryName
+                          }
+                          {...field}
+                          className="w-full"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -228,15 +228,14 @@ const PublishRecipeButton = () => {
                         The name of the file including extension
                       </FormDescription>
                       <FormControl>
-                        <div className="relative w-full">
-                          <FileTerminalIcon className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            autoComplete="off"
-                            placeholder="start.bat"
-                            {...field}
-                            className="w-full px-8"
-                          />
-                        </div>
+                        <Input
+                          autoComplete="off"
+                          placeholder={
+                            defaults.placeholders.recipe.publish.fileName
+                          }
+                          {...field}
+                          className="w-full"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

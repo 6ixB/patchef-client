@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { useCommandStore } from "@/hooks/use-command-store";
 import { useRecipeStore } from "@/hooks/use-recipe-store";
+import { defaults } from "@/lib/defaults";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -24,7 +25,7 @@ const DraggableViewSearch = () => {
             setQuery(e.target.value);
           }}
           value={query}
-          placeholder="Filter commands..."
+          placeholder={defaults.placeholders.draggableView.search}
           className="w-full px-8"
         />
         {query && (
