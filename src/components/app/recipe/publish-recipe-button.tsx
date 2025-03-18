@@ -39,6 +39,7 @@ import { useEffect, useState } from "react";
 import { defaults } from "@/lib/defaults";
 
 const PublishRecipeButton = () => {
+  const [publishRecipeOpen, setPublishRecipeOpen] = useState<boolean>(false);
   const [overwriteConfirmationOpen, setOverwriteConfirmationOpen] =
     useState<boolean>(false);
 
@@ -52,7 +53,7 @@ const PublishRecipeButton = () => {
       fileName: "",
       /*
         This 'commands' attributes is ignored since we're going to use values from 'commandPreviews' instead, 
-        so we set the form's noValidate attribute to true. -MY23-1
+        so we set the form's noValidate attribute to true. - MY23-1
       */
       commands: [],
     },
@@ -62,6 +63,29 @@ const PublishRecipeButton = () => {
     mutationKey: ["publish-recipe"],
     mutationFn: publishRecipeApi,
   });
+
+  const publishRecipe = async ({
+    values,
+    overwrite,
+  }: { values: PublishRecipeDto; overwrite: boolean }) => {
+    const { directoryName, fileName } = values;
+    const commandStrings = commandPreviews.map((command) => command.preview);
+
+    const publishedRecipe = await publishRecipeMutation.mutateAsync({
+      directoryName: directoryName.trim(),
+      fileName: fileName.trim(),
+      overwrite: overwrite,
+      commands: commandStrings,
+    });
+
+    form.reset({
+      directoryName: "",
+      fileName: "",
+      commands: [],
+    });
+
+    return publishedRecipe;
+  };
 
   const onSubmit = (values: PublishRecipeDto) => {
     const { directoryName, fileName } = values;
@@ -76,26 +100,7 @@ const PublishRecipeButton = () => {
       return;
     }
 
-    const commandStrings = commandPreviews.map((command) => command.preview);
-
-    const publishRecipe = async () => {
-      const publishedRecipe = await publishRecipeMutation.mutateAsync({
-        directoryName: directoryName.trim(),
-        fileName: fileName.trim(),
-        overwrite: false,
-        commands: commandStrings,
-      });
-
-      form.reset({
-        directoryName: "",
-        fileName: "",
-        commands: [],
-      });
-
-      return publishedRecipe;
-    };
-
-    toast.promise(publishRecipe, {
+    toast.promise(publishRecipe({ values: values, overwrite: false }), {
       loading: "Publishing recipe...",
       success: () => {
         return "Recipe published successfully to remote repository!";
@@ -103,41 +108,27 @@ const PublishRecipeButton = () => {
       error: (error) => {
         console.error(`Failed to publish recipe, ${error.message}`);
         return `Failed to publish recipe, ${error.message}`;
+      },
+      finally: () => {
+        setPublishRecipeOpen(false);
       },
     });
   };
 
   const handleOverwriteClick = () => {
-    const publishRecipe = async () => {
-      const { directoryName, fileName } = form.getValues();
-      const commandStrings = commandPreviews.map((command) => command.preview);
-
-      const publishedRecipe = await publishRecipeMutation.mutateAsync({
-        directoryName: directoryName.trim(),
-        fileName: fileName.trim(),
-        overwrite: true,
-        commands: commandStrings,
-      });
-
-      form.reset({
-        directoryName: "",
-        fileName: "",
-        commands: [],
-      });
-
-      return publishedRecipe;
-    };
-
-    toast.promise(publishRecipe, {
-      loading: "Publishing recipe...",
-      success: () => {
-        return "Recipe published successfully to remote repository!";
+    toast.promise(
+      publishRecipe({ values: form.getValues(), overwrite: true }),
+      {
+        loading: "Publishing recipe...",
+        success: () => {
+          return "Recipe published successfully to remote repository!";
+        },
+        error: (error) => {
+          console.error(`Failed to publish recipe, ${error.message}`);
+          return `Failed to publish recipe, ${error.message}`;
+        },
       },
-      error: (error) => {
-        console.error(`Failed to publish recipe, ${error.message}`);
-        return `Failed to publish recipe, ${error.message}`;
-      },
-    });
+    );
   };
 
   const isEmpty = destinationCommands.length === 0;
@@ -157,14 +148,19 @@ const PublishRecipeButton = () => {
 
   return (
     <>
-      <AlertDialog>
+      <AlertDialog
+        open={publishRecipeOpen}
+        onOpenChange={(open) => {
+          setPublishRecipeOpen(open);
+        }}
+      >
         <AlertDialogTrigger asChild={true}>
           <Button
             disabled={isEmpty}
             onClick={setCommandPreviews}
             className={cn(
               "transition-opacity duration-200",
-              isEmpty ? "!opacity-0" : "opacity-100"
+              isEmpty ? "!opacity-0" : "opacity-100",
             )}
           >
             <CloudUploadIcon className="mr-2 size-4" />
@@ -244,7 +240,7 @@ const PublishRecipeButton = () => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction type="submit">Publish</AlertDialogAction>
+                <Button type="submit">Publish</Button>
               </AlertDialogFooter>
             </form>
           </Form>
