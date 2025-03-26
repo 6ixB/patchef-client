@@ -25,7 +25,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          // biome-ignore lint/style/useNamingConvention: <explanation>
+          // biome-ignore lint/style/useNamingConvention: this naming is intentional
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
