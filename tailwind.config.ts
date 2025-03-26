@@ -25,7 +25,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          // biome-ignore lint/style/useNamingConvention: this naming is intentional
+          // biome-ignore lint/style/useNamingConvention: <explanation>
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
@@ -67,16 +67,28 @@ const config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
         },
         shine: {
-          from: { backgroundPosition: "200% 0" },
-          to: { backgroundPosition: "-200% 0" },
+          from: {
+            backgroundPosition: "200% 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
         },
       },
       animation: {

@@ -37,11 +37,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { defaults } from "@/lib/defaults";
+import { PublishRecipeResult } from "@/components/app/recipe/publish/publish-recipe-result";
 
 const PublishRecipeButton = () => {
   const [publishRecipeOpen, setPublishRecipeOpen] = useState<boolean>(false);
   const [overwriteConfirmationOpen, setOverwriteConfirmationOpen] =
     useState<boolean>(false);
+  const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   const { destinationCommands, commandPreviews, setCommandPreviews } =
     useCommandStore();
@@ -133,6 +135,7 @@ const PublishRecipeButton = () => {
 
   const isEmpty = destinationCommands.length === 0;
 
+  // Check if the server returns an error
   useEffect(() => {
     if (
       publishRecipeMutation?.error?.name === PublishedRecipeErrorCode.FileExists
@@ -146,8 +149,16 @@ const PublishRecipeButton = () => {
     }
   }, [form.setError, publishRecipeMutation.error]);
 
+  // Launch the result alert when recipe is published successfully
+  useEffect(() => {
+    if (publishRecipeMutation.data?.filePath) {
+      setResultOpen(true);
+    }
+  }, [publishRecipeMutation.data?.filePath]);
+
   return (
     <>
+      {/* Publish Recipe Component */}
       <AlertDialog
         open={publishRecipeOpen}
         onOpenChange={(open) => {
@@ -172,7 +183,7 @@ const PublishRecipeButton = () => {
             <form
               noValidate={true}
               onSubmit={form.handleSubmit(onSubmit)}
-              className="flex w-full flex-col gap-y-2"
+              className="flex w-full flex-col gap-y-4"
             >
               <AlertDialogHeader>
                 <AlertDialogTitle>Publish your recipe</AlertDialogTitle>
@@ -246,6 +257,8 @@ const PublishRecipeButton = () => {
           </Form>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Overwrite Confirmation Component */}
       <AlertDialog
         open={overwriteConfirmationOpen}
         onOpenChange={(open) => {
@@ -270,6 +283,13 @@ const PublishRecipeButton = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Published Location Information Component */}
+      <PublishRecipeResult
+        path={publishRecipeMutation.data?.filePath ?? ""}
+        open={resultOpen}
+        setOpen={setResultOpen}
+      />
     </>
   );
 };
