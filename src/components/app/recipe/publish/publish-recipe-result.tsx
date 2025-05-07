@@ -44,10 +44,10 @@ const PublishRecipeResult = ({
   setOpen,
 }: PublishRecipeResultProps) => {
   // const parts = path.split("\\").filter(Boolean); For windows
-  const parts = path.split("/").filter(Boolean); // For macOS and Linux (Since containers are based on Linux)
+  const parts = path.replace(/\\/g, "/").split("/").filter(Boolean); // For macOS and Linux (Since containers are based on Linux)
 
   const copyPathToClipboard = () => {
-    toast.promise(navigator.clipboard.writeText(path), {
+    toast.promise(navigator.clipboard.writeText(path.replace(/\//g, "\\")), {
       loading: "Copying path to clipboard...",
       success: "Path copied to clipboard!",
       error: "Failed to copy path to clipboard.",
@@ -81,7 +81,7 @@ const PublishRecipeResult = ({
         </Tree>
         <ScrollArea>
           <pre className="rounded-md border bg-background p-4">
-            <code>{path}</code>
+            <code>{path.replace(/\//g, "\\")}</code>
           </pre>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
