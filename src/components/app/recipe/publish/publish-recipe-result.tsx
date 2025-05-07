@@ -43,7 +43,8 @@ const PublishRecipeResult = ({
   open,
   setOpen,
 }: PublishRecipeResultProps) => {
-  const parts = path.split("\\").filter(Boolean);
+  // const parts = path.split("\\").filter(Boolean); For windows
+  const parts = path.split("/").filter(Boolean); // For macOS and Linux (Since containers are based on Linux)
 
   const copyPathToClipboard = () => {
     toast.promise(navigator.clipboard.writeText(path), {
