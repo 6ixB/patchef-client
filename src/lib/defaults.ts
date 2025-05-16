@@ -4,7 +4,7 @@ const defaults = {
   },
   placeholders: {
     draggableView: {
-      search: "Fileter commands...",
+      search: "Filter commands...",
       select: "Draggable",
     },
     command: {
